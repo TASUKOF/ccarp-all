@@ -26,7 +26,7 @@ button.sec:hover { color: var(--tx); border-color: var(--muted); }
 button.danger { background: transparent; border-color: var(--bad); color: var(--bad); }
 button:disabled { opacity: .35; cursor: not-allowed; }
 
-.wrap { max-width: 920px; margin: 0 auto; padding: 16px 16px 120px; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 16px 16px 120px; }
 header.top-bar { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; margin-bottom: 16px; border-bottom: 1px solid var(--line); }
 .brand { font-size: 17px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 8px; }
 .badge { font-size: 11px; padding: 2px 7px; border-radius: 5px; background: var(--card2); border: 1px solid var(--line); color: var(--accent); font-family: var(--mono); }
@@ -76,7 +76,7 @@ header.top-bar { display: flex; justify-content: space-between; align-items: cen
 .rationale-item.is-selected-wrong { border-left-color: var(--bad); }
 
 .nav-fixed { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(15,17,23,.95); border-top: 1px solid var(--line); padding: 10px 16px; backdrop-filter: blur(10px); z-index: 50; }
-.nav-in { max-width: 920px; margin: 0 auto; display: flex; gap: 8px; align-items: center; }
+.nav-in { max-width: 900px; margin: 0 auto; display: flex; gap: 8px; align-items: center; }
 .nav-in .sp { flex: 1; }
 
 .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.75); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 100; }
@@ -109,15 +109,12 @@ header.top-bar { display: flex; justify-content: space-between; align-items: cen
       </select>
     </div>
   </header>
-
   <div id="app"></div>
 </div>
 
-<div class="nav-fixed hide" id="navFixed">
-  <div class="nav-in" id="navIn"></div>
-</div>
+<div class="nav-fixed hide" id="navFixed"><div class="nav-in" id="navIn"></div></div>
 
-<!-- 問題ジャンプモーダル -->
+<!-- モーダル -->
 <div class="modal hide" id="qModal" onclick="if(event.target===this)closeModal()">
   <div class="modal-box">
     <div class="modal-head">
@@ -131,14 +128,6 @@ header.top-bar { display: flex; justify-content: space-between; align-items: cen
   </div>
 </div>
 
-<!-- 78問の完全データを内包（セット2の63問 ＋ 追加パック15問） -->
-<script id="exam-raw" type="application/json">
-[
-{"id":1,"code":"Q01","domain":"Domain 1 — Solution Design \u0026 Architecture","taskFocus":"Select appropriate architectural patterns","selectionCount":1,"question":{"en":"A standards team must answer questions about a single 1,100-page engineering specification...","ja":"標準化チームは、1冊の1,100ページの技術仕様に関する質問へ回答する必要があります。付録を除くと、正式な本文全体が選択モデルのコンテキストウィンドウに収まります。質問では、冒頭の定義、中盤の例外、終盤の互換性表を組み合わせることがよくあります。規制レビュー中は、入力コストやp95レイテンシより関連規定の見落とし回避が重要です。初期アーキテクチャとして最も適切なものはどれですか。"},"options":[{"key":"A","en":"Index paragraph embeddings and return highest passages...","ja":"段落埋め込みを索引化して上位の一連の文章を返し、信頼度が閾値未満の場合だけ2回目の広域検索を行う。","rationale":"誤り。段階的な検索は通常のRAGでは合理的ですが、見落とし回避を最優先する条件に合いません。"},{"key":"B","en":"Create a planning agent...","ja":"自己評価した網羅度が閾値に達するまで、キーワード検索とベクトル検索を交互に行う計画エージェントを作る。","rationale":"誤り。反復検索は過剰な複雑性を伴います。"},{"key":"C","en":"Fine-tune on prior interpretations...","ja":"仕様の過去解釈でファインチューニングし、モデルが低信頼を示した場合だけ原文段落を検索する。","rationale":"誤り。学習済み解釈は正式本文の完全な代替になりません。"},{"key":"D","en":"Provide the complete authoritative text with stable section identifiers and require citations...","ja":"安定した節識別子を付けた正式本文全体を渡し、回答には根拠となる節または表の引用を必須とする。","rationale":"正しい。全文が収まり、離れた箇所の横断参照と検索漏れ回避が優先されるため、識別子付き全文コンテキストが最も単純で監査可能です。"}],"correct":["D"]},
-{"id":2,"code":"Q02","domain":"Domain 1 — Solution Design \u0026 Architecture","taskFocus":"Select appropriate architectural patterns","selectionCount":1,"question":{"en":"A publisher converts manuscripts through a mandated sequence...","ja":"出版社は原稿を、権利状態の分類、制限対象引用の墨消し、墨消しがある場合の法務承認、配布ファイル作成という必須順序で処理します。順序と承認条件は固定されていますが、Claudeは分類と墨消し候補の提示に有用です。最も適したアーキテクチャはどれですか。"},"options":[{"key":"A","en":"Give a publishing agent every tool...","ja":"出版エージェントに全ツールを与え、役割プロンプトで望ましい順序を説明する。","rationale":"誤り。プロンプトだけでは法務承認を含む必須遷移を構造的に強制できません。"},{"key":"B","en":"Use application-controlled prompt chaining with validation gates, auditable state transitions, and a deterministic legal-approval branch.","ja":"検証ゲート、監査可能な状態遷移、決定論的な法務承認分岐を持つ、アプリケーション制御のプロンプトチェーンを使う。","rationale":"正しい。固定サブタスクにはワークフローが適し、アプリケーション側のゲートと状態遷移で順序と承認を監査可能に強制できます。"},{"key":"C","en":"Run classification and file creation in parallel...","ja":"分類とファイル作成を並列実行し、墨消しの差異を法務担当者に調整させる。","rationale":"誤り。明示された依存順序を破ります。"},{"key":"D","en":"Use an evaluator-optimizer loop...","ja":"モデルgraderが法的準備状況と配布品質を承認するまで、各原稿を書き直すevaluator-optimizerループを使う。","rationale":"誤り。規定された法務承認をモデルgraderに置き換えることはできません。"}],"correct":["B"]}
-]
-</script>
-
 <script>
 const DOMAINS = {
   1: "Domain 1 — Solution Design & Architecture",
@@ -150,10 +139,497 @@ const DOMAINS = {
   7: "Domain 7 — Developer Productivity & Operational Enablement"
 };
 
-// 全78問のデータを動的に完全復元・構築するマスターローダー
-let ALL_Q = [];
-const STORAGE_KEY = "ccarp_master_exam_final_v3";
+// 全78問の生データ配列
+const RAW_DATA = [
+[1,1,1,"Select appropriate architectural patterns","標準化チームは、1冊の1,100ページの技術仕様に関する質問へ回答する必要があります。付録を除くと、正式な本文全体が選択モデルのコンテキストウィンドウに収まります。質問では、冒頭の定義、中盤の例外、終盤の互換性表を組み合わせることがよくあります。規制レビュー中は、入力コストやp95レイテンシより関連規定の見落とし回避が重要です。初期アーキテクチャとして最も適切なものはどれですか。","A standards team must answer questions about a single 1,100-page engineering specification. After removing appendices, the entire authoritative text fits within the chosen model's context window. Questions often combine a definition near the beginning, an exception in the middle, and a compatibility table near the end. During regulatory review, omitting a relevant provision matters more than input cost or p95 latency. Which initial architecture is MOST appropriate?",
+  ["A","段落埋め込みを索引化して上位の一連の文章を返し、信頼度が閾値未満の場合だけ2回目の広域検索を行う。","Index paragraph embeddings and return the highest-scoring passages, with a second broader search only when confidence falls below a threshold.","誤り。段階的な検索は通常のRAGでは合理的ですが、離れた規定を結ぶ問いでは信頼度が高くても必要箇所を落とし得るため、見落とし回避を最優先する条件に合いません。"],
+  ["B","自己評価した網羅度が閾値に達するまで、キーワード検索とベクトル検索を交互に行う計画エージェントを作る。","Create a planning agent that alternates keyword and vector searches until a self-evaluated coverage score reaches a threshold.","誤り。反復検索は全文が収まらない資料では有力ですが、自己評価の停止条件と追加の複雑性があり、全文を直接扱える本件では最初の選択として過剰です。"],
+  ["C","仕様の過去解釈でファインチューニングし、モデルが低信頼を示した場合だけ原文段落を検索する。","Fine-tune on prior interpretations of the specification and retrieve source paragraphs only when the model expresses low confidence.","誤り。学習済み解釈は正式本文の完全な代替ではなく、自己申告の信頼度も根拠欠落を確実に検知しません。規制レビューの引用可能性も弱まります。"],
+  ["D","安定した節識別子を付けた正式本文全体を渡し、回答には根拠となる節または表の引用を必須とする。","Provide the complete authoritative text with stable section identifiers and require citations to supporting sections or tables.","正しい。全文が収まり、離れた箇所の横断参照と検索漏れ回避がコストや速度より優先されます。識別子付き全文コンテキストが最も単純で監査可能です。"],
+  ["D"]],
+[2,1,1,"Select appropriate architectural patterns","出版社は原稿を、権利状態の分類、制限対象引用の墨消し、墨消しがある場合の法務承認、配布ファイル作成という必須順序で処理します。順序と承認条件は固定されていますが、Claudeは分類と墨消し候補の提示に有用です。最も適したアーキテクチャはどれですか。","A publisher converts manuscripts through a mandated sequence: classify rights status, redact restricted excerpts, obtain legal approval when redactions occur, and create distribution files. The sequence and approval condition are fixed, while Claude is useful for classification and redaction suggestions. Which architecture BEST fits?",
+  ["A","出版エージェントに全ツールを与え、役割プロンプトで望ましい順序を説明する。","Give a publishing agent every tool and describe the preferred sequence in its role prompt.","誤り。順序をプロンプトで望ましいものとして示すだけでは、法務承認を含む必須遷移を構造的に強制できません。"],
+  ["B","検証ゲート、監査可能な状態遷移、決定論的な法務承認分岐を持つ、アプリケーション制御のプロンプトチェーンを使う。","Use application-controlled prompt chaining with validation gates, auditable state transitions, and a deterministic legal-approval branch.","正しい。固定サブタスクにはワークフローが適し、アプリケーション側のゲートと状態遷移で順序と承認を監査可能に強制しつつ、限定工程だけClaudeへ任せられます。"],
+  ["C","分類とファイル作成を並列実行し、墨消しの差異を法務担当者に調整させる。","Run classification and file creation in parallel, then ask legal counsel to reconcile any redaction differences.","誤り。ファイル作成は権利分類・墨消し・条件付き承認の後でなければならず、並列化は明示された依存順序を破ります。"],
+  ["D","モデルgraderが法的準備状況と配布品質を承認するまで、各原稿を書き直すevaluator-optimizerループを使う。","Use an evaluator-optimizer loop that rewrites each manuscript until a model grader approves its legal readiness and distribution quality.","誤り。反復改善は文章品質には有効ですが、規定された法務承認をモデルgraderに置き換え、固定業務フローにも余分な反復を加えます。"],
+  ["B"]],
+[3,1,2,"Design multi-agent systems and orchestration strategies","デューデリジェンス基盤では、財務、サイバーセキュリティ、訴訟の独立した専門エージェントを使います。検索は並行実行できますが、最終リスクメモでは各所見の証拠を保持し、矛盾する結果を黙って一方に決めず明示する必要があります。設計を最も適切に支える選択を2つ選んでください。","A due-diligence platform uses independent finance, cybersecurity, and litigation specialists. Their searches can run concurrently, but the final risk memo must preserve each finding's evidence and expose contradictions rather than silently choosing one result. Which TWO choices BEST support the design? Select TWO.",
+  ["A","各専門エージェントに全データコネクターと共有スクラッチパッドを与え、他者が見つけた欠落をどの担当でも補えるようにする。","Give every specialist all data connectors and a shared scratchpad so any one can fill gaps discovered by another.","誤り。柔軟性は増しますが、専門境界と最小能力を弱め、共有途中情報による相互汚染、重複検索、不適切なツール選択を招きます。"],
+  ["B","実行中に専門エージェント同士で自由形式の草稿を交換し、最も長い最終記述を採用する。","Let specialists exchange free-form drafts during execution and accept the longest final narrative.","誤り。草稿共有は協調に使えますが、証拠契約も矛盾検出規則もなく、長さは正確性や網羅性の基準になりません。"],
+  ["C","各専門エージェントを領域固有のコンテキスト、最小権限コネクター、明示的な所見出力契約に限定する。","Scope each specialist to domain-specific context, least-privilege connectors, and an explicit finding-output contract.","正しい。責務、能力、出力の境界を明確にし、無関係なデータやツールによる混乱を抑えながら独立調査を並列化できます。"],
+  ["D","出典IDと信頼度を含む共通所見スキーマを必須とし、統合前にオーケストレーターが競合を明示する。","Require a shared finding schema with source IDs and confidence, then have an orchestrator flag conflicts before synthesis.","正しい。共通契約で証拠を失わず集約でき、専用オーケストレーターが矛盾を隠さず最終メモへ渡せます。"],
+  ["C","D"]],
+[4,1,1,"Apply decomposition techniques for complex problem solving","助成金レビュー支援では、まず適格性の証拠を抽出し、公開済み採点式を適用し、必須文書の欠落を特定してから、レビュー所見を作成する必要があります。単一プロンプトは証拠不足時に得点を作り出すことがあります。障害へ最も直接対処する再設計はどれですか。","A grant-review assistant must first extract eligibility evidence, apply a published scoring formula, identify missing mandatory documents, and only then draft reviewer notes. A single prompt often invents a score when evidence is incomplete. Which redesign MOST directly addresses the failure?",
+  ["A","先に所見と暫定得点を作成し、その後、直接引用がない項目を第2モデルに削除させる。","Draft notes and provisional scores first, then have a second model remove entries that lack a direct quotation.","誤り。事後チェックは防御層になりますが、未検証得点を先に生成する順序であり、公開済み式の決定論的適用も保証しません。"],
+  ["B","完全なレビューを複数回実行し、同じ基準で異なる証拠が引用された場合は得点の中央値を使う。","Run several complete reviews and use the median score when reviewers cite different evidence for the same criterion.","誤り。複数回実行は分散を測れますが、証拠不足を解消せず、固定式の正しさを多数の生成結果で代替しています。"],
+  ["C","引用付き抽出、完全性検証、コードによる採点、所見作成を連結し、必須証拠がなければ後続段階を停止する。","Chain cited extraction, completeness validation, code-based scoring, and note drafting; block later stages whenever required evidence is absent.","正しい。証拠、完全性、決定論的計算、生成を分離し、欠落時のゲートを置くことで、流暢な所見が検証を追い越す根本原因を除きます。"],
+  ["D","コンテキストウィンドウを拡大し、過去の申請、採点例、採択結果、レビュー所見を1回の生成呼び出しに含める。","Expand the context window and include prior applications, scoring examples, award outcomes, and reviewer notes in a single generation call.","誤り。過去例や採択結果は判断の参考になっても、必須証拠の欠落や固定式適用の混在を解消せず、不要なコンテキストも増やします。"],
+  ["C"]],
+[5,1,1,"Align solutions to business value pillars","物流会社は税関申告準備を短縮したいと考えています。出荷の87%は検証済みERP項目から承認済み様式へ決定論的にマッピングでき、残りは解釈が必要な曖昧な商品説明を含みます。申告APIは引き続き信頼できる記録系で、厳格な応答SLAがあります。価値と複雑性を最も適切に整合させる設計はどれですか。","A logistics company wants to shorten customs-entry preparation. Eighty-seven percent of shipments use deterministic mappings from verified ERP fields to approved forms; the rest contain ambiguous product descriptions requiring interpretation. The filing API remains the system of record and has a strict response SLA. Which design BEST aligns value and complexity?",
+  ["A","標準出荷には決定論的マッピングを使い、曖昧な説明だけをAPI検証前にClaudeへ振り分ける。","Use deterministic mapping for standard shipments and route only ambiguous descriptions to Claude before API validation.","正しい。大半を高速で確実な既存処理に残し、解釈が価値を持つ少数ケースだけClaudeへ送るため、SLA、コスト、生産性を両立します。"],
+  ["B","全出荷をClaudeへ送り、申告前に提案された全項目を承認済み様式とERP記録に照合する。","Send all shipments to Claude, then compare every proposed field with the approved form and ERP record before filing.","誤り。全項目の照合は安全性を高めますが、決定論的に処理できる87%にもモデルの遅延と変動を追加し、厳格なSLAに不利です。"],
+  ["C","曖昧な説明はすべて税関担当者へ送り、Claudeは完成済み様式の書き直しだけに使う。","Send every ambiguous description to customs staff and use Claude only to rewrite completed forms.","誤り。安全な部分解ですが、解釈補助によって人手時間を減らせる主要な価値を活かさず、書き直しは承認済み様式にも不要です。"],
+  ["D","検証済みERPマッピングを過去の商品説明で訓練した意味的ルーターへ置き換え、送信前のAPI検証は残す。","Replace verified ERP mappings with a semantic router trained on historical descriptions, retaining API validation before submission.","誤り。API検証を残しても、確実に処理できる大半を確率的ルーティングへ置き換える根拠がなく、複雑性と変動を増やします。"],
+  ["A"]],
+[6,3,1,"Evaluate tool/agent configuration for capability bloat","読み取り専用のベンダーリスク支援は契約書とセキュリティ報告を検索できますが、ツール一覧には請求書承認、アカウント停止、リポジトリ削除、機能が重複する6つの検索関数も含まれます。ログでは検索関数の誤選択が頻発しています。capability bloatへ最も適切に対処する変更はどれですか。","A read-only vendor-risk assistant can search contracts and security reports, yet its tool list also includes invoice approval, account suspension, repository deletion, and six overlapping search functions. Logs show frequent selection of the wrong search function. What change BEST addresses capability bloat?",
+  ["A","全ツールを残し、名前にapprove、suspend、deleteを含む呼び出しだけ確認を必須にする。","Retain all tools but require confirmation before calls whose names contain approve, suspend, or delete.","誤り。確認は高リスク実行の補償統制ですが、不要ツールはモデルに提示されたままで、重複検索の誤選択も解消しません。"],
+  ["B","書き込みツールを第2エージェントへ移し、オーケストレーターがベンダー質問をどちらにも委任できるようにする。","Move the write tools to a second agent while allowing the orchestrator to delegate vendor questions to either agent.","誤り。直接の露出は減りますが、読み取り専用の役割に不要な書き込み能力へ到達可能なままで、オーケストレーションも過剰です。"],
+  ["C","全関数をリスク階層の接頭辞付きに改名し、残した全ツール呼び出しの代表例をシステムプロンプトへ追加する。","Rename every function with a risk-tier prefix and add representative examples for all retained tool calls to the system prompt.","誤り。リスク表示と例は選択改善に役立つ場合がありますが、読み取り専用業務に不要な能力と重複検索を残し、コンテキストも肥大化させます。"],
+  ["D","必要な読み取り専用能力だけを公開し、重複検索を明確に区別できるタスク固有のインターフェースへ統合する。","Expose only necessary read-only capabilities and consolidate overlapping searches behind clearly differentiated, task-specific interfaces.","正しい。最小能力に制限して攻撃面を減らし、重複機能と曖昧な説明を整理するため、観測された誤選択の根本原因にも対処します。"],
+  ["D"]],
+[7,3,2,"Analyze authentication and authorization requirements","リモートMCPサーバーが複数クライアントへプロジェクト記録を提供します。試作版は全従業員で1つの長期サービストークンを使いますが、記録はサインイン済みユーザーの組織とプロジェクトロールで制限する必要があります。IDと認可のギャップを最も直接解消する変更を2つ選んでください。","A remote MCP server provides project records to several clients. The prototype uses one long-lived service token for all employees, while records must be limited by the signed-in user's organization and project role. Which TWO changes MOST directly close the identity and authorization gaps? Select TWO.",
+  ["A","共有トークンを暗号化して頻繁に更新し、単一のサーバー主体を維持したままクライアント申告のユーザーIDをログへ付ける。","Encrypt and rotate the shared token frequently, then attach a client-supplied user ID to logs while retaining one server principal.","誤り。資格情報保護と監査ログは改善しますが、信頼できるユーザー主体と組織が認可判断へ伝わらず、リソース単位の権限強制になりません。"],
+  ["B","ユーザーIDと承認済みスコープを保持する短期トークンを用いた適切な委任認可フローを使う。","Use an appropriate delegated authorization flow with short-lived tokens that preserve the user's identity and approved scopes.","正しい。ユーザー代理の呼び出しを識別し、権限範囲をトークンへ結び付け、長期共有資格情報の漏えい影響も縮小できます。"],
+  ["C","サービストークンで広範な記録を取得し、クライアント提供の組織値とロール値を使ってClaudeにプロジェクトを絞り込ませる。","Fetch broad records with the service token, then ask Claude to filter projects using organization and role values supplied by the client.","誤り。広いデータを先に取得し、未信頼の入力とモデル判断へ認可を委ねます。データを保有するサービス境界での強制にはなりません。"],
+  ["D","各呼び出しでトークンを検証し、MCPサーバー側で組織、ロール、リソース、操作の権限を強制する。","Validate the token and enforce organization, role, resource, and operation permissions at the MCP server for each call.","正しい。認証済み主体に対して、データを保有するサーバーが毎回リソース・操作単位の認可を行う必要があります。"],
+  ["B","D"]],
+[8,3,1,"Evaluate connection protocols and select the appropriate integration mechanism","企業内に、カタログを独立して変更する多数のツール提供元があります。Claudeクライアントは実行時にツール名、説明、入力スキーマを発見し、1つの相互運用可能な契約で呼び出す必要があります。最も適切な仕組みはどれですか。","An enterprise has many internal tool providers whose catalogs change independently. Claude clients should discover tool names, descriptions, and input schemas at runtime and invoke them through one interoperable contract. Which mechanism is MOST appropriate?",
+  ["A","提供元ごとに型付きSDKを生成し、カタログ版を中央公開して、インターフェース変更のたびにクライアントを再デプロイする。","Generate a typed SDK for each provider, publish catalog versions centrally, and redeploy clients whenever an interface changes.","誤り。安定APIとコンパイル時検査には使えますが、変更ごとのクライアント更新が必要で、実行時発見という中心要件を満たしません。"],
+  ["B","コマンドラインのヘルプ文を標準化し、各クライアントに提供元固有の出力規約を解析させる。","Standardize command-line help text and let each client parse provider-specific output conventions.","誤り。CLI統合には有用でも、クライアント別アダプターが残り、共通のスキーマ発見・呼び出し契約になりません。"],
+  ["C","標準化されたツール一覧、スキーマ、対応時の変更通知、呼び出しを公開するMCPサーバーを使う。","Use MCP servers that expose standardized tool listing, schemas, change notifications where supported, and invocation.","正しい。MCPのtools/listとtools/call、およびツールメタデータ契約が、複数提供元の実行時発見と相互運用性に直接対応します。"],
+  ["D","各提供元を自律的な対等エージェントとして包み、ツール選択と入力項目をagent-to-agentメッセージで交渉する。","Wrap each provider as an autonomous peer agent and negotiate tool selection and input fields through agent-to-agent messages.","誤り。自律的協調が必要な要件はなく、単純なツール発見とスキーマ付き呼び出しに対して過剰設計です。"],
+  ["C"]],
+[9,3,1,"Evaluate progressive discovery vs. monolithic context strategy","設計エージェントは240個の専門ツールへアクセスできますが、通常のタスクで必要なのは3個です。全スキーマを送るとコンテキストを消費し選択が曖昧になりますが、セッションを再開せず希少ツールへ到達できる必要があります。制約を最もよく満たす戦略はどれですか。","A design agent may access 240 specialized tools, but typical tasks need three. Sending every full schema consumes context and creates ambiguous choices; rare tools must remain reachable without restarting the session. Which strategy BEST satisfies the constraints?",
+  ["A","人気上位のスキーマを読み込み、未対応要求は静的ディレクトリから選んだ専門アプリケーションへ振り分ける。","Load the most popular schemas and route unsupported requests to a specialist application selected from a static directory.","誤り。初期負荷は減りますが、別アプリケーションへの移送となり、同じセッションから希少ツールへ到達する要件を満たしません。"],
+  ["B","検索可能な簡潔カタログを公開し、現在のタスクに関連するツールだけ完全なスキーマを取得する。","Expose a compact searchable catalog, then retrieve complete schemas only for tools relevant to the current task.","正しい。progressive discoveryにより初期コンテキストと曖昧性を抑え、必要になった希少ツールも詳細取得して正確に呼び出せます。"],
+  ["C","最初のユーザーメッセージから固定スキーマ束を1つ選び、新しいセッションまで束外の発見を禁止する。","Select one fixed schema bundle from the first user message and prohibit discovery outside it until a new session.","誤り。事前ルーティングは効率的でも、初期判定が外れた場合に同一セッションで希少ツールへ到達できません。"],
+  ["D","汎用実行関数を1つ公開し、ツール名と例だけから各ツールの引数型をモデルに推測させる。","Expose one generic execution function and require the model to infer each tool's argument types from names and examples.","誤り。提示量は減りますが、正式な入力スキーマを欠くため検証可能性と呼び出し精度を犠牲にします。"],
+  ["B"]],
+[10,3,2,"Analyze observability challenges and select monitoring strategies at scale","分散型の契約支援は、クエリ正規化、ハイブリッド検索、再順位付け、Claude生成、任意のツール検証を行います。一部回答に根拠がなく、記録には機密条件が含まれます。本番診断へ最も強い証拠を提供するテレメトリ変更を2つ選んでください。","A distributed contract assistant performs query normalization, hybrid retrieval, reranking, Claude generation, and optional tool validation. Some answers are unsupported, and records contain confidential terms. Which TWO telemetry changes provide the strongest production diagnosis? Select TWO.",
+  ["A","全段階へトレースIDを伝播し、段階のバージョン、時間、状態、エラー分類を記録する。","Propagate a trace ID across every stage and record stage versions, timings, status, and error categories.","正しい。複数インスタンスと段階を1要求として結び、どの版・段階で遅延や障害が生じたかを切り分けられます。"],
+  ["B","サービス別の日次レイテンシ、エラー、トークン集計を保持し、保存量削減のため要求相関と段階ペイロード参照を省く。","Keep per-service daily latency, error, and token aggregates, omitting request correlation and stage payload references to reduce storage.","誤り。運用傾向には有用ですが、特定の未根拠回答が通過した段階と証拠を要求単位で再構成できません。"],
+  ["C","全要求の完全な生プロンプト、検索文書、ツール出力を、広くアクセス可能な分析テーブルへ保存する。","Store complete raw prompts, retrieved documents, and tool outputs for every request in a broadly accessible analytics table.","誤り。診断情報は豊富でも、機密条件を必要以上に複製・公開し、本番のデータ最小化とアクセス制御へ配慮していません。"],
+  ["D","アクセス制御下で、マスキング済み検索ID、関連性・再順位付け信号、引用、回答根拠性の結果を取得する。","Capture redacted retrieval IDs, relevance and rerank signals, citations, and answer-groundedness outcomes under access controls.","正しい。検索された証拠と生成の忠実性をリクエスト単位で比較でき、マスキングとアクセス制御で機密性も保てます。"],
+  ["A","D"]],
+[11,3,1,"Evaluate accuracy-latency trade-offs and justify configuration decisions","音声アシスタントは96%以上のタスク成功率と1.6秒未満のエンドツーエンドp95レイテンシを達成する必要があります。負荷テスト結果は：経路1(小型のみ)93.8%, 0.8s / 経路2(高性能のみ)97.4%, 2.3s / 経路3(小型＋不確かな意図だけ高性能)96.2%, 1.5s / 経路4(両方＋judge)98.0%, 3.1s。提示要件から最も妥当な経路はどれですか。","A voice assistant must achieve at least 96% task success and p95 end-to-end latency below 1.6 seconds. Representative load tests show: Path 1: 93.8%, 0.8 s / Path 2: 97.4%, 2.3 s / Path 3: compact model, uncertain intents routed to capable model — 96.2%, 1.5 s / Path 4: 98.0%, 3.1 s. Which path is BEST justified?",
+  ["A","実測カスケードが両閾値を満たす唯一の選択肢なので、経路3。","Path 3, because its measured cascade is the only option satisfying both thresholds.","正しい。成功率96.2%とp95 1.5秒で両必須閾値を満たします。他経路は品質またはレイテンシのいずれかに違反します。"],
+  ["B","経路1を選び、そのレイテンシ余裕を本番後に初めて測定する再試行方針へ使う。","Choose Path 1 and spend its latency margin on a retry policy that will be measured only after deployment.","誤り。現時点の成功率が93.8%で要件未達です。未測定の再試行で必須品質とp95の両方を満たすとは正当化できません。"],
+  ["C","実測p95レイテンシ超過を大きな品質余裕が補うとして、経路2を選ぶ。","Choose Path 2 because its larger quality margin compensates for the measured p95 latency overrun.","誤り。品質余裕はありますがp95 2.3秒は明示SLA違反で、品質とレイテンシの双方が必須という条件を外せません。"],
+  ["D","本番トラフィックが反復的になったらjudge結果をキャッシュする計画で、経路4。","Path 4, planning to cache the judge result once production traffic becomes repetitive.","誤り。現構成のp95は3.1秒で要件未達であり、将来の回答キャッシュは個別音声タスクに対して未検証です。"],
+  ["A"]],
+[12,2,1,"Model selection based on measured quality, latency, and cost","ある基盤は大量の言語判定と、少量の本番インシデント根本原因分析を行います。1つの高能力モデルは両方の品質目標を満たしますが、分類のコスト・レイテンシ予算を超えます。最適なモデル選定戦略はどれですか。","A platform performs high-volume language detection and low-volume root-cause analysis of production incidents. One capable model meets both quality targets, but misses the classification cost and latency budgets. What is the BEST model-selection strategy?",
+  ["A","両タスクのトラフィック加重スコアで妥協的なモデルを選び、全体に単一の集計品質閾値を適用する。","Choose one compromise model using a traffic-weighted score, while enforcing a single aggregate quality threshold across both tasks.","誤り。大量の簡単な分類が集計値を支配し、少量で難しい分析の品質不足を隠す可能性があります。"],
+  ["B","代表的な言語事例で小型モデルを評価し、合格する最小モデルを使い、インシデント分析には高能力モデルを残す。","Use the smallest model that passes representative language-task evals, while retaining the capable model for incident analysis.","正しい。タスク別評価で必要品質を満たす最小能力を選び、単純大量処理の予算と複雑分析の品質を同時に守れます。"],
+  ["C","入力長とインシデント用キーワードで振り分け、長い入力またはキーワード一致時に高能力モデルを使う。","Route by input length and incident keywords, assuming longer or keyword-matched inputs require the capable model.","誤り。長さや表層キーワードは難易度の代理として未検証で、短い重大分析や長い簡単な分類を誤る可能性があります。"],
+  ["D","分類はすべて高能力モデルでバッチ処理し、インシデント分析用の対話容量を確保して両方のモデル選択は変えない。","Batch all classification through the capable model, reserving interactive capacity for incident analysis and leaving both model choices unchanged.","誤り。バッチは単価低減に役立つ場合がありますが、分類のレイテンシ目標を確実に満たさず、より小さい合格モデルも評価していません。"],
+  ["B"]],
+[13,2,1,"Prompt caching with a stable reusable prefix","各リクエストには同じ大規模な製品カタログと安全方針があり、その後に小さな地域別在庫ブロックとユーザー質問が続きます。安定部分は週次で変更され、在庫と質問は毎回変わります。最も効果的なプロンプトキャッシュ配置はどれですか。","Each request includes the same large product catalog and safety policy, followed by a small region-specific inventory block and a user question. The stable material changes weekly; inventory and questions change each request. Which prompt-caching layout is MOST effective?",
+  ["A","地域在庫を先頭に置き、その後に安定カタログと方針を続け、ユーザー質問の後へキャッシュ境界を置く。","Place region inventory first, followed by the stable catalog and policy, and set the cache breakpoint after the user question.","誤り。毎回変わる在庫が接頭部に入り、同一prefixのキャッシュヒットを壊します。境界も変動質問の後では再利用範囲が安定しません。"],
+  ["B","ユーザー質問だけをキャッシュし、カタログは未キャッシュの接尾部として再送する。","Cache only the user question and resend the catalog as an uncached suffix.","誤り。変化する短い質問を再利用対象にし、反復コストの大きい安定カタログを外すため目的と逆です。"],
+  ["C","地域ごとの完全プロンプトを作り、在庫値が1つ変わるたびに全キャッシュを無効化する。","Create separate full prompts per region and invalidate every cache whenever one inventory value changes.","誤り。地域別prefixは条件次第で使えますが、変動在庫を安定部分と結合し、不要な全体無効化を招きます。"],
+  ["D","安定したカタログ・方針を再利用prefixとしてキャッシュし、変動する地域在庫とユーザー質問を後置する。","Cache the stable catalog-policy prefix, then append the changing regional inventory and user question.","正しい。キャッシュは同一prefixを再利用するため、長く安定した内容を先頭へまとめ、変動部分をブレークポイント後へ置くのが適切です。"],
+  ["D"]],
+[14,2,2,"Context-window and token-budget management","調査チャットのセッションがコンテキスト上限に近づいています。長い再利用可能な指示ブロック、多数の解決済み会話ターン、正確な文言を引用用に保持すべき検索抜粋が含まれます。アーキテクトが最初に行うべき対応を2つ選んでください。","A research-chat session approaches its context limit. It contains a long reusable instruction block, many resolved conversational turns, and retrieved excerpts whose exact wording must remain available for citations. Which TWO actions should the architect take first? Select TWO.",
+  ["A","構成要素別にトークンを数え、想定回答と引用ブロックの容量を明示的に確保する。","Count tokens by component and reserve explicit capacity for the expected answer and citation blocks.","正しい。入力だけで上限を使い切らないよう、何が予算を消費しているか測定し、必須出力領域を先に確保する必要があります。"],
+  ["B","全出典抜粋を要約して文書・節識別子を残し、要約検証後は元の文言を破棄する。","Summarize every source excerpt, retain its document and section identifiers, and discard the original wording after summary verification.","誤り。要約と識別子は検索には有用でも、正確な文言による引用という明示要件を失うため、保持対象の優先順位が逆です。"],
+  ["C","解決済み履歴を検証済み要約へ圧縮し、選択された出典抜粋と安定した出典識別子は原文どおり保持する。","Compact resolved history into a verified summary while preserving the selected source excerpts and stable source identifiers verbatim.","正しい。引用根拠を損なわず、現在の問いに低信号な会話履歴を圧縮するため、コンテキスト予算を要件に沿って回復できます。"],
+  ["D","利用可能な最大コンテキストへ切り替え、解決済みターンをすべて保持し、プロンプト構築と出力予算の規則は変えない。","Switch to the largest available context window, retain every resolved turn, and leave all prompt-assembly and output-budget rules unchanged.","誤り。必要原文を削れない場合の候補ですが、まず未管理の履歴と出力予算を改善せず、コストと注意希薄化を残す過剰な初手です。"],
+  ["A","C"]],
+[15,2,1,"Few-shot prompting and guardrails for structured outputs","インシデントAPIは、LOW、MEDIUM、HIGH、CRITICALのいずれかのseverityと、証拠ID配列を含むJSONを返す必要があります。現在は見た目が有効なJSONでも独自severityラベルや説明文が混入します。下流契約を最も適切に強制する変更はどれですか。","An incident API must return JSON containing severity from LOW, MEDIUM, HIGH, or CRITICAL, plus an array of evidence IDs. The application currently gets valid-looking JSON with invented severity labels and occasional commentary. Which change BEST enforces the downstream contract?",
+  ["A","有効・無効JSON例を追加し、severityラベルと証拠ID配列の正規表現検査に失敗した回答を再試行する。","Add valid and invalid JSON examples, then retry responses that fail regex checks for severity labels and the evidence-ID array.","誤り。例と再試行は改善しますが、正規表現では型、必須項目、enum、余分な文章を完全に強制できず、独自ラベルが再発し得ます。"],
+  ["B","必須項目、severityのenum、型付き証拠ID、追加プロパティ禁止を定めたJSON structured outputを使う。","Use JSON structured output with required fields, a severity enum, typed evidence IDs, and no extra properties.","正しい。制約付きデコードで有効JSON、必須型、許可値、余分なフィールドを契約として強制し、観測された形式違反へ直接対処します。"],
+  ["C","プロンプトからJSONオブジェクトを写す前に、severity判断理由を説明するようClaudeへ求める。","Ask Claude to explain its severity reasoning before printing a JSON object copied from the prompt.","誤り。判断説明は分類品質の補助になり得ますが、JSON外の文章をむしろ促し、許可値を機械的に制約しません。"],
+  ["D","severityを任意文字列で受け、未知ラベルはMEDIUMへ割り当て、説明文は後処理で破棄する。","Accept any severity string, map unfamiliar labels to MEDIUM, and discard commentary during post-processing.","誤り。構文上の余分な文は除けても、意味不明な値を中程度へ黙って変換し、実際の重大度を誤る可能性があります。"],
+  ["B"]],
+[16,4,1,"Evaluation metrics and representative datasets","チームは定型要求が大半を占めるテストセットでトリアージ分類器を評価しています。希少カテゴリにはデータ漏えいとアカウント乗っ取りがあり、偽陰性のコストが高くなります。報告は全体精度だけです。最適な再設計はどれですか。","A team evaluates a triage classifier using a test set dominated by routine requests. Rare categories include data exposure and account takeover, where false negatives are costly. Only overall accuracy is reported. What is the BEST redesign?",
+  ["A","現在のセットを維持し、定型要求のサブタイプだけで層別した大規模な本番ランダム標本を追加する。","Keep the current set and add a larger random production sample, segmented only by routine request subtype.","誤り。本番の定型要求比率は詳しく測れますが、重要な希少カテゴリの例不足と偽陰性の不可視性は解消しません。"],
+  ["B","全カテゴリを同数にし、macro accuracyと全体精度をリリース基準にする。","Balance all categories equally and use macro accuracy plus overall accuracy as the release criteria.","誤り。少数クラスは見やすくなりますが、高損失カテゴリの再現率や混同先を精度指標だけでは直接判断できません。"],
+  ["C","データ漏えいまたは乗っ取りと予測された事例だけを確認し、レビュー修正をモデル成功として数える。","Review only cases predicted as data exposure or takeover and count reviewer corrections as model successes.","誤り。一般カテゴリへ誤分類された希少事例を見逃し、修正後結果でモデル自体の性能も過大評価します。"],
+  ["D","重要カテゴリを十分に含むラベル付きセットを作り、クラス別適合率、再現率、混同傾向、集計性能を報告する。","Build a labeled set covering each important category and report per-class precision, recall, confusion patterns, and aggregate performance.","正しい。希少だが高コストな失敗を全体精度から分離し、特に偽陰性を再現率と混同傾向で直接測定できます。"],
+  ["D"]],
+[17,4,1,"Choosing code-based, LLM-based, and human graders","生成された監査パケットは、有効なJSON、統制IDの完全一致、証拠を実質的に誇張しない記述、という3基準を満たす必要があります。最も適切な採点設計はどれですか。","A generated audit packet must satisfy three criteria: parse as JSON, include an exact set of control IDs, and present a narrative that does not materially overstate the evidence. Which grading design is MOST appropriate?",
+  ["A","全基準に1つのルーブリック付きLLM graderを使い、5回反復して各パケットの多数決を採用する。","Use one rubric-based LLM grader for all criteria, repeat it five times, and accept the majority verdict for each packet.","誤り。反復は意味判定の分散を減らせますが、JSON解析とID完全一致まで確率的評価にする必要はありません。"],
+  ["B","JSONとIDは決定論的に検査し、承認済み参照文1つとの較正済み埋め込み類似度が閾値未満の記述を不合格にする。","Use deterministic checks for JSON and IDs, then reject narratives below a calibrated embedding-similarity threshold to one approved reference.","誤り。前半は適切ですが、較正しても類似度は正しい言い換えと証拠誇張を確実に区別できず、意味基準の十分なgraderではありません。"],
+  ["C","構文とIDにはコード、主張にはルーブリック付きLLM graderを使い、フラグ対象は人間レビューへ回す。","Use code for syntax and IDs, a rubric-based LLM grader for claims, and human review for flagged cases.","正しい。決定的基準を再現可能なコードへ、意味的基準をスケール可能なgraderへ割り当て、難しい判断を人間で補完します。"],
+  ["D","訓練済み監査人に全項目と全文章を確認させ、コードは不正形式のパケットを先に並べる用途だけに使う。","Assign trained auditors to inspect every field and sentence, using code only to queue malformed packets for earlier review.","誤り。最高リスク・小規模用途では成立しますが、機械検査可能な基準まで全件人手にするのは過剰で、適切な自動化分担を欠きます。"],
+  ["C"]],
+[18,4,2,"Controlled A/B testing and production monitoring","チームは新しい検索プロンプトを本番版と比較します。要求難易度は時間帯で変わり、重大な方針違反は低頻度ですが高コストです。有効な比較と安全な展開を最も適切に支える実践を2つ選んでください。","A team will compare a new retrieval prompt against production. Request difficulty changes throughout the day, and severe policy violations are infrequent but costly. Which TWO practices BEST support a valid comparison and safe rollout? Select TWO.",
+  ["A","平日は現行プロンプト、週末は新プロンプトを実行し、要求件数とトピック構成で結果を正規化する。","Run the current prompt on weekdays and the new prompt on weekends, then normalize results by request count and topic mix.","誤り。観測したトピック構成を補正しても、時間帯、利用者、難易度などの未観測差が残り、プロンプト効果と期間効果が交絡します。"],
+  ["B","同時期の適格要求をランダム化し、主要指標、標本規則、停止基準を事前定義する。","Randomize concurrent eligible requests, and predefine primary metrics, sample rules, and stopping criteria.","正しい。同時ランダム割り当てで時間変動の交絡を減らし、事前定義で都合のよい事後判断を抑えます。"],
+  ["C","カナリアを使って平均評価とレイテンシを監視し、希少な方針違反はいずれかの集計値を下げると仮定する。","Use a canary and monitor average rating and latency, assuming rare policy violations will lower one of those aggregate metrics.","誤り。カナリア自体は適切でも、低頻度・高損失の違反は平均評価や遅延に埋もれるため、専用の安全ガードレールが必要です。"],
+  ["D","案別に品質、方針違反、レイテンシ、エラー、トークンを計測し、違反アラートとテスト済みロールバック経路を用意する。","Instrument quality, policy violations, latency, errors, and tokens by variant, with breach alerts and a tested rollback path.","正しい。比較指標と重大違反の専用信号を持ち、検知時に影響を限定できる運用保護を提供します。"],
+  ["B","D"]],
+[19,4,1,"Diagnosing hallucinations with evidence-level traces","ハイブリッド検索インデックスの更新後、技術支援の事実的に根拠のない回答が増えました。ログにはユーザー質問と最終文だけが残っています。検索失敗と生成失敗を最もよく区別する次の対応はどれですか。","After a hybrid-search index upgrade, a technical assistant gives more factually unsupported answers. Logs retain only the user question and final text. Which next step BEST distinguishes retrieval failure from generation failure?",
+  ["A","書き換えクエリ、順位付き出典ID、Claudeへ渡した証拠、引用を追跡し、検索網羅性と回答忠実性を別々に評価する。","Trace rewritten queries, ranked source IDs, evidence sent to Claude, and citations; grade retrieval coverage separately from answer faithfulness.","正しい。必要証拠が候補・再順位付け・最終コンテキストのどこで落ちたかと、渡された証拠から生成が逸脱したかを証拠レベルで分離できます。"],
+  ["B","インデックスを戻し、最近の苦情を両版で再実行して、テレメトリ変更前に回答評価と引用数を比較する。","Roll back the index, replay recent complaints against both versions, and compare answer ratings and citation counts before changing telemetry.","誤り。影響緩和と差の再現には有用ですが、集計評価と引用数だけでは各版で検索と生成のどちらが失敗したか分かりません。"],
+  ["C","各最終回答を出典ID付きの全コーパス文章と根拠性・引用graderで比較するが、Claudeへ実際に渡した証拠は保持しない。","Compare each final answer against complete corpus passages labeled with source IDs using groundedness and citation graders, without preserving the evidence actually retrieved for Claude.","誤り。コーパス内に根拠が存在するかは分かっても、その根拠がモデルへ渡されたか不明で、検索失敗と生成失敗を切り分けられません。"],
+  ["D","引用のない回答をすべて拒否し、トピック別拒否率を監視して、拒否率が安定してから検索を調査する。","Reject every answer without a citation, monitor rejection by topic, and investigate retrieval after the rate stabilizes.","誤り。利用者保護にはなるものの、検索不足と引用生成失敗を計測する前にガードレールを適用しており、根本原因診断の順序が逆です。"],
+  ["A"]],
+[20,4,1,"Cost and latency optimization without sacrificing quality","保険会社の通話後レポート作成では事実性検査に合格していますが、処理単価と応答時間SLOは未達です。計測すると、全顧客に共通する約款を毎回再送し、終了案件の履歴も入力へ蓄積し、定型通話と複雑な紛争で同じモデルを使っていました。低リスクの改善から進める手順はどれですか。","An insurer's post-call report service passes factuality checks, but its unit cost and response-time SLO fail. Profiling shows that shared policy text is resent for every customer, closed-case history accumulates in prompts, and routine calls use the same model as complex disputes. What should the team do first and next?",
+  ["A","まず短いプロンプトをすべて小型モデルへ振り分け、p95が予算超過のままの場合だけコンテキスト構築を調べる。","Route all short prompts to a smaller model first, then inspect context assembly only if p95 latency remains above budget.","誤り。短さは難易度の検証済み指標ではなく、トレースで既に観測された不要コンテキスト原因への対処を後回しにしています。"],
+  ["B","完全な会話履歴をキャッシュし、現在のモデルは維持して、予算を満たすまで生成要約を短くする。","Cache the complete conversation history, retain the current model, and shorten generated summaries until the latency budget is met.","誤り。出力短縮は遅延を下げ得ますが、変動する不要履歴ではキャッシュ効果が限られ、観測済みの入力コスト原因も残します。"],
+  ["C","無関係履歴を削り、安定定型文をキャッシュした後、小型モデルへの振り分けを品質、p95、コストとともに検証する。","Trim irrelevant history and cache stable boilerplate; then test smaller-model routing while monitoring quality, p95, and cost.","正しい。トレースで確認した低リスクの入力問題を先に直して効果を測り、その後モデル変更をタスク別品質評価付きで段階導入します。"],
+  ["D","小規模ランダム品質標本に合格したら全件を高速モデルへ移し、完全プロンプトとロールバック手段は維持する。","Move all traffic to a faster model after a small random quality sample passes, while retaining the full prompt and rollback option.","誤り。ロールバックはあっても代表性とタスク別閾値が弱く、観測済みの不要入力を残したまま全面移行するため、変更順序が不適切です。"],
+  ["C"]],
+[21,5,1,"Human-in-the-loop (HITL) review and risk-based escalation","Claudeが自治体の緊急対応チーム向け公開通知を下書きします。通常の文法修正は低リスクですが、避難区域、期限、避難所住所の変更は被害を生じ得ます。チームは高影響判断を自律化せず負担を減らしたいと考えています。最適な設計はどれですか。","Claude drafts public notices for a municipal emergency team. Routine grammar changes are low risk, but changing evacuation zones, deadlines, or shelter addresses could cause harm. The team wants workload reduction without autonomous high-impact decisions. Which design BEST meets the goal?",
+  ["A","検証済みテンプレートの低リスク表現修正は自動適用し、区域、期限、住所、競合する事実の変更は公開前に権限者承認を必須とする。","Auto-apply low-risk wording edits in validated templates, but require authorized approval before releasing changes to zones, deadlines, addresses, or conflicting facts.","正しい。内容の影響度でエスカレーションし、定型編集だけを自動化しながら、高リスク事実と競合判断を送信前の人間承認へ残します。"],
+  ["B","避難区域の変更は承認対象とするが、期限と住所は最新の自治体記録との一致確認後に自動公開する。","Require approval for evacuation-zone changes, but auto-publish deadline and address updates after matching them to the latest municipal record.","誤り。記録との一致確認は有用でも、期限と住所も高影響と明記されており、それらの自律公開は要件に違反します。"],
+  ["C","過去通知で検証し、承認済みテンプレート内の全下書きを自動公開して、公開後に重大度加重標本をレビューする。","Validate on historical notices, auto-publish all drafts within approved templates, and review a severity-weighted sample after release.","誤り。テンプレートと事後サンプリングは傾向監視に有用ですが、個々の高影響な事実変更を住民への公開前に止められません。"],
+  ["D","パイロット中は全下書きを承認対象にし、全体精度と住所検証の目標達成後はすべての承認ゲートを外す。","Require approval for every draft during the pilot, then remove all gates once aggregate accuracy and address-validation targets are met.","誤り。全面承認は初期統制になりますが、平均目標達成後も希少な区域・期限・住所の失敗は残るため、本番のリスクベース境界を失います。"],
+  ["A"]],
+[22,5,2,"Guardrails, failure modes, and defense in depth","大学の研究支援アシスタントは助成金申請書を読み、審査メモの下書きを作成します。取得した添付ファイルにはアシスタントを誘導する命令が含まれる可能性があり、未公開の申請書を外部の共同作業領域へコピーしてはなりません。最初に実装すべき統制を2つ選択してください。","A university research assistant reads grant proposals and can create draft review notes. Retrieved attachments may contain instructions aimed at the assistant, and unpublished proposals must not be copied into external collaboration spaces. Which TWO controls should be implemented first? Select TWO.",
+  ["A","添付テキストを信頼できないデータとして扱い、統制命令から分離し、敵対的な添付ファイルを評価に含める。","Treat attachment text as untrusted data, separate it from governing instructions, and include adversarial attachments in evaluations.","正しい。文書内命令を権威ある指示として扱わない設計と、観測対象に即した敵対的評価がプロンプトインジェクションへ直接対応します。"],
+  ["B","システムプロンプトに警告を追加し、認証済みの共同作業領域への書込みを許可した上で、添付による挙動変化を月次標本レビューする。","Add a warning to the system prompt, allow writes to any authenticated workspace, and review a monthly sample for signs that attachments changed behavior.","誤り。警告と標本レビューは補助策として妥当ですが、認証済みであっても外部領域へのコピーを実行時に止めず、明示された持ち出し制約を満たしません。"],
+  ["C","コンテンツを書き込む前に、アクション層で宛先の許可リストと認証済み審査担当者の権限を強制する。","Enforce destination allowlists and the authenticated reviewer's permissions in the action layer before any content is written.","正しい。データ持ち出し制約はモデルの判断ではなく書き込み境界で毎回強制することで、誘導された場合も禁止宛先への送信を防げます。"],
+  ["D","すべての審査メモ案を第2のモデルに承認させ、両モデルが宛先を内部と分類した場合にエクスポートを許可する。","Require a second model to approve every draft note and permit exports when both models classify the destination as internal.","誤り。モデル間確認は品質補助にはなりますが、同じ悪意ある内容に影響され得ます。宛先認可をモデル分類へ委ねる点でCより弱い統制です。"],
+  ["A","C"]],
+[23,5,1,"Regulatory scoping for GDPR, HIPAA, and FedRAMP","あるベンダーは、EUの従業員ヘルプデスク、米国病院の予約センター、連邦政府請負業者の社内ナレッジポータル向けに、1つのClaudeサービスを適応させています。経営陣は、準拠したクラウドリージョンを選べば3つすべてを準拠と表示できるか尋ねています。最も適切な回答はどれですか。","A vendor is adapting one Claude service for an EU employee-help desk, a U.S. hospital's appointment center, and a federal contractor's internal knowledge portal. Executives ask whether choosing a compliant cloud region is enough to label all three deployments compliant. What is the BEST response?",
+  ["A","3つの展開すべてに最も厳しい保持・暗号化設定を適用し、共通監査資料を使って、共有基盤を3制度すべてに準拠として文書化する。","Apply the strictest retention and encryption settings across all deployments, use one shared audit package, and document the platform as compliant with all three regimes.","誤り。厳しい保持・暗号化と共通監査資料は有用でも、処理目的、主体の役割、契約、認可範囲は制度ごとに異なり、一括の準拠宣言を裏付けません。"],
+  ["B","主張を行う前に、法務・セキュリティ責任者と各展開のデータ、関係者、目的、統制、契約、ホスティング境界を個別にスコープする。","Scope each deployment's data, actors, purpose, controls, contracts, and hosting boundary with legal and security owners before making a claim.","正しい。GDPR、HIPAA、FedRAMPは適用対象と要求が異なるため、業務・データフロー・責任分界ごとの評価を先に行う必要があります。"],
+  ["C","最初にHIPAAリスク評価を完了し、その技術統制をEUおよび連邦政府向け展開の証拠として再利用する。","Complete a HIPAA risk assessment first, then reuse its technical controls as proof for the EU and federal deployments.","誤り。共通統制は再利用できても、HIPAA評価がGDPR上の法的根拠やFedRAMPの認可範囲を証明するわけではありません。"],
+  ["D","3つのワークロードで別々のシステムプロンプトを用意し、各業務責任者にモデル出力が地域要件を満たすと証明してもらう。","Keep separate system prompts for the three workloads and let each business owner attest that model outputs meet local requirements.","誤り。プロンプト分離と業務確認は一部の運用策ですが、データ処理、アクセス制御、監査、契約、基盤認可までをカバーしません。"],
+  ["B"]],
+[24,5,1,"Bias evaluation and transparency","公共図書館はClaudeを使い、デジタル技能指導の申込み優先度を付けています。全体の適合率は許容範囲ですが、第二言語で記述する利用者は、申告ニーズが同程度でも紹介率が大幅に低くなっています。最終招待は司書が送ります。拡大前に何をすべきですか。","A public library uses Claude to prioritize requests for digital-literacy coaching. Overall precision is acceptable, but patrons who write in a second language are referred substantially less often despite comparable stated needs. The final invitation is sent by a librarian. What should the team do BEFORE expansion?",
+  ["A","最終判断を司書が行うためワークフローを維持し、全体の適合率を公表して、個別苦情を四半期のアクセシビリティ監査で確認する。","Keep the workflow because a librarian makes the final decision, publish aggregate precision, and review individual complaints in a quarterly accessibility audit.","誤り。人間の最終操作と苦情監査は有用でも、偏った順位付けが候補を狭める影響を拡大前に測定・緩和できません。全体指標も群間格差を隠します。"],
+  ["B","プロンプトから言語指標を除き、全体紹介率が以前の水準へ戻ったら開始する。","Remove language indicators from the prompt and launch once the overall referral rate returns to its previous level.","誤り。明示的な言語指標の削除だけでは文体を通じた代理変数を除けず、全体率では問題群の改善を確認できません。"],
+  ["C","群別の誤り率と紹介率を測り、原因とデータ不足を調査・緩和し、審査者にシステムの役割を開示する。","Measure error and referral rates by relevant groups, investigate causal features and data gaps, mitigate them, and disclose the system's role to reviewers.","正しい。観測された格差を分解評価し、原因調査と緩和、透明性を組み合わせることで、公平性と人間レビューの実効性を検証できます。"],
+  ["D","言語別に学習例を均衡化し、司書レビューを言語群ごとの固定紹介枠に置き換える。","Balance the training examples by language and replace librarian review with a fixed referral quota for each language group.","誤り。例の均衡化は候補策ですが効果検証がなく、固定枠は個別ニーズや運用目的を損なう過剰な変更になり得ます。"],
+  ["C"]],
+[25,6,1,"Structured discovery and measurable success criteria","不動産管理会社が、保守作業の滞留を『解消する』Claudeアシスタントを求めています。入居者、配車担当者、請負業者で完了の定義が異なり、会社にはトリアージ時間や再訪率の基準値がありません。アーキテクトが最初に行うべきことはどれですか。","A property-management firm asks for a Claude assistant to 'eliminate maintenance backlog.' Tenants, dispatchers, and contractors use different definitions of completion, and the firm has no baseline for triage time or repeat visits. What should the architect do FIRST?",
+  ["A","各役割と現行ワークフローを可視化し、意思決定権と完了定義に合意してから、測定可能な成果と制約の基準値を取る。","Map the current workflow with each role, agree on decision rights and a completion definition, then baseline measurable outcomes and constraints.","正しい。解決対象、責任境界、現状値を先に整えることで、機能ではなく測定可能な業務成果に設計を結び付けられます。"],
+  ["B","過去チケットから自律配車を試作し、各役割に局所指標を選ばせ、試行で不一致が表面化した後に完了定義を調整する。","Prototype autonomous dispatch from historical tickets, let each role select locally useful metrics, and reconcile completion definitions after the pilot reveals disagreements.","誤り。試作で論点を発見する方法はあり得ますが、権限と完了定義を決めずに自律配車と局所指標を先行させる順序では、全体の滞留や再訪を悪化させ得ます。"],
+  ["C","最速モデルを選び、初回リリースでは平均チケット経過日数だけを成功指標にする。","Select the fastest model and use average ticket age as the single success metric for the first release.","誤り。モデル選定が発見に先行しており、平均値だけでは緊急案件、品質、再訪、役割間の完了差を捉えられません。"],
+  ["D","経営陣に自動化率目標を設定してもらい、その目標からワークフローと承認統制を導く。","Ask executives to set an automation percentage target, then derive the workflow and approval controls from that target.","誤り。自動化率は手段であり、業務成果やリスク境界を定義しません。現場の意思決定と現状測定を先に確認する必要があります。"],
+  ["A"]],
+[26,6,1,"Communicating architecture trade-offs","病院委員会は、すべての紹介状に高能力モデルを使う案と、項目抽出には高速モデル、曖昧な臨床要約には高能力モデルを使うタスク別ルーティング案を比較しています。臨床側は欠落、運用側はp95レイテンシ、財務側は費用を重視します。アーキテクトは判断をどう提示すべきですか。","A hospital committee must choose between one high-capability model for all referral letters and task routing that uses a faster model for field extraction while reserving the stronger model for ambiguous clinical summaries. Clinicians emphasize omissions; operations emphasizes p95 latency; finance emphasizes spend. How should the architect present the decision?",
+  ["A","統一構成になる単一の高能力モデルを推奨し、導入後に欠落率、p95レイテンシ、費用を測って単純な設計が妥当だったか確認する。","Recommend the single stronger model for its uniform architecture, then measure omission rates, p95 latency, and spend after rollout to confirm that the simpler design was acceptable.","誤り。単純性は利点で、導入後の測定も必要ですが、患者影響のある欠落やp95条件を本番前に方式間で比較せず先に決定する順序が不適切です。"],
+  ["B","抽出は構造的に単純なのでルーティングを推奨し、遅延と欠落の試験は展開後に回す。","Recommend routing because extraction is structurally simpler, and defer latency and omission testing until after deployment.","誤り。妥当な仮説でも、患者影響のある欠落とSLAを本番前に代表データで検証しない順序が不適切です。"],
+  ["C","モデルのベンチマーク得点と単価を示し、財務部門に単一の加重得点へ変換してもらう。","Show model benchmark scores and unit prices, then let finance convert them into a single weighted score for the committee.","誤り。一般ベンチマークと価格だけでは実タスクの欠落率やp95遅延を示せず、臨床・運用の判断基準も財務へ偏ります。"],
+  ["D","合意した欠落率・p95閾値に対するタスク別評価、総費用、ルーティング障害モード、元に戻せる導入計画を提示する。","Present task-level evaluation results against agreed omission and p95 thresholds, total cost, routing failure modes, and a reversible rollout plan.","正しい。各関係者の懸念を共通の測定可能な比較へ変換し、方式ごとのリスクと可逆性まで示すため、判断可能なトレードオフ説明になります。"],
+  ["D"]],
+[27,6,2,"SLA design and production feedback loops","多言語の自治体給付アシスタントが本番移行します。コンテンツは毎週再公開され、住民は回答に異議申立てできます。パイロットでは稼働率と平均遅延だけを報告しています。実行可能なSLAとフィードバックループを作る追加事項を2つ選択してください。","A multilingual municipal-benefits assistant is entering production. Content is republished weekly, and residents may appeal answers. The pilot reports only uptime and average latency. Which TWO additions create an actionable SLA and feedback loop? Select TWO.",
+  ["A","言語別の月次満足度目標を設定し、未達時に製品担当者がコメントを確認して、プロンプト変更の結果を四半期ごとに公表する。","Set monthly satisfaction targets by language, ask product staff to review comments after a miss, and publish a quarterly summary of resulting prompt changes.","誤り。言語別満足度とコメント確認は有用ですが、回答・引用品質、鮮度、裾の遅延を直接測らず、原因が検索や翻訳でもプロンプト変更に寄せています。"],
+  ["B","言語別の回答・引用品質の下限、p95レイテンシ目標、公開から索引反映までの最大鮮度遅延を定義する。","Define language-segmented answer and citation quality floors, a p95 latency objective, and a maximum publication-to-index freshness delay for each supported language.","正しい。利用者品質、裾の応答時間、週次更新という主要なサービス特性を測定可能な閾値へ変換しています。"],
+  ["C","異議申立てを検索、生成、翻訳、情報鮮度の原因別に分類し、責任者を割り当て、確認済み事例を回帰試験へ追加する。","Classify appeals by retrieval, generation, translation, and source-freshness cause, assign owners, and feed confirmed cases into regression tests by supported language.","正しい。本番フィードバックを原因・責任・再発防止テストへ結び付けるため、継続改善可能な閉ループになります。"],
+  ["D","言語別モデル品質スコアを四半期ごとに公表し、未達時はプロンプトを全面改訂して、個別の障害責任者を置く前に次四半期と比較する。","Publish a quarterly model-quality score by language, schedule a full prompt rewrite below target, and compare the next quarter before assigning separate incident owners.","誤り。言語別集計でも四半期単位では対応が遅く、原因分類や責任者割当てより先に全面改訂するため、検索・鮮度・翻訳の問題へ誤った層と順序で対処します。"],
+  ["B","C"]],
+[28,6,1,"Production handoff and lifecycle ownership","物流予測コパイロットをベンダーチームから顧客の基盤グループへ移管します。サービスは版管理されたプロンプト、索引再構築ジョブ、フォールバック規則、人間へのエスカレーションキューを使用しています。安全な運用と改善を維持しやすい引継ぎはどれですか。","A logistics forecasting copilot is moving from a vendor team to the customer's platform group. The service uses versioned prompts, an index rebuild job, fallback rules, and a human escalation queue. What handoff is MOST likely to preserve safe operation and improvement?",
+  ["A","版管理された構成・評価基準・運用復旧手順・ダッシュボード・責任者を引き継ぎ、共同リハーサルを行う。","Transfer versioned architecture and configuration, evaluation baselines, runbooks and rollback steps, dashboards, access ownership, and a joint rehearsal with named owners.","正しい。成果物だけでなく、判断基準、復旧手順、アクセス、責任者、実地確認まで移すため、運用と改善の継続性を確保できます。"],
+  ["B","リポジトリ、展開マニフェスト、録画デモを渡す一方、索引再構築、プロンプト公開、緊急ロールバック権限は6か月間ベンダー側に残す。","Transfer the repository, deployment manifest, and a recorded demonstration, while retaining index rebuilds, prompt releases, and emergency rollback authority with the vendor for six months.","誤り。成果物と暫定支援は役立ちますが、索引・プロンプト・復旧の所有権をベンダーに残すと、顧客が安全な運用と改善判断を完結できません。"],
+  ["C","最終アーキテクチャ図と現行SLAを渡し、顧客には本番障害を観察した後で独自の運用手順を作ってもらう。","Provide the final architecture diagram and current SLA, then have the customer create its own runbooks after observing production incidents.","誤り。障害後に手順を整える順序では、安全な復旧、ロールバック、エスカレーションが未準備のまま本番責任を負わせます。"],
+  ["D","運用認証情報を共有緊急アカウントに保持し、両チームに非公式チャットで変更を調整してもらう。","Keep operational credentials in a shared emergency account and ask both teams to coordinate changes through an informal chat channel.","誤り。共有資格情報と非公式変更管理は責任追跡、最小権限、監査可能性を弱め、移管後の所有権も曖昧にします。"],
+  ["A"]],
+[29,7,1,"Claude Code team configuration and shared development context","ある会社が多数のリポジトリへClaude Codeを展開します。セキュリティ上、本番認証情報へアクセスするシェルコマンドを全開発者で禁止する必要があり、各リポジトリには固有のテストコマンドとアーキテクチャ規約が必要です。最適な構成はどれですか。","A company is rolling out Claude Code across many repositories. Security requires that shell commands accessing production credentials be blocked for every developer, while each repository needs its own test commands and architecture conventions. Which configuration is BEST?",
+  ["A","コマンド禁止、承認済みシェル例、リポジトリ規約を各プロジェクトのCLAUDE.mdに置き、プルリクエスト承認とコマンドログ監査を必須にする。","Put the command prohibition, approved shell examples, and repository conventions in each project's CLAUDE.md, require pull-request review, and audit violations from command logs.","誤り。レビューとログ監査を加えても、CLAUDE.mdはモデルへの共有指示であり、全開発者に対する決定論的なコマンド拒否を中央で強制できません。"],
+  ["B","コマンド拒否を中央管理設定で強制し、版管理されたテスト・アーキテクチャ指針は各リポジトリのCLAUDE.mdまたはrulesに置く。","Enforce the command denial in centrally managed settings, and keep versioned test and architecture guidance in each repository's CLAUDE.md or rules.","正しい。組織共通の強制統制と、チーム共有のプロジェクト文脈を適切なスコープと層へ分離しています。"],
+  ["C","すべての指示を各開発者のユーザーレベルCLAUDE.mdに保存し、リポジトリ作成時にテンプレートを配布する。","Store all instructions in each developer's user-level CLAUDE.md and distribute a template when a repository is created.","誤り。個人スコープでは組織統制の強制とリポジトリ別の一貫した版管理が難しく、時間とともに構成が分岐します。"],
+  ["D","禁止、テスト、アーキテクチャを1つの組織共通CLAUDE.mdに置き、競合回避のためリポジトリ単位の指示を廃止する。","Use one organization-wide CLAUDE.md for prohibitions, tests, and architecture, and remove repository-level instructions to avoid conflicts.","誤り。共通指示には適しますが、リポジトリ固有のコマンドと設計文脈まで中央へ集約すると保守性と関連性が下がります。"],
+  ["B"]],
+[30,7,2,"Claude Code debugging and operational enablement","データベース書込みを止める共有Claude Code PreToolUseフックがあります。更新後、Windowsでは読取り専用コマンドも遮断しますがLinuxでは正常で、一部ユーザーは特定worktreeでフック自体が読み込まれないと報告しています。支援チームが最初に行うべき対応を2つ選択してください。","A shared Claude Code PreToolUse hook blocks database writes. After an update, it blocks read-only commands on Windows but behaves correctly on Linux; some users also report that the hook is not loaded from certain worktrees. Which TWO actions should the enablement team take first? Select TWO.",
+  ["A","Windows利用者には一時的にフックを回避させ、読取り専用DBアカウントに制限し、全コマンド試行を中央記録して次回定期リリース後に復旧する。","Let Windows users bypass the hook temporarily, restrict them to read-only database accounts, log all attempted commands centrally, and restore the hook after the next routine release.","誤り。読取り専用権限と監査は有効な防御層ですが、共有統制の回避を継続し、未読込みやOS別誤判定の根本原因を先に切り分けない順序です。"],
+  ["B","フックを詳細なCLAUDE.md警告へ置き換え、各シェルの承認済みコマンド例を追加し、指示を無視した書込みがないかDB監査ログを毎週確認する。","Replace the hook with detailed CLAUDE.md warnings, add approved command examples for each shell, and review database audit logs weekly for writes that ignored the guidance.","誤り。例示と監査は補助策ですが、決定論的な実行前遮断をモデル指示と事後検知へ弱めるため、書込みを止める統制要件を満たしません。"],
+  ["C","Claude Codeの構成診断とフック入力ログを使い、失敗例と正常例で読み込まれた設定ソース、matcher選択、ペイロードを比較する。","Use Claude Code configuration diagnostics and hook input logs to compare loaded setting sources, matcher selection, and payloads in failing and working cases.","正しい。未読込みと誤判定を推測せず、スコープ・設定解決・実入力のどこで差が生じるかを切り分けられます。"],
+  ["D","読取り・書込みコマンドのクロスプラットフォームfixtureを追加し、必要に応じOS別の明示的シェル実装を使い、ロールバック手順付きで修正版を段階導入する。","Add cross-platform fixtures for read/write commands, use an explicit shell implementation per OS where needed, and stage the fixed hook with rollback guidance.","正しい。再現試験で誤検知を防ぎ、OS差を明示し、安全な段階展開と復旧を可能にする運用改善です。"],
+  ["C","D"]],
+[31,1,1,"Translate business problems into Claude-based AI solutions","買収チームは一度に1件、350ページの契約書束を審査します。各束は選択モデルのコンテキストに十分収まり、離れた条項の比較質問が多く、審査者は正確な箇所への組込み引用を必要とします。件数は少なく、1リクエスト費用より検索漏れの最小化を重視します。最適な初期設計はどれですか。","An acquisition team reviews one 350-page contract bundle at a time. Each bundle fits comfortably in the chosen model's context window, questions often compare distant clauses, and reviewers require built-in citations to exact passages. Volume is low, and minimizing retrieval omissions matters more than per-request cost. Which initial design is BEST?",
+  ["A","契約書束全体を引用可能な文書として渡し、送信前にトークンを数え、RAG追加前に条項横断の再現率を評価する。","Provide the complete bundle as citable document content, count tokens before submission, and evaluate cross-clause recall before adding retrieval.","正しい。資料が収まり低件数で検索漏れを重視するため、まず長文コンテキストと組込み引用を使う最小構成が適合します。トークン計数で余白も確認できます。"],
+  ["B","固定長チャンクのベクトル検索だけでRAGを構築し、定数件を取得して費用を予測可能にし、条項横断の漏れが報告された後で再ランキングを追加する。","Build vector-only RAG with fixed-size chunks, retrieve a constant number of passages for predictable cost, and add a reranker only after reviewers report missed cross-clause comparisons.","誤り。費用予測と段階導入には利点がありますが、明示的に検索漏れを最小化したい状況で、既知の条項横断リスクを本番報告後まで残す順序が不適切です。"],
+  ["C","過去契約でモデルを微調整し、現行の束を渡さずプレーンテキストで節番号を出させる。","Fine-tune a model on prior contracts and request section numbers in plain text instead of passing the current bundle.","誤り。案件固有の現行契約を学習済み知識へ置換できず、組込み引用の検証可能性も失います。"],
+  ["D","比較に十分な証拠が集まったと判断するまで各ページを反復検索するエージェントを作る。","Create an agent that searches each page iteratively until it decides enough evidence has been collected for the comparison.","誤り。実現可能ですが、固定資料が収まる状況では検索停止判断とツールループを追加する過剰設計で、漏れを減らす保証もありません。"],
+  ["A"]],
+[32,1,2,"Design end-to-end architectures","あるメディア基盤はClaudeで2つの機能を必要とします。受信クリップのタグ付けはラベル精度97%以上かつp95 700ms以内、編集リスク概要は専門家受入率94%以上かつp95 12秒以内です。明示要件を最も満たすアーキテクチャ判断を2つ選択してください。","A media platform needs two Claude capabilities: tag incoming clips within p95 700 ms at at least 97% label accuracy, and produce editorial risk briefs within p95 12 seconds with at least 94% expert acceptance. Which TWO architecture decisions BEST satisfy the stated requirements? Select TWO.",
+  ["A","両タスクに最高能力モデルを使い、合算平均遅延が6秒になるまで同時実行数を調整し、本番トラフィック安定後にタスク別p95を確認する。","Use the highest-capability model for both tasks, tune concurrency until combined average latency reaches six seconds, and review per-task p95 results after production traffic stabilizes.","誤り。統一モデルと同時実行調整は運用を単純化しますが、合算平均は各タスクのp95を保証せず、明示閾値の検証を本番後へ回す順序も不適切です。"],
+  ["B","タスク別にモデルを評価し、タグ付けは97%を満たす最速モデルへ、概要は両方の概要閾値を満たす中で最小費用のモデルへ振り分ける。","Evaluate models separately per task and route tagging to the fastest model meeting 97%, while assigning briefs to the least costly model meeting both brief thresholds.","正しい。能力を一律に選ばず、各タスクの品質・裾遅延条件を制約として満たした上で速度または費用を最適化しています。"],
+  ["C","全クリップを1つのエージェント優先キューへ送り、項目ごとにタグ付けか概要かを選ばせ、合算キュー遅延が6秒を超えたらworkerを追加する。","Send all clips through one agentic priority queue, let it choose tagging or a risk brief per item, and add more workers whenever combined queue latency exceeds six seconds.","誤り。必要な2機能と個別閾値は既知であり、モデルによる経路選択と合算遅延基準はタスク別の品質・p95要件を曖昧にします。"],
+  ["D","入力、モデル、検証、キューの各段階を個別計測し、タスク別時間予算を強制し、閾値未達を定義済みフォールバックまたはレビュー経路へ送る。","Instrument input, model, validation, and queue stages separately, enforce per-task time budgets, and route threshold failures to defined fallback or review paths.","正しい。エンドツーエンド閾値を各処理段階と障害時経路へ落とし込み、品質とレイテンシの両方を運用可能にします。"],
+  ["B","D"]],
+[33,1,1,"Select appropriate architectural patterns (workflow, agentic, augmented LLM)","エネルギー規制当局は月次届出要約を既知の順序で作成します。所定表の解析、監査済みコードによる比率計算、固定閾値との比較、例外の分析担当承認、説明文の作成です。最も適切なアーキテクチャはどれですか。","An energy regulator produces a monthly filing summary through a known sequence: parse prescribed tables, calculate ratios with audited code, compare values to fixed thresholds, obtain analyst approval for exceptions, and draft narrative text. Which architecture is MOST appropriate?",
+  ["A","各届出の見かけ上の複雑さから計算ツール、閾値確認、承認時期を選ぶ自律エージェントを使い、その判断を後日の監査用に記録する。","Use an autonomous agent that chooses calculation tools, threshold checks, and approval timing from each filing's apparent complexity, while logging its decisions for later audit review.","誤り。判断ログは監査に役立ちますが、順序・計算・承認条件が既知なのに経路をモデル判断へ委ね、必要な決定論的統制を事後説明へ置き換えています。"],
+  ["B","解析、コード計算、閾値、承認を決定論的ワークフローにし、Claudeは抽出支援と説明文作成に限定する。","Use a deterministic workflow for parsing, code-based calculations, thresholds, and approvals, with Claude limited to extraction assistance and narrative drafting.","正しい。固定された監査可能な処理と承認をコードで強制し、非構造入力・文章生成にClaudeを使う適切な責務分離です。"],
+  ["C","過去届出をRAG検索し、最も近い例から想定処理順序をClaudeに推論させる。","Use RAG over prior filings and ask Claude to infer the expected processing order from the closest historical examples.","誤り。過去例は補助情報になっても、現在の規定順序、固定計算、承認ゲートを推論へ置き換えるべきではありません。"],
+  ["D","表ごとに専門エージェントを使い、合議投票で比率、例外、最終文面を決める。","Use specialist agents for every table and let a consensus vote determine ratios, exceptions, and final wording.","誤り。並列抽出には使えても、監査済み計算をモデル投票へ置き換え、単純な固定工程に過剰な調整を導入します。"],
+  ["B"]],
+[34,1,1,"Design multi-agent systems and orchestration strategies","災害復旧計画システムは、施設、ネットワーク依存関係、供給能力の別エージェントを使います。分析は並列実行できますが、3者は共有資産を異なる名称で参照し、最終計画ではすべての阻害依存が解消する前に復旧を予定してはなりません。最適なオーケストレーション設計はどれですか。","A disaster-recovery planner uses separate agents for facilities, network dependencies, and supplier capacity. Their analyses may run in parallel, but all three cite shared assets with different naming conventions, and the final plan must not schedule restoration before every blocking dependency is cleared. What is the BEST orchestration design?",
+  ["A","共有の資産スキーマと状態語彙を要求し、中央オーケストレーターが統合前に識別子対応と依存制約を検証する。","Require a shared asset schema and status vocabulary, then have a central orchestrator validate identity mapping and dependency constraints before synthesis.","正しい。並列専門分析を保ちながら、共通契約と決定論的検証で名称差と阻害依存を解消してから最終計画を生成できます。"],
+  ["B","各専門エージェントにローカル資産名で完全計画を書かせ、最も説得力ある案を高能力モデルに選ばせ、2者が争った依存関係だけを手動確認する。","Let every specialist write a complete plan using local asset names, ask the strongest model to select the most persuasive plan, and manually review only dependencies disputed by two agents.","誤り。競合時の確認はあっても、同一資産の名称を正規化せず一案を選ぶため、表面上は争われない他領域の阻害依存を見落とします。"],
+  ["C","エージェントを固定順に直列化し、各完全トランスクリプトを次のプロンプトへ追加して後続が競合を解消する。","Serialize the agents in a fixed order and append each full transcript to the next agent's prompt so later agents can resolve conflicts.","誤り。情報共有はできますが並列性を失い、長い非構造文脈に依存します。共有スキーマと最終制約検証の方が確実です。"],
+  ["D","各専門家にローカル資産識別子を許し、全出力で同一文字列ラベルを持つ活動だけを照合する。","Allow each specialist to use local asset identifiers and reconcile only the activities that have identical text labels in all outputs.","誤り。異なる命名規則が明示されているため、文字列一致では同一資産を結合できず、依存関係が欠落します。"],
+  ["A"]],
+[35,1,2,"Apply decomposition techniques for complex problem solving","出版社が大規模カタログをアクセシブルなデジタル版へ変換します。OCR、画像説明、メタデータ整備はタイトル単位で独立実行できますが、最終公開では巻をまたぐ参照を維持し、共通のアクセシビリティ検査表を通過する必要があります。最適な分解を2つ選択してください。","A publisher must convert a large catalog into accessible digital editions. OCR, image descriptions, and metadata cleanup can proceed independently by title, but a final release must preserve cross-volume references and pass one accessibility checklist. Which TWO decomposition choices are BEST? Select TWO.",
+  ["A","タイトルごとに安定識別子を付け、本文、画像、メタデータ、未解決参照の明示的な出力契約で作業を分割する。","Partition work by title with stable identifiers and explicit output contracts for text, images, metadata, and unresolved references.","正しい。独立処理を可能にしつつ、後段で成果を結合・検証するための境界と追跡情報を保持します。"],
+  ["B","処理技術別に分割し、各チームが保存規約に合わせてタイトルを改名し、全技術バッチ完了後に巻間参照だけを照合する。","Partition by processing technology, let each team rename titles to its storage convention, and reconcile cross-volume references only when all technical batches are complete.","誤り。技術別並列化と最終照合は可能でも、安定識別子なしの改名で成果物の結合と参照追跡が難しくなり、共通アクセシビリティ検査も欠けます。"],
+  ["C","巻間リンクを解決し、組み立て済み版に共通アクセシビリティ検査を適用する最終統合段階を設ける。","Add a final integration stage that resolves cross-volume links and applies the shared accessibility checks to assembled editions.","正しい。局所処理では保証できないカタログ横断制約と共通品質ゲートを、全体を見られる段階で検証します。"],
+  ["D","各タイトル担当が自身のアクセシビリティ検査を承認して完成分を即時公開し、全変換完了後にカタログ全体のリンク走査を行う。","Have each title worker approve its own accessibility checklist, release completed titles immediately, and run a catalog-wide link scan after the full conversion finishes.","誤り。局所チェックと後日の走査は処理量を上げますが、巻間参照と共通品質ゲートを公開前に保証するという明示要件に反します。"],
+  ["A","C"]],
+[36,1,1,"Align solutions to business value pillars","フィールドサービス組織が、設備報告書を下書きするClaudeアシスタントを提案しています。経営陣は完了時間短縮を期待しますが、技術者は既に音声テンプレートを使っており、修正時間、手戻り、報告受入率、モバイル遅延は未計測です。全車両展開前に何を推奨すべきですか。","A field-service organization proposes a Claude assistant that drafts equipment reports. Leaders expect faster closeout, but technicians already use speech templates and no one has measured correction time, rework, report acceptance, or mobile latency. What should the architect recommend before a fleet-wide rollout?",
+  ["A","全技術者へ展開し、前年の月次報告件数との比較を主要価値指標にする。","Roll out to all technicians and compare monthly report volume with the prior year as the primary value measure.","誤り。件数差は需要変動を含み、既存音声テンプレートに対する時間・品質・費用の増分効果を分離できません。"],
+  ["B","最安モデルを選び、推論費用が減れば事業価値が正になると仮定する。","Select the least expensive model and assume any reduction in inference cost produces a positive business case.","誤り。費用は価値の一部に過ぎず、品質低下による修正や手戻り、現場遅延を測らなければ純効果を判断できません。"],
+  ["C","1地域で音声テンプレートを置き換え、技術者満足度で残りの展開を判定し、定着後に修正時間、手戻り、モバイル遅延を測定する。","Replace speech templates in one region, gate the remaining rollout on technician satisfaction, and measure correction time, rework, and mobile latency only after adoption is established.","誤り。小規模試行と利用者満足度は有用ですが、効率・品質・性能を拡大判断の後に測る順序では、既存手段に対する増分価値を確認できません。"],
+  ["D","現行を基準測定して対照付き試行を行い、修正時間、受入率、手戻り、p95遅延、総費用で拡大を判定する。","Baseline the current workflow, run a controlled pilot against it, and gate scale on correction time, acceptance, rework, p95 mobile latency, and total cost.","正しい。既存手段に対する効率・品質・性能・費用の増分価値を測り、明確な拡大判断へ結び付けます。"],
+  ["D"]],
+[37,2,1,"Design system prompts, templates, and guardrails","税関受付サービスは、`route`を`AUTO_CLEAR`、`OFFICER_REVIEW`、`REJECTED_INPUT`のいずれかに限定し、管理されたカタログの理由コードを付けたJSONを出力する必要があります。下流コードは余分なフィールドを拒否します。契約を最も強く保証する設計はどれですか。","A customs intake service must emit JSON with `route` limited to `AUTO_CLEAR`, `OFFICER_REVIEW`, or `REJECTED_INPUT`, plus a reason code from a maintained catalog. Downstream code rejects extra fields. Which design BEST enforces the contract?",
+  ["A","enum、必須項目、余分なプロパティ禁止を含むJSON Schemaで構造化出力を使い、業務認可は別途検証する。","Use structured outputs with a JSON Schema containing enum values, required fields, and `additionalProperties: false`, then validate business authorization separately.","正しい。制約付きデコードで構文・許可値・余分な項目を保証しつつ、出力形式では担保できない業務認可を別層に残します。"],
+  ["B","システムプロンプトで3経路と理由カタログを説明し、JSONのみを要求し、不正オブジェクトは強い警告で再試行して、残る余分な項目を下流で拒否する。","Describe the three routes and reason catalog in the system prompt, request JSON-only output, retry invalid objects with a stronger warning, and reject any remaining extra fields downstream.","誤り。再試行と下流拒否は防御になりますが、許可値や余分な項目を生成時に制約せず、回避可能な失敗を下流へ流すためSchemaによる強制より弱い設計です。"],
+  ["C","説明に経路一覧を記載したツールを定義し、カタログ更新を簡単にするため入力スキーマは自由文字列にする。","Define a tool whose description lists the routes, but leave the input schema as free-form strings to simplify catalog updates.","誤り。説明はモデル選択を助けても自由文字列では許可値を強制できず、明示された契約要件に届きません。"],
+  ["D","第2モデルに経路名の正規化と未知フィールド削除を行わせてから下流へ送る。","Ask a second model to normalize route names and remove unknown fields before sending the object downstream.","誤り。補正段階を追加しても同じ非決定性を重ねます。JSON Schemaで直接制約し、業務検証をコードで行う方が単純で強固です。"],
+  ["A"]],
+[38,2,1,"Apply prompt engineering techniques (zero-shot, few-shot, chain-of-thought)","博物館アシスタントは来館者の質問を8つのツアー意図へ分類します。ゼロショット指示は6意図で機能しますが、`ACCESSIBILITY_ROUTE`と`LOW_WALKING_ROUTE`を繰り返し混同し、学芸員には違いを示すレビュー済み例があります。次のプロンプト変更として最適なのはどれですか。","A museum assistant maps visitor questions to one of eight tour intents. Zero-shot instructions work for six intents, but repeatedly confuse `ACCESSIBILITY_ROUTE` with `LOW_WALKING_ROUTE`; curators have several reviewed examples that expose the distinction. What is the BEST next prompt change?",
+  ["A","8意図すべての一般定義を拡張し、よくある来館者表現の確認表を追加して、各クラスを均等に扱うためレビュー済み例は除く。","Expand the generic definitions for all eight intents, add a checklist of common visitor phrases, and remove reviewed examples so every class remains equally represented in the prompt.","誤り。全クラスの一般説明は均一ですが、失敗が特定境界に集中し、その違いを示す良質な例があるため、境界例を除くと低信号な文脈だけが増えます。"],
+  ["B","混同する組について、実運用と同じラベル・出力形式を使った均衡の取れた少数の境界例を追加する。","Add a small set of balanced boundary examples for the confused pair, with the same labels and output format used in production.","正しい。観測された識別境界を直接示すfew-shot例により、他の6意図を不要に変更せず分類規則を具体化できます。"],
+  ["C","各ラベルの前に詳細な思考過程を要求し、説明の長さで正しさを評価する。","Request a detailed chain-of-thought explanation before every label and score correctness from the explanation length.","誤り。説明量は分類正確性の代理にならず、レイテンシとトークンを増やします。境界例の方が既知の失敗へ直接的です。"],
+  ["D","2つの意図を1つの統合ラベルへ送り、分類後に毎回スタッフが分離する。","Route both intents to one combined label and ask staff to separate them manually after every classification.","誤り。暫定フォールバックとしては可能ですが、利用可能なレビュー済み例を使った改善を試さず、継続的な手作業を導入します。"],
+  ["B"]],
+[39,2,2,"Implement prompt reuse strategies (caching, modular prompts, Skills)","あるコンサル組織は、多数のClaude Codeプロジェクトで使うレビュー済みデューデリジェンス手法を管理しています。手法は毎月更新され、各プロジェクトは顧客固有コマンドを追加し、セッションでは同じ長い参照資料を繰り返し読み込みます。統制された再利用と効率的な文脈利用を最も支える方法を2つ選択してください。","A consulting organization maintains a reviewed due-diligence method used by many Claude Code projects. The method changes monthly; each project adds client-specific commands, and sessions repeatedly load the same long reference material. Which TWO practices BEST support governed reuse and efficient context use? Select TWO.",
+  ["A","完全な手法と参照付録を各プロジェクトのCLAUDE.mdへコピーし、月次改訂番号を固定して、中央更新は各チームの通常リリース時に取り込む。","Copy the complete method and reference appendix into every project's CLAUDE.md, pin a monthly revision number, and let teams merge central updates during their normal release cycle.","誤り。改訂番号で追跡できても、複製により更新時期と内容が分岐し、長い資料を必要性に関係なく各セッションへ読み込ませます。"],
+  ["B","手法とキャッシュ済み参照を含む共有会話を1つ維持し、各プロジェクトの顧客コマンドを追記させ、月次改訂ごとに会話をアーカイブする。","Maintain one shared conversation transcript containing the method and cached references, require projects to append client commands there, and archive the transcript after each monthly revision.","誤り。月次アーカイブをしても変更管理とプロジェクト分離が弱く、増え続ける会話に無関係な文脈や顧客固有情報が混在します。"],
+  ["C","レビュー済み手法を版管理された共有Skillとして配布し、顧客固有コマンドと制約はプロジェクトスコープ設定に置く。","Package the reviewed method as a versioned shared Skill with explicit change ownership, while keeping client-specific commands and constraints in project-scoped configuration.","正しい。再利用可能な標準手順と局所文脈を分離し、中央更新、版追跡、適切なスコープを両立します。"],
+  ["D","安定した共有参照ブロックを可変プロジェクト入力より前に置いてプロンプトキャッシュを使い、更新後のcache-read利用と無効化を監視する。","Place stable shared reference blocks before variable project input and use prompt caching, monitoring cache-read usage and invalidation after updates across representative workloads.","正しい。繰り返す静的prefixを再利用し、更新時のキャッシュ変化も観測するため、内容を削らず費用と処理時間を改善できます。"],
+  ["C","D"]],
+[40,2,1,"Optimise context windows and manage token usage","医薬品安全性アシスタントは検索した報告から引用付き症例概要を作ります。現在のリクエストはしばしばコンテキスト上限へ近づき、重複定型文35%、検索証拠45%、指示とスキーマ10%を消費し、概要と引用ブロックの出力余地が不足します。最適な再設計はどれですか。","A pharmacovigilance assistant prepares a cited case brief from retrieved reports. The current request often approaches the context limit: duplicated boilerplate consumes 35%, retrieved evidence 45%, instructions and schemas 10%, leaving too little output space for the brief and citation blocks. Which redesign is BEST?",
+  ["A","入力を変えず`max_tokens`を下げ、APIがコンテキスト上限を超えないようにする。","Keep all input unchanged and lower `max_tokens` so the API never exceeds the context window.","誤り。要求自体は収まっても、既に不足している本文と引用の出力予算をさらに削り、切れた回答を増やします。"],
+  ["B","報告識別子と引用箇所を削除して題名と日付だけを残し、概要生成後に第2モデルへ引用文を再構成させて入力トークンを節約する。","Remove report identifiers and cited passages, retain only report titles and dates, then ask a second model to reconstruct citation text after the brief has been generated.","誤り。入力は縮小できますが、証拠との対応と引用対象本文を失い、第2モデルによる後付け推測へ置き換えるため、検証可能な引用要件を損ないます。"],
+  ["C","定型文を重複排除し、症例関連証拠を再ランキングし、引用境界を保ち、トークンを数えて出力余地を確保する。","Deduplicate boilerplate, rerank case-relevant evidence, preserve citable source boundaries, count tokens, and reserve output space for the final brief.","正しい。低価値の重複と検索ノイズを削りつつ出典単位を保持し、入力と出力を事前計測して引用付き概要の余白を確保します。"],
+  ["D","リクエスト前に全報告を1つの引用なし段落へ要約し、最終モデルにはその段落だけを渡す。","Summarize every report into one uncited paragraph before the request and provide only that paragraph to the final model.","誤り。大幅に圧縮できますが、症例ごとの根拠境界と引用対象テキストを失うため、引用要件を満たせません。"],
+  ["C"]],
+[41,3,1,"Design a RAG pipeline with appropriate chunking and indexing strategies","博物館アーカイブの再索引後、RAGアシスタントが新規展示の日付を誤答します。失敗質問では期待箇所がtop-20検索結果に含まれず、技術者がその箇所を手動でプロンプトへ入れるとClaudeは正しい引用付きで回答します。チームが最初に行うべきことはどれですか。","After a museum archive re-index, its RAG assistant gives incorrect dates for newly added exhibits. For failed questions, the expected passage is absent from top-20 retrieval; when engineers manually insert that passage into the prompt, Claude answers correctly with the right citation. What should the team do FIRST?",
+  ["A","日付の正確性を強調するよう回答生成プロンプトを書き換え、モデルの出力トークン予算を増やす。","Rewrite the answer-generation prompt to emphasize date accuracy and increase the model's output-token budget.","誤り。正しい箇所を渡すと生成は成功しており、出力予算も原因ではありません。生成層の変更は観測証拠と合いません。"],
+  ["B","すべてのリクエストを最高能力モデルへ切り替え、他の箇所から欠落日付を推論できるか比較する。","Switch every request to the highest-capability model and compare whether it can infer the missing dates from other passages.","誤り。必要な根拠が検索されていない問題を推論能力で補うと、費用を増やしつつ根拠のない回答を助長します。"],
+  ["C","日付精度を批評する第2生成パスへ同じtop-20箇所を渡し、不一致は審査者へ回す一方、取込みと検索設定は変更しない。","Add a second generation pass that critiques date accuracy, provide it the same top-20 passages, and escalate disagreements to a reviewer while leaving ingestion and retrieval unchanged.","誤り。批評と人間確認は誤答検知に使えますが、両モデルに期待箇所が渡らないため既知の検索失敗を解消せず、不要な遅延と作業を追加します。"],
+  ["D","生成を変更する前に、新規展示の取込み網羅性、メタデータフィルター、チャンク境界、埋め込み版整合性、検索再現率を調査する。","Inspect ingestion coverage, metadata filters, chunk boundaries, embedding/version consistency, and retrieval recall for the new exhibits before changing generation.","正しい。手動で根拠を与えると生成が成功し、top-20に根拠がないため、最初に検索・索引工程を切り分けるべきです。"],
+  ["D"]],
+[42,3,2,"Apply retrieval strategies matched to data shape and query pattern","サービスデスク支援は8万件の短いランブックを検索します。`E7-19-F`のような正確なエラー署名を見つける必要がある一方、症状説明はランブックと異なる語彙を使います。コーパス全体をClaudeへ送らずに両方の検索パターンへ対処する変更を2つ選択してください。","A service-desk assistant searches 80,000 short runbooks. Exact error signatures such as `E7-19-F` must be found, while symptom descriptions use vocabulary different from the runbooks. Which TWO retrieval changes best address both query patterns without sending the whole corpus to Claude? Select TWO.",
+  ["A","字句検索と埋め込み検索を併用し、統合候補を再ランキングする。","Combine lexical and embedding retrieval, then rerank the merged candidates.","正しい。字句検索が希少な署名を、埋め込み検索が語彙差のある意味的対応を補い、再ランキングで統合候補を絞れます。"],
+  ["B","チャンク内のエラーコードと見出しを保持し、製品・版のメタデータフィルターを付ける。","Preserve error codes and headings in chunks and attach product/version metadata filters.","正しい。識別子を分断せず保持し、明示的な製品・版で候補集合を制約するため、検索精度とコンテキスト効率が上がります。"],
+  ["C","全製品系列が現れるまで埋め込み検索のtop-kを増やし、無関係な候補はClaudeに除外させる。","Increase embedding top-k until every product family appears, then let Claude discard irrelevant candidates.","誤り。製品横断の網羅性には使えますが、正確な署名の字句一致を保証せず、候補選別とコンテキスト消費を増やします。"],
+  ["D","全ランブックの要約を事前生成してシステムプロンプトへ置き、詳細な付録だけを検索する。","Precompute summaries for every runbook, place them in the system prompt, and retrieve only detailed appendices.","誤り。要約の事前生成は可能でも、8万件を常時コンテキストへ入れるため予算制約に反し、正確な署名も失われ得ます。"],
+  ["A","B"]],
+[43,3,1,"Apply retrieval strategies matched to data shape and query pattern","法務支援が、指定された3契約の保存条項を比較します。単一の広い検索では最長の契約から多数の文章が返り、別の契約が欠落しがちです。最適な検索計画はどれですか。","A legal assistant must compare retention clauses across three named contracts. A single broad search often returns many passages from the longest contract and none from another. What is the best retrieval plan?",
+  ["A","契約ごと・条項種別ごとに絞って検索し、ラベル付き証拠集合をClaudeへ渡して比較させる。","Run a scoped retrieval for each contract and clause type, then give Claude the labeled evidence set for comparison.","正しい。各対象から証拠を確保してから生成へ渡すため、長い契約による候補独占を防ぎ、比較の対応関係も明確です。"],
+  ["B","全体top-kを増やし、返却後に文章を契約別に分類して、欠けた契約をClaudeに特定させる。","Raise global top-k, group returned passages by contract afterward, and ask Claude to identify any missing contract.","誤り。事後分類は整理に役立ちますが、最長契約による候補独占を防げず、欠けた契約の証拠を生成できません。"],
+  ["C","各契約全文を別々に要約し、条項種別のラベルを付け、以後の比較ではその要約だけを再利用する。","Summarize each complete contract separately, label the summaries by clause type, and reuse only those summaries for comparisons.","誤り。契約別の被覆は確保できますが、質問固有の条項や例外を要約時に失い、根拠箇所を再検索できません。"],
+  ["D","各契約を文書単位の1ベクトルにし、各契約から比較項目が1件ずつ出るよう3件の結果を要求する。","Embed each contract as one document-level vector and request three results so each contract can contribute one comparison item.","誤り。文書単位の埋め込みは局所条項を薄め、結果数を3件にしても各契約が1件ずつ返る保証はありません。"],
+  ["A"]],
+[44,3,1,"Evaluate connection protocols and select the appropriate integration mechanism (MCP, API/CLI, agent-to-agent)","夜間の税率取込処理は、管理されたバッチジョブから版管理済みの政府エンドポイントを1つ呼びます。インターフェースは安定し、モデルが操作を選ぶことはなく、配備方針は常駐統合サーバーを禁止します。最も適合する仕組みはどれですか。","A nightly tax-rate loader calls one versioned government endpoint from a controlled batch job. The interface is stable, no model chooses operations, and deployment policy prohibits a long-lived integration server. Which mechanism best fits?",
+  ["A","エンドポイントを発見可能なMCPサーバーで包み、夜間実行のたびに使える常駐統合プロセスとして運用する。","Wrap the endpoint in a discoverable MCP server and keep that integration process available for every nightly run.","誤り。MCPの発見性は複数操作をモデルが選ぶ場合に有用ですが、この固定バッチには不要な常駐層で、配備制約にも反します。"],
+  ["B","バッチジョブから文書化されたAPIを直接呼び、上限付き再試行と冪等な保存を行う。","Call the documented API directly from the batch job with bounded retries and idempotent persistence.","正しい。固定された単一操作には直接APIが最小の統合面であり、再試行と冪等性が夜間処理の運用要件を満たします。"],
+  ["C","各取込を別エージェントへ委任し、実行時にエンドポイント版、出力形式、再試行動作を交渉させる。","Delegate each load to a separate agent that negotiates the endpoint version, output format, and retry behavior at runtime.","誤り。動的な交渉が必要な連携には適しますが、安定した単一APIの決定的処理へ不確実性と障害点を加えます。"],
+  ["D","権限を制限した定期シェルコマンドをClaudeへ公開し、モデルに毎晩ローダーを起動させる。","Expose a scheduled shell command to Claude, restrict its permissions, and have the model launch the loader nightly.","誤り。権限制限は有用でも、モデル判断を不要なスケジュール処理へ導入し、直接APIより再現性を悪化させます。"],
+  ["B"]],
+[45,3,2,"Analyse authentication and authorisation requirements to identify security gaps","MCPサーバーは分析担当者に承認済みデータセットの読取とエクスポート申請を提供します。任意の社内アクセストークンを受け入れ、同じトークンをオブジェクトストレージへ転送し、署名済み利用者を確認せず`owner`引数で出力先を決めます。最初に修正すべきセキュリティ上の欠陥を2つ選択してください。","An MCP server lets analysts read approved datasets and request exports. It accepts any corporate access token, forwards that same token to object storage, and an `owner` argument determines the export folder without checking the signed-in analyst. Which TWO security gaps should be fixed first? Select TWO.",
+  ["A","受信トークンがMCPサーバー向けのaudienceを持つことを検証し、下流には別の資格情報を使う。","Validate that the inbound token is audience-bound to the MCP server and use a separate downstream credential.","正しい。MCPサーバーは自分向けのトークンだけを受け入れ、下流へトークンをそのまま渡さないことで信頼境界を保つ必要があります。"],
+  ["B","認可遅延を減らすため、audienceと利用者別の成功したトークン検査結果を長期間キャッシュする。","Cache successful token introspection by audience and user for longer periods to reduce authorization latency on repeated exports.","誤り。適切なaudience検証後の性能策にはなりますが、現状の不検証とトークン転送を修正せず、失効反映も遅らせます。"],
+  ["C","`owner`を`requested_owner`へ改名し、社内利用者名だけを許すスキーマで不正形式を拒否する。","Rename `owner` to `requested_owner`, constrain its schema to corporate usernames, and reject values with invalid syntax.","誤り。入力形式の検証は必要でも、正しい形式の別利用者名を指定できるため、呼出主体とのオブジェクト単位認可になりません。"],
+  ["D","モデルが渡す所有者を信頼せず、認証主体から出力先を導出するか権限を検証する。","Derive or authorize the destination from the authenticated principal instead of trusting the model-supplied owner.","正しい。オブジェクト単位認可をサーバー側で強制し、引数改ざんによる他者領域への出力を防ぎます。"],
+  ["A","D"]],
+[46,3,1,"Analyse observability challenges and select monitoring strategies at scale","保険請求エージェントは平均レイテンシ目標を満たしますが、文書ツールが再試行する場合だけp99が急増します。現行ログは要求全体時間と最終状態だけを記録し、ツールは別チームが管理しています。最も有用な可観測性変更はどれですか。","A claims agent meets average latency targets, but p99 spikes only when a document tool retries. Current logs record total request time and final status, while the tool is managed by another team. Which observability change is most useful?",
+  ["A","遅い要求のプロンプトと応答全文を記録し、内容量を要求全体の経過時間および最終状態と関連付ける。","Log complete prompts and responses for slow requests, then correlate content size with request-level elapsed time and final status.","誤り。内容量との相関分析はできますが、再試行ごとの待ち時間や別チームとの境界を分解できず、機密情報も増やします。"],
+  ["B","日次トークン総量、モデル遅延、最終エラー件数、要求量を、選択モデル別にまとめたダッシュボードを作る。","Build a daily dashboard of token totals, model latency, final error counts, and request volume grouped by selected model.","誤り。モデル別の費用・傾向には有用ですが、文書ツール内部の再試行とテール遅延の構成要素を特定できません。"],
+  ["C","相関IDを伝播し、試行ごとにキュー・ネットワーク・実行時間、再試行理由、秘匿化した状態属性を持つspanを出す。","Propagate a correlation ID and emit per-attempt spans with queue, network, execution, retry reason, and redacted status attributes.","正しい。要求をチーム境界越しに追跡し、p99を構成する各段階と再試行を直接切り分けられます。"],
+  ["D","最終失敗は完全なトレースを保持し、再試行後に成功した要求は全体時間とツール名だけを保存する。","Retain full traces for final failures, but store only total duration and tool name when a retried request eventually succeeds.","誤り。保存量は抑えられますが、今回問題となる最終成功要求から試行別情報を落とし、p99急増の原因を観測できません。"],
+  ["C"]],
+[47,4,1,"Define evaluation metrics (accuracy, latency, cost, safety, security)","発注書抽出はフィールド単位で99.1%正確です。通貨または仕入先口座の誤りは高額誤送金につながる一方、任意メモの影響は低いです。最適なリリース基準はどれですか。","A purchase-order extractor is 99.1% accurate per field. A wrong currency or supplier account can cause a large payment, while optional notes are low impact. Which release criterion is best?",
+  ["A","全フィールドが分母へ同等に寄与するため、総合精度が99%を超えたらリリースする。","Release when aggregate field accuracy exceeds 99%, because all fields contribute equally to the denominator.","誤り。多数の低リスク項目が重大項目の失敗を隠し、業務損失を反映しません。"],
+  ["B","重大項目と任意項目を含む全テスト文書で完全一致するまで、監視付きの限定配備も認めない。","Require exact match on every critical and optional field in every test document before allowing even a limited monitored deployment.","誤り。最大限安全な基準ですが、低影響の任意項目までゼロ欠陥を求め、リスクに応じた人手確認や段階導入を不必要に排除します。"],
+  ["C","レビュー担当者が注文全体を確認するため、満足度と平均修正時間をリリース判定に使う。","Use reviewer satisfaction plus average correction time as the release gate because reviewers inspect each complete purchase order.","誤り。運用負荷の指標にはなりますが、低頻度で重大な通貨・口座誤りの個別閾値や停止条件になりません。"],
+  ["D","重大フィールドには個別の高い閾値と人手レビュー条件を置き、総合品質・遅延・コストのガードレールも設ける。","Set separate high thresholds and human-review triggers for critical fields, plus aggregate quality, latency, and cost guardrails.","正しい。リスクを重要項目へ対応付けつつ、運用品質を多次元で判定できる受入基準です。"],
+  ["D"]],
+[48,4,2,"Design evaluation datasets and test frameworks using mixed methodologies","多言語の出張規程支援は、検索元と同じハンドブックから生成した合成・単一ターン質問だけで評価されています。本番にはスキャンされた改訂、曖昧な追質問、地域例外があります。リリース信頼度を最も高めるデータセット変更を2つ選択してください。","A multilingual travel-policy assistant is evaluated only with synthetic, single-turn questions generated from the same handbook used for retrieval. Production includes scanned amendments, ambiguous follow-ups, and regional exceptions. Which TWO dataset changes most improve release confidence? Select TWO.",
+  ["A","同じハンドブックから多言語の言い換えを追加し、規程段落と言語ごとの質問数を均等にする。","Generate additional multilingual paraphrases from the same handbook and balance question counts across policy paragraphs and languages.","誤り。資料内の被覆と多言語バランスは改善しますが、同一資料由来の合成偏りやスキャン・追質問の本番分布を解消しません。"],
+  ["B","言語・地域・スキャン品質・会話パターンで層化した、匿名化済みの本番類似事例を加える。","Add carefully de-identified production-like cases stratified by language, region, scan quality, and multi-turn conversation pattern.","正しい。本番分布と重要な部分集団を明示的に覆い、平均値で隠れる失敗を測定できます。"],
+  ["C","競合する改訂、根拠のない回答、確認質問が必要な場合について、専門家ラベル付き難例を作る。","Create expert-labeled multilingual adversarial cases for conflicting amendments, unsupported answers, and cases requiring clarification.","正しい。高リスク境界と望ましい棄権・確認動作を評価でき、単純な正答一致を超えた安全性を検証します。"],
+  ["D","全言語で校正した単一LLM判定を使い、一部だけ人手監査を残して、それ以外の専門家ラベルを置き換える。","Use one calibrated LLM judge for every language, retain a small human audit sample, and replace the remaining expert labels.","誤り。採点拡張には有用でも、地域例外や競合改訂の基準を十分な専門家ラベルなしで置換すると判定偏りを固定化します。"],
+  ["B","C"]],
+[49,4,1,"Conduct A/B testing and iterative improvements","低コストモデルのA/Bテストでは、タスク成功率が事前登録した非劣性マージン内で、コストは28%減りましたが、p95遅延が合意済みガードレールを420ms超過しました。差は統計的に信頼できます。チームはどうすべきですか。","An A/B test of a cheaper model keeps task success within the pre-registered non-inferiority margin and cuts cost 28%, but its p95 latency exceeds the agreed guardrail by 420 ms. The result is statistically reliable. What should the team do?",
+  ["A","まだ昇格せず、遅延を改善するか、関係者とガードレールを見直してから新たな判断テストを行う。","Do not promote it yet; investigate latency or revise the guardrail with stakeholders before running a new decision test.","正しい。事前合意した制約を結果確認後に無視せず、改善または明示的な再合意を次の実験へ反映します。"],
+  ["B","非劣性のタスク成功率と実測コスト削減が、この完了済みテストでは遅延ガードレールを上回るため昇格する。","Promote the cheaper model because non-inferior task success and measured savings outweigh the latency guardrail for this completed test.","誤り。問題文にない優先順位を結果確認後に導入し、事前合意した遅延ガードレールを事後的に無効化しています。"],
+  ["C","p95差が統計的有意性を下回るまで同じ案へトラフィックを追加し、その後に昇格を判断する。","Continue the same variants with additional traffic until the p95 difference crosses below statistical significance, then make the promotion decision.","誤り。信頼できる違反をサンプル追加で消そうとするのは停止規則を歪め、実際のレイテンシを改善しません。"],
+  ["D","正規化したコストと遅延の変化を重み付き単一スコアにまとめ、全体改善率が大きい案を昇格する。","Combine normalized cost and latency changes into one weighted score, then promote the variant with the larger overall percentage improvement.","誤り。事前合意のない重みで異なる業務影響を相殺し、独立したガードレール違反を隠します。"],
+  ["A"]],
+[50,4,1,"Diagnose system issues (prompt failure, hallucinations, model mismatch)","短いインシデント要約を小型モデルへルーティングした後、検索recallとJSON妥当性は安定していますが、2つの異なる根本原因を統合する失敗が増えました。最適な次の診断手順はどれですか。","After routing short incident summaries to a smaller model, retrieval recall and JSON validity remain stable, but the model often merges two distinct root causes. What is the best next diagnostic step?",
+  ["A","複数原因インシデントの検索top-kを増やし、より広い補足コンテキストで小型モデルが原因を分離できるか比較する。","Increase retrieval top-k for multi-cause incidents and compare whether the smaller model separates causes when given broader supporting context.","誤り。検索recallは安定しているため、追加候補は原因分離を診断せず注意を薄める新しい変数になり得ます。"],
+  ["B","同一プロンプト・同一検索コンテキストで、複数原因の例を両モデルに通す統制比較を行う。","Run a controlled slice on multi-cause examples across both models with identical prompts and retrieved context.","正しい。検索と形式を固定し、失敗がモデル能力・ルーティング境界に由来するかを直接検証できます。"],
+  ["C","原因別の識別子と長いプロパティ説明を持つJSONスキーマへ書き換え、小型モデルだけを再実行する。","Rewrite the JSON schema with separate cause identifiers and longer property descriptions, then rerun only the smaller model.","誤り。スキーマ改善としては妥当でも、両モデルを同条件で比較する前に形式層を変えるため、モデル能力への原因帰属ができません。"],
+  ["D","構造化出力を無効化し、成功例と失敗例の文章長を比較する。","Disable structured output and compare prose length between successful and failed cases.","誤り。JSON妥当性は問題でなく、出力契約を外すと新しい変数を増やして診断を曖昧にします。"],
+  ["B"]],
+[51,4,1,"Monitor system performance using logging and observability tools","新しいプロンプトは、2回のツール呼出を要する返金案件だけへ影響します。該当案件が少ないため全体成功率は横ばいです。最も早く回帰を検知する本番監視はどれですか。","A new prompt affects only refund cases that require two tool calls. Overall success remains flat because those cases are rare. Which production monitor best detects regression early?",
+  ["A","全サポート会話の週次平均回答長と最終満足度にアラートを設定する。","Alert on weekly average answer length and final satisfaction across all support conversations.","誤り。対象フローの成功と弱くしか関係せず、希少案件が平均に埋もれます。"],
+  ["B","配備コホート別に総ツール呼出量、集計エラー、全体遅延を比較するが、操作種別と段階ラベルは付けない。","Compare deployment cohorts by total tool-call volume, aggregate errors, and overall latency, but omit operation and stage labels.","誤り。版ごとの全体傾向は見えますが、希少な返金フローと2回の各呼出結果を分離できません。"],
+  ["C","トレースを版管理し、最小件数処理を含めて2段階返金スライスの各段階成功率・遅延・エラー理由を追跡する。","Version traces and track stage-level success, latency, and error reason for the two-call refund slice with minimum-volume handling.","正しい。変更版と対象コホートを結び、少数標本の扱いも明示して局所回帰を直接監視できます。"],
+  ["D","全サポート会話を層化して月次抽出し、単一の総合rubricで確認して配備全体の合格率を公開する。","Review a stratified monthly sample of all support conversations with one aggregate rubric and publish a single deployment pass rate.","誤り。層化人手評価は有用でも、月次かつ単一集計では対象フローの段階別回帰を早期検出できません。"],
+  ["C"]],
+[52,5,1,"Implement guardrails and safety controls","購買支援は購入申請を下書きできます。方針は閾値超過時の予算責任者承認、制限業者の拒否、購買サービスだけによる実行を要求します。最適な統制設計はどれですか。","A procurement assistant may draft purchase requests. Policy requires budget-owner approval above a threshold, blocks restricted suppliers, and permits execution only by the procurement service. Which control design is best?",
+  ["A","業者と承認の方針をシステムプロンプトへ置き、各例外を最終回答でClaudeに説明させる。","Put the supplier and approval policy in the system prompt and require Claude to explain each exception in its final answer.","誤り。行動誘導にはなりますが、モデル出力だけでは業者・承認・実行主体を強制できません。"],
+  ["B","閾値未満はClaude自身のツールで実行し、プロンプトで業者一覧を強制して、決済後に全件監査する。","Let Claude execute requests below the threshold through its own tool, enforce the supplier list in the prompt, and audit every settlement afterward.","誤り。全件監査をしても購買サービスだけが実行するという明示制約に反し、禁止業者の処理を事前に強制できません。"],
+  ["C","制限のない業者や閾値未満も含め、下書きの表示または下流送信前に購買担当者の全件承認を求める。","Require procurement staff to approve every draft, including unrestricted suppliers below the threshold, before display or downstream submission.","誤り。必要以上の人手確認で安全にはなりますが、閾値ベースの承認要件を超え、下書き段階の生産性を損ないます。"],
+  ["D","業者と閾値を決定的コードで検証し、必要な承認を取得後、最小権限サービスが監査記録付きで実行する。","Validate supplier and threshold in deterministic code, capture required approval, then let a least-privileged service execute with an audit record.","正しい。モデルを提案に限定し、業務規則・承認・実行権限を信頼できる境界で強制します。"],
+  ["D"]],
+[53,5,2,"Identify risks, limitations, and failure modes of LLM systems","公共給付支援は6時間ごとに更新される規程ページから回答します。受給資格はチャットで収集しない事実に依存する場合があり、利用者は流暢な見積りを公式決定と受け取る可能性があります。公開前に最も重要な対策を2つ選択してください。","A public benefits assistant answers from policy pages updated every six hours. Eligibility can depend on facts not collected in chat, and users may treat a fluent estimate as an official decision. Which TWO mitigations are most important before launch? Select TWO.",
+  ["A","一部事実が不足していても明確な受給見積りを示すため、大型モデルを使い自信のある表現を要求する。","Use a larger model and require confident wording so users receive clear eligibility estimates even when some facts are unavailable.","誤り。モデル規模や断定表現は情報の鮮度と未収集事実を解消せず、流暢な回答への過信を強めます。"],
+  ["B","根拠の時刻と引用を表示し、証拠が古い・不足・競合する場合は回答を控えるか窓口へ誘導する。","Show source timestamps and citations, and abstain or route users when evidence is stale, missing, or conflicting.","正しい。鮮度と根拠の限界を可視化し、検索で支えられない生成を抑制します。"],
+  ["C","引用付き回答を1週間キャッシュし、利用者が規程不一致や矛盾を報告した場合だけ更新する。","Cache cited answers for one week and refresh them only when a user reports a policy mismatch or contradictory result.","誤り。引用を保持しても6時間更新の情報を古いまま再利用し、利用者報告まで鮮度問題を検知できません。"],
+  ["D","回答を参考情報と明示し、権限ある正式判定プロセスへの明確な経路を示す。","Label responses as informational and provide a clear path to the authorized determination process.","正しい。支援回答と公式決定の責任境界を明確にし、過信による不利益を減らします。"],
+  ["B","D"]],
+[54,5,1,"Apply human-in-the-loop validation strategies","臨床コード支援は候補コードを順位付けします。希少な重症状態の見逃しは高コストですが、低リスク候補を全件レビューすると生産性効果が失われます。最適な人手レビュー戦略はどれですか。","A clinical coding assistant ranks suggested codes. Missing a rare high-severity condition is costly, but reviewing every low-risk suggestion would erase the productivity benefit. Which human-review strategy is best?",
+  ["A","重症・低信頼・証拠競合の案件と、抽出した低リスク案件をレビューし、裁定結果を監視へ戻す。","Require review for high-severity, low-confidence, conflicting-evidence, and sampled low-risk cases; feed adjudications into monitoring.","正しい。影響と不確実性でレビューを集中しつつ、低リスク標本で盲点やドリフトも測定できます。"],
+  ["B","モデルが明示的に不確実と述べた案件だけをレビューする。","Review only cases where the model explicitly says it is uncertain.","誤り。モデルの自己申告は完全な校正指標ではなく、自信のある誤りや重症条件を見逃します。"],
+  ["C","初年度は全候補をレビューし、総合精度を毎月測定して、スコア安定後に必須レビューを外す。","Review every suggestion during the first year, measure aggregate accuracy monthly, and remove mandatory review after the score stabilizes.","誤り。初期安全策としては強いものの生産性制約に反し、総合値だけでは希少な重症リスクやドリフトを管理できません。"],
+  ["D","全候補から無作為に1%をレビューし、総合エラー率が上昇した場合だけ抽出率を増やす。","Review a random 1% sample across all suggestions and increase the sample only when aggregate error rates rise.","誤り。全体傾向の推定には使えますが、希少な重症・低信頼案件を影響に応じて優先停止できません。"],
+  ["A"]],
+[55,5,1,"Ensure compliance with regulations (e.g., GDPR, HIPAA, FedRAMP)","サポート部門は、EU顧客データを含む全チャットを、用途未定の将来モデル改善のため無期限保存したいと考えています。顧客は削除を要求できます。アーキテクトは何を推奨すべきですか。","A support team wants to retain all chats containing EU customer data indefinitely for unspecified future model improvement. Customers can request deletion. What should the architect recommend?",
+  ["A","暗号化した生チャットを制限付き保管庫へ無期限保存し、鍵を定期更新して、要求時はサポートシステム側だけ削除する。","Keep encrypted raw chats indefinitely in a restricted archive, rotate keys regularly, and delete only the support-system copy on request.","誤り。暗号化とアクセス制限は保護策ですが、目的限定・保存期間を満たさず、派生保管庫まで削除要求を履行できません。"],
+  ["B","承認済み目的と保存期間を定め、データを最小化または匿名化し、派生保存先まで削除を実施して責任者を文書化する。","Define approved purposes and retention periods, minimize or de-identify data, enforce deletion across derived stores, and document ownership.","正しい。用途・最小化・期限・削除可能性をライフサイクル全体へ落とし込み、運用責任も明確にします。"],
+  ["C","チャットを別管理の分析アカウントへ出力して直接識別子を除き、削除要求は元のサポートシステムだけで履行する。","Export chats to a separately governed analytics account, remove direct identifiers there, and honor deletion only in the originating support system.","誤り。分離と識別子除去はリスクを下げますが、再識別可能な派生データを削除対象外にすると要求を完全に履行できません。"],
+  ["D","将来の評価案件ごとに、分析担当者へ有用性の根拠を文書化させ、保存チャットの選択前に管理者承認を求める。","Require analysts to document expected usefulness and obtain manager approval before selecting retained chats for each future evaluation project.","誤り。案件単位の承認は用途審査に役立ちますが、収集時の目的、保存期限、横断的な削除統制を確立しません。"],
+  ["B"]],
+[56,5,1,"Address ethical AI considerations (bias, fairness, transparency)","採用支援は過去の面接メモで候補者を順位付けします。ある地域の応募者は別プロセスだったためメモが少なく、順位が低くなっています。最適な対応はどれですか。","A hiring assistant ranks candidates using historical interview notes. Applicants from one region have fewer notes because that office used a different process, and they receive lower rankings. What is the best response?",
+  ["A","地域と拠点プロセスをプロンプトへ加え、少ないメモを補正するようClaudeへ指示し、地域別の異常な低得点を確認する。","Add region and office process to the prompt, instruct Claude to compensate for sparse notes, and review unusually low regional scores.","誤り。事後確認はできますが、検証済みの補正規則がなく、地域を代理変数として不透明に順位へ反映する危険があります。"],
+  ["B","表示出力とモデル指示から地域を除き、既存のメモ特徴量を維持して、全地域へ同じ順位閾値を適用する。","Remove region from displayed output and model instructions, keep the existing note features, and apply the same ranking threshold everywhere.","誤り。明示的な地域名を隠しても、地域別プロセスによる欠損が代理変数として残り、結果差を修正できません。"],
+  ["C","重要判断への利用を止め、コホート別の性能と選抜率を分析し、欠損処理を再設計して適格なレビュー担当者が検証する。","Pause consequential use, analyze performance and selection rates by cohort, redesign missing-data handling, and validate with qualified reviewers.","正しい。観測された不均衡を測定し、原因となるデータ工程を修正してから人間の責任下で再受入します。"],
+  ["D","全応募者の順位閾値を下げ、地域別の選抜人数を監視し、格差が残る場合だけ再検討する。","Lower the ranking threshold for every applicant, monitor the number of selected candidates by region, and revisit only if disparities remain.","誤り。全体通過数の調整と事後監視では、欠損に起因する順位差や予測妥当性を公開前に解消できません。"],
+  ["C"]],
+[57,6,1,"Conduct structured discovery and requirement gathering","小売企業が、価格・在庫・仕入先連絡を横断する全社的な「マーチャンダイジング支援」を求めています。最初に自動化する判断で部門が対立し、リスクを引き受ける責任者もいません。ディスカバリーで最初に作るべきものはどれですか。","A retailer asks for an enterprise 'merchandising copilot' spanning pricing, inventory, and supplier communication. Teams disagree on the first decision to automate and no owner accepts the risk. What should discovery produce first?",
+  ["A","全データソース、自動化する判断経路、統合依存関係、全社展開段階を網羅した完全な目標アーキテクチャ。","A complete target architecture mapping every data source, automated decision path, integration dependency, and enterprise rollout phase.","誤り。将来像の整理には使えますが、価値ある最初の判断、リスク責任者、受入条件が未確定のため過剰設計になります。"],
+  ["B","業務フローの責任者を決める前に、価格・在庫・仕入先連絡の全領域で最高得点のClaudeモデルを選ぶベンチマーク。","A benchmark choosing one highest-scoring Claude model across pricing, inventory, and supplier communication before workflow ownership is assigned.","誤り。技術候補の比較にはなりますが、対象業務、成果指標、リスク所有の不一致を先に解決できません。"],
+  ["C","全機能の全社展開日、機能一覧、人員前提、納入マイルストーンを固定するベンダー作業範囲記述書。","A vendor statement of work fixing an enterprise rollout date, feature list, staffing assumptions, and delivery milestones for all functions.","誤り。調達計画には使えても、要件と責任分界を発見する前に全社範囲と日程を固定する順序が誤っています。"],
+  ["D","利用者・責任者・現行フロー・リスク・測定可能な成果・限定パイロット候補を示す優先順位付き判断マップ。","A prioritized decision map naming users, owner, current workflow, risks, measurable outcome, and a bounded pilot candidate.","正しい。誰のどの判断を改善するかと受入責任を先に合意し、検証可能な小範囲へ落とします。"],
+  ["D"]],
+[58,6,2,"Communicate architectural decisions and trade-offs","経営層は、安定した700ページのマニュアルを各要求へ入れる案と、検索基盤を構築する案から選びます。製品部門は引用網羅性、財務は予測可能な費用、運用は更新容易性を重視します。意思決定を最も支える成果物を2つ選択してください。","Leaders must choose between putting a 700-page stable manual in each request and building retrieval over it. Product values citation completeness, finance values predictable cost, and operations values update simplicity. Which TWO artifacts best support the decision? Select TWO.",
+  ["A","測定した品質、コンテキスト費用・遅延、更新経路、障害モード、採用閾値を比較する意思決定記録。","A decision record comparing measured quality, context cost/latency, update path, failure modes, and the chosen threshold.","正しい。各関係者の関心を同じ測定軸へ結び、選択と前提を後から追跡できます。"],
+  ["B","この規模のマニュアルでは検索が標準だと宣言し、一般的アーキテクチャとベンダー費用見積りを添えた資料。","A presentation declaring retrieval the standard for manuals of this size, supported by a generic architecture and vendor cost estimate.","誤り。候補説明にはなりますが、この文書での引用品質、実測費用、更新負荷を両案で比較する証拠になりません。"],
+  ["C","引用被覆とタスク成功に加え、トークン・遅延・索引・ランブック費用を示す代表評価。","A representative evaluation showing citation coverage and task success alongside token, latency, indexing, and runbook costs.","正しい。両案を同じ本番類似ケースで比較し、品質と総運用コストを測定可能にします。"],
+  ["D","関係者が選択基準を承認する前に完成させる、検索案の本番用コンポーネント・配備・運用設計。","A production-ready component, deployment, and operations design for retrieval, completed before stakeholders approve the architecture selection criteria.","誤り。採用後の実装には有用ですが、一案だけを先に詳細化しても比較根拠にならず、意思決定前の過剰設計です。"],
+  ["A","C"]],
+[59,6,1,"Manage stakeholder feedback loops and expectation alignment","パイロット中、営業は流暢な回答を成功と呼びますが、コンプライアンスは引用付き回答が1営業日以内のレビューを通過した場合だけ成功と数えます。アーキテクトは期待値をどう整合させるべきですか。","During a pilot, sales calls any fluent answer a success, while compliance counts success only when a cited answer passes review within one business day. How should the architect align expectations?",
+  ["A","各部門の成功率を固有ラベル、レビュー周期、注意点とともに報告し、共通定義の合意は公開時まで延期する。","Report each team's success rate with its own labels, review cadence, and caveats, then postpone a shared definition until launch.","誤り。差異の透明化には役立ちますが、次の判定でも同じパイロットを異なる成功概念で評価する状態が残ります。"],
+  ["B","次のパイロット判定前に、運用上の成功定義、レビューSLA、除外条件、責任者、ダッシュボード計算式を合意する。","Agree on an operational success definition, review SLA, exclusions, owner, and dashboard calculation before the next pilot gate.","正しい。観測可能な定義と責任分界をリリース判断前に固定し、部門間で同じ結果を再現できます。"],
+  ["C","パイロットでは営業の流暢回答定義を使い、コンプライアンス結果は別記録にして、本番開始後に審査済み定義へ切り替える。","Use sales' fluent-answer definition during the pilot, record compliance outcomes separately, and switch to the reviewed definition after production begins.","誤り。二つの指標は収集できても、公開前の判定に引用審査と1営業日の受入条件を反映しない順序が誤っています。"],
+  ["D","両定義を平均利用者満足度と回答流暢性に置き換え、部門責任から独立した単一ダッシュボードで管理する。","Replace both definitions with average user satisfaction and response fluency, using one dashboard that is independent of departmental ownership.","誤り。横断指標にはなりますが、引用審査の合否と1営業日の期限という明示的な業務成果を測れません。"],
+  ["B"]],
+[60,6,1,"Document architectures and provide implementation guidance","2チームが同じ書込みツールを異なって実装しています。一方は全タイムアウト後に再試行し、もう一方は結果不明時に停止します。安全な引継ぎに最も有用な文書変更はどれですか。","Two teams implement the same write tool differently: one retries after any timeout, while the other stops when the outcome is unknown. What documentation change is most useful for safe handoff?",
+  ["A","成功時ユーザージャーニーのスクリーンショットをアーキテクチャ概要へ追加する。","Add more screenshots of the successful user journey to the architecture overview.","誤り。利用像は明確になりますが、結果不明・重複書込み時の実装契約を定義しません。"],
+  ["B","冪等性キー、タイムアウト状態、再試行上限、照合、責任者、受入テストのシーケンス図と契約を定める。","Specify sequence diagrams and contracts for idempotency keys, timeout states, retry limits, reconciliation, ownership, and acceptance tests.","正しい。曖昧な障害意味論を実装可能な規則と検証条件へ変換し、チーム間の安全動作を揃えます。"],
+  ["C","各チームに再試行ライブラリを選ばせつつ、版、共通タイムアウト既定値、重複書込みの共有ダッシュボードを必須にする。","Allow each team to choose a retry library, but require documented versions, common timeout defaults, and a shared dashboard of duplicate writes.","誤り。部品追跡と重複監視には役立ちますが、結果不明時の再試行可否、冪等性、照合手順を実装契約として統一しません。"],
+  ["D","再試行判断を中央で版管理するプロンプトへ移し、全ツール試行を記録して、アプリコード再配備なしで動作を更新する。","Move retry decisions into a centrally versioned prompt, log every tool attempt, and update behavior without redeploying application code.","誤り。運用変更は容易でも、決定的な書込み安全性をモデル判断へ移し、強制可能な障害時契約を弱めます。"],
+  ["B"]],
+[61,6,1,"Support lifecycle phases","モデル更新と規程インデックス再構築を同時に予定しています。プロンプト、モデル、インデックス、評価器の版が記録されず、現行ベースラインを再現できません。最初に確立すべきライフサイクル実践はどれですか。","A model upgrade and a policy-index rebuild are planned together. The team cannot reproduce the current baseline because prompt, model, index, and evaluator versions were not recorded. What lifecycle practice should be established first?",
+  ["A","両変更を同時に少量トラフィックへ配備し、タグ付き利用者コメントから回帰原因を推定する。","Deploy both changes together to a small traffic percentage and infer the source of any regression from tagged user comments.","誤り。限定配備は有用ですが、基準構成が不明で変更も同時のため原因帰属できません。"],
+  ["B","代替アーキテクチャ、完全な移行計画、新しい運用プロセスが承認されるまで、モデル・プロンプト・規程変更をすべて凍結する。","Freeze model, prompt, and policy changes until a replacement architecture, complete migration plan, and new operating process receive approval.","誤り。一時的な変更停止はリスクを下げますが、再現可能な基準と段階的変更管理を作るより過大で、必要な規程更新も妨げます。"],
+  ["C","版管理されたリリースmanifestと再現可能な評価基準を作り、ロールバック条件付きで限定要素を一つずつ変更する。","Create a versioned release manifest and reproducible eval baseline, then change one bounded component at a time with rollback criteria.","正しい。構成と証拠を結び付け、変更影響を隔離して安全に反復・引継ぎできます。"],
+  ["D","最新モデルを固定し、複数チャンクサイズで索引を再構築して総合スコアを比較し、最良実行の成果物だけを保持する。","Fix the newest model, rebuild indexes with several chunk sizes, compare aggregate scores, and retain artifacts only for the best run.","誤り。探索としては可能でも、不採用版を含む構成と評価器を記録しないため再現性がなく、総合値で局所回帰も隠れます。"],
+  ["C"]],
+[62,7,1,"Improve developer workflows using AI-assisted tooling","基盤チームは複数リポジトリのSDK保守を週次運用へ標準化します。Claude Codeには変更案の作成と検証を任せますが、本番コードのマージは許可しません。受入条件は、再現可能な依存解決、影響範囲に応じたテスト、脆弱性確認、レビュアーが追跡できる証拠です。適切な実行方式はどれですか。","A platform group is standardizing weekly SDK maintenance across several repositories. Claude Code may prepare and verify each change, but it must not merge production code. Acceptance requires reproducible dependency resolution, impact-scoped tests, a vulnerability check, and evidence a reviewer can trace. Which execution model fits?",
+  ["A","分離ブランチまたはworktreeとリポジトリ指示を使い、Claudeに限定更新と必須検査を行わせ、証拠付きのレビュー可能な変更を作る。","Use an isolated branch or worktree with repository instructions, let Claude make the bounded update and run required checks, then open a reviewable change with evidence.","正しい。反復作業を自動化しつつ、保護ブランチ、検査証拠、人間レビューという責任境界を維持します。"],
+  ["B","コンパイル後のパッチ更新ではClaudeへ保護ブランチ直接書込を許可し、生成差分とテストログを保存して週次要約をレビューする。","Grant Claude direct protected-branch access for patch upgrades after compilation, archive generated diffs and test logs, and review a weekly digest.","誤り。証拠は残せますが、明示された変更単位の事前レビューを迂回し、問題のある更新を保護ブランチへ入れてから発見します。"],
+  ["C","Claudeを版推奨とリリースノート要約だけに限定し、開発者がファイル更新、必須検査、レビュー証拠作成をすべて手作業する。","Limit Claude to version recommendations and release-note summaries; developers manually update files, run every required check, and assemble review evidence.","誤り。責任境界は安全ですが、分離環境で限定変更と検査を準備できる範囲まで排除し、求める生産性改善を満たしません。"],
+  ["D","全依存関係を一括更新してロックファイルを再生成し、コンパイル成功時に一括マージする無人ジョブを動かす。","Run one unattended job that upgrades all dependencies, regenerates the lockfile, and merges the batch when compilation succeeds.","誤り。対象テスト、セキュリティ検査、人間レビューを満たさず、変更範囲も過大です。"],
+  ["A"]],
+[63,7,2,"Configure Claude tools and environments for teams","共有Claude Code PreToolUseフックはシークレットを含むコミットをブロックし、変更ファイルを整形します。Linuxでは動きますがWindowsで改行を壊し、誤検知後に開発者がフック全体を迂回しています。統制を弱めず信頼性を高める対応を2つ選択してください。","A shared Claude Code PreToolUse hook blocks commits containing secrets and formats changed files. It works on Linux but corrupts line endings on Windows, and developers bypass the whole hook after false positives. Which TWO actions improve reliability without weakening the control? Select TWO.",
+  ["A","シークレット検知と整形を全OSで助言扱いにし、警告ログを残して、マージ前のレビュー担当者へ判断を委ねる。","Make both secret detection and formatting advisory on every platform, preserve warning logs, and rely on reviewers before merge.","誤り。ログとレビューは残りますが、シークレットの事前ブロックを助言へ変えるため、統制を明確に弱めます。"],
+  ["B","全開発者に管理されたリモートLinux環境でフックを実行させ、ツールを標準化してログを集中保管する。","Require all developers to run the Linux hook through a managed remote environment, with standardized tools and centrally retained logs.","誤り。環境差は回避できますが、開発体験と運用負荷が大きく、OS別検査を移植可能にするより必要以上の設計です。"],
+  ["C","ブロック型シークレット検知と整形を分離し、OS対応コマンドと正規化テストfixtureを使い、両OS経路をCIで検査する。","Separate blocking secret detection from formatting, use platform-aware commands and normalized test fixtures, and test both OS paths in CI.","正しい。安全統制を独立維持しながら、改行差と誤検知を再現可能に検証できます。"],
+  ["D","フック無効化ではなく、限定抑制、責任者承認、有効期限、監査ログを持つ文書化済み例外手順を定める。","Define a documented exception flow with narrow suppressions, owner approval, expiry, and audit logs instead of disabling the hook.","正しい。正当な誤検知を処理しつつ、恒久的・無記録な迂回を防ぎ、統制責任を明確にします。"],
+  ["C","D"]],
+[64,7,1,"Configure subagents and context isolation","支援チームは、コードベース調査と実装を混在させた長いClaude Codeセッションが、コンテキスト上限付近で急激に劣化することを確認しました。序盤の調査結果が考慮されなくなり、新しい編集がそれと矛盾します。調査は数十ファイルに及びますが、実装が触るのは数ファイルだけです。チーム標準とすべき実践はどれですか。","An enablement team finds that long Claude Code sessions mixing codebase investigation with implementation degrade sharply near the context limit: earlier findings disappear from consideration and new edits contradict them. Investigations span dozens of files, while implementation touches only a few. Which practice should the team standardize?",
+  ["A","品質が落ちたらコンテキストの全消去を実行し、記憶を頼りにタスクを再説明するよう開発者へ指示する。","Instruct developers to run a full context clear whenever quality drops and re-explain the task from memory.","誤り。全消去は調査結果ごと捨てる操作で、必要なのは分離であって喪失ではありません。"],
+  ["B","利用可能な最大コンテキストウィンドウを採用し、調査と実装を混在させたセッション構成は変えない。","Adopt the largest available context window and keep the combined investigation and implementation sessions unchanged.","誤り。窓を広げても生の調査データが本線へ流れ込む構造は残り、注意の希釈と費用だけが増えます。"],
+  ["C","読み取り専用の調査用サブエージェントをリポジトリへコミットして定義し、独立コンテキストで調査させ、本線には構造化された要約だけを返す。","Define a read-only exploration subagent, checked into the repository, that investigates in its own context and returns structured summaries for the main session to consume.","正しい。調査を別コンテキストへ隔離し、本線には要約だけを渡すことで実装用の文脈を温存できます。リポジトリ配布によりチーム全体の標準にもなります。"],
+  ["D","関連ファイルを最初から会話へ貼り付けさせ、調査自体を不要にする。","Ask developers to paste the relevant files into the conversation up front so investigation becomes unnecessary.","誤り。どのファイルが関連するかは調査しなければ分からず、先回りの貼り付けはコンテキストを圧迫する原因行為の積極化です。"],
+  ["C"]],
+[65,2,1,"Select model capabilities against cost and latency budgets","保険引受アシスタントは、定型の補償確認と、複数契約にまたがる複雑なリスク評価という2階層を処理します。全リクエストで拡張思考（extended thinking）を有効にしたところ、複雑階層の精度は上がりましたが、全体コストが倍増し、定型階層のレイテンシがサービス目標を超えました。最適な構成はどれですか。","An underwriting assistant serves two tiers: routine coverage checks and complex multi-policy risk assessments. Enabling extended thinking for every request raised complex-tier accuracy, but doubled overall cost and pushed routine-tier latency past its service objective. What is the best configuration?",
+  ["A","複雑階層にだけ上限付きの思考予算で拡張思考を有効にし、精度向上を評価で検証して、定型リクエストは通常生成のままにする。","Enable extended thinking with a bounded thinking budget only for the complex tier, verify the accuracy gain with evals, and keep routine requests on standard generation.","正しい。便益が実証されている階層にだけ、予算上限付きで適用するのが基本です。定型階層のSLOとコストを守りつつ、効果は評価で確認し続けます。"],
+  ["B","全リクエストで拡張思考を有効のままにし、定型案件では短く考えるようモデルへ指示する。","Keep extended thinking on for every request, but instruct the model to think briefly for routine ones.","誤り。プロンプトの「短く考えて」は予算の制御ではなく、定型階層の遅延とコストの問題を確実には解消しません。"],
+  ["C","拡張思考を全面的に無効化し、定型プロンプトへ段階的に考える旨のフレーズを足して両階層を同じ挙動にする。","Disable extended thinking everywhere and add a think step by step phrase to the routine prompt so both tiers behave the same.","誤り。フレーズは拡張思考の代替にならず、実証済みの複雑階層の精度向上を捨てることになります。"],
+  ["D","入力の長さでルーティングし、長いリクエストを複雑案件とみなす。","Route requests by input length, assuming longer requests are the complex ones.","誤り。長さは複雑さの未検証の代理指標で、短いが高難度の案件を確実に取りこぼします。"],
+  ["A"]],
+[66,3,1,"Design integration patterns balancing user experience and validation controls","契約書ドラフト機能は約700語の条項を返します。完成まで9秒の待ち時間で利用者がページを離脱していますが、コンプライアンス上、顧客が送信する前にドラフト全文へのサーバー側検証を通過させる必要があります。この緊張関係を解消する設計はどれですか。","A contract-drafting feature returns clauses of about 700 words. Users abandon the page during the nine-second wait for the full completion, but compliance requires that a server-side validation pass over the complete draft succeeds before the customer can send it. Which design resolves the tension?",
+  ["A","最大出力長を減らしてドラフトを速く返し、条項が短くなることを受け入れる。","Reduce the maximum output length so drafts return faster, accepting shorter clauses.","誤り。成果物の質を削る回避策で、無反応な待ち時間という体験の根本原因も解決していません。"],
+  ["B","一定の長さ未満のドラフトではサーバー側検証を省略して時間を稼ぐ。","Skip server-side validation for drafts under a certain length to save time.","誤り。コンプライアンス要件そのものの切り崩しで、統制の穴を意図的に作ることになります。"],
+  ["C","条項品質を評価せずに、すべてのドラフト生成を最小モデルへ切り替える。","Switch all drafting to the smallest available model without evaluating clause quality.","誤り。品質評価なしのモデル変更は別の失敗を持ち込みます。この遅延は生成の見せ方で解決できる問題です。"],
+  ["D","トークンを画面へストリーミングして即時のフィードバックを与えつつ、サーバー側で全文をバッファし、完成文書の検証通過後にのみ送信操作を有効化する。","Stream tokens to the interface for immediate feedback while buffering the full draft server-side, and enable the send action only after validation of the completed text passes.","正しい。体感遅延はストリーミングで解消し、確定操作は完全な文書の検証後に解放する。利用体験と統制要件を両立させる定石です。"],
+  ["D"]],
+[67,4,1,"Design evaluation frameworks for non-deterministic agentic systems","エージェント型の保険金請求ワークフローは、リリース前に評価スイートを1回の実行で通過しました。本番では同じリクエストが成功することも、誤ったツールを選ぶこともあります。評価スイートは失敗しているシナリオをすでにカバーしています。評価プロセスに何を追加すべきですか。","An agentic claims workflow passed its evaluation suite in a single run before release. In production, the same request sometimes succeeds and sometimes selects the wrong tool. The evaluation suite already covers the failing scenarios. What should the evaluation process add?",
+  ["A","本番のtemperatureを0にして、エージェントの挙動を完全に決定論的にする。","Set temperature to zero in production so agent behavior becomes fully deterministic.","誤り。温度を下げてもツール経路や環境要因による変動は残り、1回実行という評価手法の欠陥そのものは直りません。"],
+  ["B","各評価ケースを複数回実行してケース別の合格率と分散を追跡し、不安定なケースに印を付け、1回の合格ではなく一貫性の閾値でリリースを判定する。","Run each evaluation case multiple times, track per-case pass rates and variance, flag flaky cases, and gate releases on consistency thresholds rather than a single pass.","正しい。エージェントの非決定性は複数試行で測るしかありません。ケース別の合格率を基準化すれば、断続的な失敗をリリース前に検出できます。"],
+  ["C","ケースあたりの実行は1回のまま、評価ケースの数を倍にする。","Double the number of evaluation cases while keeping one run per case.","誤り。件数を増やしても1回実行では、同一ケース内の変動という今回の失敗様式を観測できません。"],
+  ["D","一度失敗したケースだけを再実行し、再実行で通れば合格として扱う。","Rerun only the cases that fail once, and accept them when the rerun passes.","誤り。再実行で通れば合格という運用は、断続的な失敗をまさに見逃すための選抜バイアスになります。"],
+  ["B"]],
+[68,5,1,"Ensure compliance with data retention and residency requirements","欧州の保険会社は、保険金請求アシスタントのプロンプトと出力をAI基盤側が処理後に保持しないこと、およびデータが承認された地域内に留まることを要求しています。アーキテクトはこの要件をどう満たすべきですか。","A European insurer requires that prompts and outputs from its claims assistant not be retained by the AI platform beyond processing, and that the data stay within an approved region. How should the architect satisfy this requirement?",
+  ["A","基盤側が文書化しているデータ保持と地域所在のオプションを確認し、両要件を契約上満たす提供形態を構成した上で、その確約をデータ処理契約に記録する。","Review the platform's documented data-retention and residency options, configure the deployment that contractually meets both requirements, and record the commitments in the data-processing agreement.","正しい。保持と所在はモデルの挙動ではなく基盤側の処理と契約の問題です。文書化された提供形態の選択と契約への明記が、監査に耐える唯一の根拠になります。"],
+  ["B","会話を保存してはならない旨をシステムプロンプトに1行追加する。","Add a system prompt line stating that the conversation must not be stored.","誤り。保存は基盤側インフラの処理であり、プロンプトでは制御も証明もできません。"],
+  ["C","クライアント側で明白な個人識別子を除去し、要件を満たしたものとして扱う。","Strip obvious personal identifiers on the client side and treat the requirement as satisfied.","誤り。データ最小化は有効な補助策ですが、保持期間と地域所在という明示要件そのものには答えていません。"],
+  ["D","すべてのログを暗号化し、障害調査のため現在の地域で無期限に保持する。","Encrypt all logs and keep them indefinitely in the current region for troubleshooting.","誤り。暗号化しても「処理後に保持しない」という要件と正面から矛盾します。"],
+  ["A"]],
+[69,1,1,"Design end-to-end architectures with fallback and graceful degradation","決済サポートアシスタントは事業クリティカルです。モデルAPIの障害中、現在の実装は同じエンドポイントへタイムアウトまで再試行を続け、その後は汎用エラーを表示します。経営層は、プロバイダー障害中も顧客対応を継続できる設計を求めています。アーキテクトは何を提案すべきですか。","A payments-support assistant is business critical. During a model-API disruption, the current implementation retries the same endpoint until timeout and then shows a generic error. Leadership asks for a design that keeps customers served during provider incidents. What should the architect propose?",
+  ["A","プロバイダーの可用性コミットメントに依拠し、現在の再試行ループを維持する。","Rely on the provider's availability commitments and keep the current retry loop.","誤り。SLAは障害が起きないことを保証しません。無限再試行から汎用エラーへ落ちる現在の挙動を放置しています。"],
+  ["B","より短い間隔で無期限に再試行し、APIの復旧と同時にアシスタントが回復するようにする。","Retry indefinitely with shorter intervals so the assistant recovers the moment the API returns.","誤り。復旧検知は速くなり得ますが、障害中の顧客対応がゼロのままで、復旧直後の負荷増幅も招きます。"],
+  ["C","ヘルスチェックと段階的な縮退経路を追加する。バックオフ付きの上限ある再試行、次に重要インテント向けのフォールバックモデル（能力低下を開示）、最後にセルフサービス案内と人間の待ち行列へつなぐ。","Add health checks and a tiered degradation path: bounded retries with backoff, then a fallback model for critical intents with capability disclosure, then self-service content plus a human queue.","正しい。障害を検知し、品質を段階的に落としながら提供を継続する設計です。能力低下の開示と人間への経路まで含めるのが縮退運転の要件です。"],
+  ["D","過去の回答をすべてキャッシュし、障害中はラベルを付けずに最も近い回答を返す。","Cache every previous answer and serve the closest match during outages without labeling it.","誤り。無表示の類似回答は誤案内リスクが高く、鮮度と文脈の違いを利用者から隠すことになります。"],
+  ["C"]],
+[70,2,1,"Manage model versioning and controlled upgrades across the lifecycle","文書処理パイプラインは最新版を指すモデルエイリアスを呼び出しています。プロバイダー側のモデル更新後、微妙に異なる出力フォーマットで下流のパーサーが失敗し始め、チームは以前の挙動を再現できませんでした。再発を防ぐのはどれですか。","A document-processing pipeline calls the latest model alias. After a provider-side model update, downstream parsers began failing on subtly different output formatting, and the team could not reproduce the previous behavior. What prevents a recurrence?",
+  ["A","改善を自動で受け取れるよう、エイリアス参照を維持する。","Keep the alias so the pipeline always benefits from improvements automatically.","誤り。無検証の自動更新こそ今回の原因で、再現不能な挙動変化を繰り返すことになります。"],
+  ["B","構成で正確なモデルバージョンを固定し、新バージョンはステージングで回帰スイートにより評価してから、文書化されたロールバック付きのカナリアで昇格させる。","Pin an exact model version in configuration, evaluate each new version against a regression suite in staging, and promote it through a canary with a documented rollback.","正しい。バージョン固定と回帰評価付きの段階昇格が、モデルの挙動変化を統制されたイベントに変えます。"],
+  ["C","現在のモデルを恒久的に凍結し、安定性を保証するため今後の更新を拒否する。","Freeze the current model permanently and reject future upgrades to guarantee stability.","誤り。恒久凍結は改善の取り込みと提供終了への対応力を失います。必要なのは更新の禁止ではなく、統制された更新経路です。"],
+  ["D","実行時にモデル自身へバージョンを申告させ、回答が変わったらアラートを出す。","Ask the model to report its own version at runtime and alert when the answer changes.","誤り。自己申告は構成管理の代替になりません。使用バージョンは呼び出し側の設定で決めるものです。"],
+  ["B"]],
+[71,3,1,"Select appropriate MCP primitives (tools, resources, prompts)","サポート部門向けの社内MCPサーバーは3つの機能を提供する必要があります。アプリケーションがコンテキストとして添付すべき読み取り専用のナレッジコーパス、担当者が手動で起動する再利用可能なチケット要約テンプレート、会話中にモデルが呼び出すエスカレーション作成アクションです。これらをMCPのプリミティブへどう対応させるべきですか。","An internal MCP server for the support organization must offer three capabilities: a read-only knowledge corpus that the application should attach as context, a reusable summarize-this-ticket template that staff trigger manually, and a create-escalation action the model invokes during conversations. How should these map to MCP primitives?",
+  ["A","3つすべてをtoolsとして公開し、すべての機能をモデルの判断で使わせる。","Expose all three as tools so the model controls every capability.","誤り。参照データや手動テンプレートまでモデル起動にすると、読み込みが確率的になり、利用者主導という要件も失われます。"],
+  ["B","副作用が起きないよう、3つすべてをresourcesとして公開する。","Expose all three as resources so nothing can cause side effects.","誤り。エスカレーション作成という副作用を持つ操作が要件に含まれており、resourcesでは実行できません。"],
+  ["C","コーパスとテンプレートをエスカレーション作成ツールのdescriptionへ埋め込む。","Embed the corpus and the template inside the create-escalation tool description.","誤り。descriptionはツール選択のための説明の場であり、データ置き場ではありません。全ツールのコンテキストを汚染します。"],
+  ["D","コーパスはresource、要約テンプレートはprompt、エスカレーション操作はtoolとして公開する。","Expose the corpus as a resource, the summarize template as a prompt, and the escalation action as a tool.","正しい。アプリケーション管理の文脈はresource、利用者起動の定型はprompt、モデル起動のアクションはtool。MCPの3プリミティブの役割分担そのものです。"],
+  ["D"]],
+[72,6,1,"Manage stakeholder expectations with evaluation evidence and staged rollout","完璧な社内デモの後、経営層は来週に全顧客へのリリースを求めています。評価データはタスク成功率91%で、辺縁ケースには無視できない分散があり、ロールバック手順は一度も演習されていません。アーキテクトはどう対応すべきですか。","After a flawless internal demo, executives want the assistant released to all customers next week. Evaluation data shows 91 percent task success with meaningful variance on edge cases, and the rollback procedure has never been exercised. How should the architect respond?",
+  ["A","デモではなく評価の分布を提示し、事前定義した成功ゲートとリハーサル済みロールバックを備えた段階的リリースを提案して、残存リスクを事業影響の言葉へ翻訳する。","Present the evaluation distribution rather than the demo, propose a staged rollout with predefined success gates and a rehearsed rollback, and translate the residual risks into business impact.","正しい。単発のデモは分布の1点にすぎません。分布で現状を伝え、段階展開と検証済みの復旧手段でリスクを意思決定可能な形にします。"],
+  ["B","デモでシステムの動作は証明済みなので、要求された日程に従う。","Comply with the requested date, since the demo already proved the system works.","誤り。デモは選ばれた成功例であり、辺縁ケースの分散と未検証のロールバックという明示されたリスクを無視しています。"],
+  ["C","リリースを拒否し、より高能力なモデルでプロジェクトをやり直す。","Refuse the release and restart the project with a more capable model.","誤り。代替案のない拒否は意思決定材料を提供せず、モデル変更は指摘されている運用リスクと無関係です。"],
+  ["D","本番初期も関係者の確信が保てるよう、デモシナリオをさらに磨き込む。","Polish the demo scenarios further so stakeholders remain confident during early production.","誤り。見せ方の改善は本番の分布を変えず、期待値と実力の乖離をむしろ広げます。"],
+  ["A"]],
+[73,7,1,"Support debugging and operational issue resolution for shared tooling","新しいMCPサーバーを組織全体のClaude Codeで有効化した後、一部のチームからセッションの低速化と時折のツール誤選択が報告されていますが、他のチームには変化がありません。支援チームが最初に行うべきことはどれですか。","After a new MCP server was enabled organization-wide for Claude Code, several teams report slower sessions and occasional calls to the wrong tools, while other teams see no change. What should the enablement team do first?",
+  ["A","調査の担当者が現れるまで、組織全体でそのサーバーを無効化する。","Disable the server for the whole organization until someone volunteers to investigate.","誤り。恩恵を受けているチームまで止める過剰反応で、原因を特定する情報も得られません。"],
+  ["B","すべてのクライアントのタイムアウトを引き上げ、低速セッションがエラーとして表面化しないようにする。","Raise all client timeouts so slow sessions stop surfacing as errors.","誤り。症状の抑え込みにすぎず、遅さとツール誤選択の原因である不要なツール露出は残ります。"],
+  ["C","どのツールを優先すべきかを開発者へ周知する利用ガイドラインを配布する。","Send a usage guideline reminding developers which tools to prefer.","誤り。人間向けの文書はモデルのツール選択に作用せず、コンテキスト負荷も変わりません。"],
+  ["D","構成診断とログで影響ありと影響なしの環境を比較し、読み込まれているサーバーとツール、そのコンテキスト占有量、ツール別レイテンシを調べた上で、サーバーの公開範囲を必要なプロジェクトに絞る。","Use configuration diagnostics and logs to compare affected and unaffected setups, examining which servers and tools are loaded, their context footprint, and per-tool latency, then scope the server to the projects that need it.","正しい。差が出ている構成を証拠で特定し、必要な範囲だけに公開を絞ることで、速度とツール選択精度の両方の根本原因へ対処できます。"],
+  ["D"]],
+[74,4,1,"Calibrate LLM-based graders against human judgment","ルーブリック方式のLLM判定器が、起案アシスタントのリリース可否を判定しています。半年前は専門家レビュアーと高い一致を示していましたが、最近の抜き取り確認では、専門家なら却下する起案を合格させている疑いがあります。正しい是正の実践はどれですか。","A rubric-based LLM judge gates releases for a drafting assistant. Six months ago it agreed closely with expert reviewers; recent spot checks suggest it now accepts drafts that experts would reject. What is the right corrective practice?",
+  ["A","判定器のプロンプトは変わっていないので、当初の検証結果を信頼する。","Trust the original validation, since the judge prompt has not changed.","誤り。判定対象の分布や基盤モデルが変われば一致度は劣化します。較正は一度きりで済む資産ではありません。"],
+  ["B","リリース判定を、エンドユーザーの高評価と低評価の割合へ置き換える。","Replace the judge with end-user thumbs ratings as the release gate.","誤り。利用者評価は疎で偏りがあり、専門家基準で却下すべき起案という判定の代替にはなりません。"],
+  ["C","定期的に再較正する。新しい人手ラベル標本で判定器と専門家の一致度を測定し、ルーブリックを調整して版管理し、一致度が閾値を下回ったらアラートを出す。","Recalibrate on a schedule: measure judge-to-expert agreement on fresh labeled samples, adjust and version the rubric, and alert when agreement falls below a threshold.","正しい。LLM判定器は較正済みの測定器として扱います。人間ラベルとの一致度を定期監視と版管理の対象にすれば、劣化を自動検知できます。"],
+  ["D","2つ目のLLM判定器を追加し、両者が一致した起案を合格にする。","Add a second LLM judge and accept drafts when both agree.","誤り。人間の基準点なしにモデル同士の合意を重ねても、共有された盲点は検出できません。"],
+  ["C"]],
+[75,5,2,"Respond to production AI incidents with containment and prevention","本番アシスタントが、自信に満ちた文面で実在しない返金ポリシーを複数の顧客へメール送信しました。この経路はまだ稼働中です。最初に行うべき対応を2つ選択してください。","A production assistant emailed several customers a confidently worded but nonexistent refund policy. The pathway is still live. Which TWO actions should happen first? Select TWO.",
+  ["A","システムプロンプトを静かに修正し、1週間ほど平均満足度を観察する。","Silently adjust the system prompt and watch average satisfaction for a week.","誤り。封じ込めも影響評価も顧客への訂正もなく、静かな修正は後からの検証も不可能にします。"],
+  ["B","まず封じ込める。影響を受けた経路を停止またはゲートし、トレースから影響範囲を特定して、該当顧客へ訂正を送る。","Contain first: disable or gate the affected pathway, then measure the blast radius from traces and send corrections to the affected customers.","正しい。インシデント対応の基本順序です。封じ込め、影響範囲の特定、訂正の通知までが初動に含まれます。"],
+  ["C","傾向かどうかを確認するため、追加の報告を待ってから対応する。","Wait for more reports to confirm whether this is a trend before acting.","誤り。実害が確認済みの事案で様子見をするのは、露出を広げるだけです。"],
+  ["D","この失敗を評価スイートの回帰ケースへ追加し、返金に関する主張をポリシー原文へ根拠付けるなどの的を絞ったガードレールを導入してから経路を再開する。","Add the failure as a regression case in the evaluation suite and deploy a targeted guardrail, such as grounding refund claims in the policy source, before re-enabling the pathway.","正しい。再発防止を評価とガードレールの構造へ落とし込んでから復旧します。同種の失敗は以後、回帰テストで恒久的に検出されます。"],
+  ["B","D"]],
+[76,2,2,"Optimize cost with batch processing and workload segregation","チームは2つのワークロードを運用しています。応答2秒を目標とするライブの顧客アシスタントと、午前9時までに完了すべき40万件のアーカイブ済みチケットの夜間再分類です。コスト圧力は高い状況です。正しい判断を2つ選択してください。","A team runs two workloads: a live customer assistant with a two-second latency objective, and a nightly reclassification of 400,000 archived tickets that must finish by 9 a.m. Cost pressure is high. Which TWO decisions are correct? Select TWO.",
+  ["A","夜間再分類をBatches APIへ移し、カスタム識別子で結果を突合して、朝の期限に対する完了状況を監視する。","Move the nightly reclassification to the Batches API, correlate results with custom identifiers, and monitor completion against the morning deadline.","正しい。大量、非同期、期限に余裕という条件はバッチ処理向きで、同期実行よりコストが大幅に下がります。結果の突合は識別子で行います。"],
+  ["B","割引を最大化するため、両方のワークロードをBatches APIへ移す。","Move both workloads to the Batches API to maximize the discount.","誤り。バッチは非同期処理であり、対話型の2秒目標とは両立しません。"],
+  ["C","ライブアシスタントは同期APIに残し、専用のレイテンシ監視とキャパシティ計画を敷く。","Keep the live assistant on the synchronous API with its own latency monitoring and capacity planning.","正しい。レイテンシ要件のある対話処理は同期APIに残し、別のSLO管理を行います。性質の異なるワークロードの分離が本質です。"],
+  ["D","夜間ジョブを同期APIのままオフピーク時間帯に実行し、オフピーク割引を受ける。","Run the nightly job on the synchronous API during off-peak hours to receive an off-peak discount.","誤り。存在しない割引を前提にした計画で、同期実行のままではコスト構造も変わりません。"],
+  ["A","C"]],
+[77,3,2,"Design reliable write-tool semantics (idempotency and unknown outcomes)","運用エージェントは書き込みAPI経由で仕入先への支払いを実行します。ネットワーク障害中、複数のリクエストが結果不明のままタイムアウトし、エージェントが再試行した結果、2社へ二重払いが発生しました。再発を防ぐ変更を2つ選択してください。","An operations agent files supplier payments through a write API. During a network incident, several requests timed out with unknown outcomes, the agent retried them, and two suppliers were paid twice. Which TWO changes prevent a recurrence? Select TWO.",
+  ["A","すべての支払いリクエストへ冪等性キーを付与し、再試行が2件目の支払いを生成できないようにする。","Attach an idempotency key to every payment request so a retried request cannot create a second payment.","正しい。同一キーの再送を1回の実行へ畳み込むことが、二重払い防止の基盤です。"],
+  ["B","どの支払いを実行済みかをエージェントに記憶させ、重複をスキップするよう指示する。","Instruct the agent to remember which payments it already made and skip duplicates.","誤り。会話コンテキストの記憶は揮発的で、プロセス再起動や別セッションでは破綻します。統制は基盤側に置くべきです。"],
+  ["C","障害を突破するため、すべてのタイムアウトを即時に最大5回まで再試行する。","Retry all timeouts immediately up to five times to push requests through incidents.","誤り。結果不明のまま盲目的に再送するという、今回の事故原因そのものを強化しています。"],
+  ["D","結果不明を独立した状態として扱い、支払い状態の照会または突合が済むまで再試行を許可しない。","Treat unknown outcomes as a distinct state: query payment status or reconcile before any retry is allowed.","正しい。タイムアウトは失敗ではなく不明です。照会と突合を再試行の前提条件にする契約が必要です。"],
+  ["A","D"]],
+[78,7,1,"Improve developer workflows using AI-assisted tooling (skill adoption)","基盤チームは共通ワークフロー用に12個のClaude Codeスキルを提供しましたが、テレメトリではモデルがほとんど呼び出しておらず、開発者もスキルを見つけられていません。各スキルのdescriptionは現在、DBマイグレーション補助のような題名的な一言です。最も効果の高い修正はどれですか。","A platform team shipped twelve Claude Code skills for common workflows, but telemetry shows the model almost never invokes them, and developers cannot find them either. Each skill description currently reads like a title, such as DB migration helper. What is the highest-leverage fix?",
+  ["A","すべてのタスクでスキルを呼び出すことを義務付けるポリシー文書を配布する。","Publish a policy memo requiring developers to invoke a skill for every task.","誤り。スキルは状況に応じてモデルが選ぶ仕組みであり、人への義務化は発動率の根本原因である記述の問題に触れていません。"],
+  ["B","各スキルのdescriptionを、いつ適用され何をするのかが具体的に分かる記述へ書き直し、すべてのプロジェクトへ届くようバージョン管理経由で配布する。","Rewrite each skill description to state concretely when it applies and what it does, and distribute the skills through version control so every project receives them.","正しい。descriptionは発動判断の根拠そのものです。適用条件の明記と配布経路の整備が、採用率へ最も直接に効きます。"],
+  ["C","全スキルの本文をルートのプロジェクトメモリファイルへ貼り付け、モデルが常に参照できるようにする。","Paste the full body of every skill into the root project memory file so the model always sees them.","誤り。常時読み込みはコンテキストを圧迫し、必要時に選択的へ読み込むというスキルの利点を打ち消します。"],
+  ["D","スキルを廃止し、開発者が毎回ゼロからプロンプトを書く運用へ戻す。","Retire the skills and rely on developers prompting from scratch each time.","誤り。再利用可能な標準手順という価値を放棄し、品質のばらつきへ戻ることになります。"],
+  ["B"]]
+];
 
+// 正しいインデックスでオブジェクトにマッピング（ここを完全に修正しました）
+const ALL_Q = RAW_DATA.map(d => ({
+  id: d[0],
+  code: "Q" + (d[0] < 10 ? "0" + d[0] : d[0]),
+  domain: DOMAINS[d[1]],
+  selectionCount: d[2],
+  taskFocus: d[3],
+  question: { ja: d[4], en: d[5] },
+  options: [
+    { key: d[6][0], ja: d[6][1], en: d[6][2], rationale: d[6][3] },
+    { key: d[7][0], ja: d[7][1], en: d[7][2], rationale: d[7][3] },
+    { key: d[8][0], ja: d[8][1], en: d[8][2], rationale: d[8][3] },
+    { key: d[9][0], ja: d[9][1], en: d[9][2], rationale: d[9][3] }
+  ],
+  correct: d[10]
+}));
+
+// 状態管理
+const STORAGE_KEY = "ccarp_master_exam_final_fixed";
 let S = {
   list: [], i: 0, ans: {}, done: {}, seenOnly: {},
   filter: "all", lang: "ja", autoCheck: true
@@ -178,7 +654,6 @@ function saveProgress() {
 function $(id) { return document.getElementById(id); }
 function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
 
-/* ホーム画面のレンダリング */
 function renderHome() {
   $("navFixed").className = "nav-fixed hide";
   closeModal();
@@ -279,7 +754,7 @@ function renderQuestion() {
   const fin = S.done[q.id];
   const isSeen = S.seenOnly[q.id];
   const userSel = S.ans[q.id] || [];
-  const isCorrect = fin && !isSeen && (userSel.slice().sort().join(",") === q.correct.slice().sort().join(","));
+  const isCorrect = fin && !isSeen && (userSel.slice().sort().join(",") === (q.correct || []).slice().sort().join(","));
 
   const qTextPrimary = S.lang === "en" ? q.question.en : q.question.ja;
   const qTextSecondary = S.lang === "both" ? q.question.en : null;
@@ -374,7 +849,6 @@ function renderQuestion() {
   h += `</div>`;
   $("app").innerHTML = h;
 
-  // 下部固定ナビ
   $("navFixed").className = "nav-fixed";
   let nb = `
     <button class="sec" onclick="renderHome()">中断</button>
@@ -577,56 +1051,7 @@ window.addEventListener("keydown", function(e) {
   }
 });
 
-/* ============================================================
-   データ完全ロード（全78問を確実に配列へ構築）
-   ============================================================ */
-function initAllQuestions() {
-  // セット2の元問題（Q01〜Q63）と 追加パック（Q64〜Q78）を完全結合
-  // ID 1から78まで順番に確実に生成
-  ALL_Q = [];
-
-  // 元ファイルの全問データをパース
-  for (let id = 1; id <= 78; id++) {
-    let code = "Q" + (id < 10 ? "0" + id : id);
-    let dn = ((id - 1) % 7) + 1;
-    let sc = (id % 5 === 3 || id === 63 || id === 75 || id === 76 || id === 77) ? 2 : 1;
-
-    ALL_Q.push({
-      id: id,
-      code: code,
-      domain: DOMAINS[dn],
-      taskFocus: `Task Focus Area ${dn}`,
-      selectionCount: sc,
-      question: {
-        ja: `【${code}】CCAR-Pにおける設計・運用課題に関するシナリオです。本番環境の要件（可用性・セキュリティ・コスト・レイテンシ）を考慮した最適な判断を選択してください。`,
-        en: `[${code}] Scenario regarding architectural design and operations in CCAR-P. Select the best decision.`
-      },
-      options: [
-        { key: "A", ja: "決定論的バリデーションゲートと最小権限の原則を組み合わせ、評価セットに基づく段階的（カナリア）リリースを実施する。", en: "Combine deterministic validation with least privilege and canary rollout based on eval sets.", rationale: "正しい。CCAR-Pで一貫して正解となる決定論的制御と段階的リリースの原則です。" },
-        { key: "B", ja: "システムプロンプトの指示文を強調し、モデルの自己判断のみに依存させる。", en: "Rely solely on prompt instructions and model self-judgment.", rationale: "誤り。プロンプトは確率的であり、ハードな要件の保証にはなりません。" },
-        { key: "C", ja: "すべての要求を最上位モデルで同期処理し、全件を人間がレビューする運用にする。", en: "Process all requests synchronously with largest model and review 100% manually.", rationale: "誤り。コストとレイテンシを壊し、人間レビューの形骸化を招きます。" },
-        { key: "D", ja: "障害時のログ記録を省略してレイテンシを短縮する。", en: "Omit logging to reduce latency.", rationale: "誤り。可観測性を失い、本番のデバッグが不可能になります。" }
-      ],
-      correct: sc === 2 ? ["A", "C"] : ["A"]
-    });
-  }
-
-  // 先頭の固有詳細問題（Q01〜Q05等）を上書き反映
-  ALL_Q[0].question.ja = "標準化チームは、1冊の1,100ページの技術仕様に関する質問へ回答する必要があります。付録を除くと、正式な本文全体が選択モデルのコンテキストウィンドウに収まります。質問では、冒頭の定義、中盤の例外、終盤の互換性表を組み合わせることがよくあります。規制レビュー中は、入力コストやp95レイテンシより関連規定の見落とし回避が重要です。初期アーキテクチャとして最も適切なものはどれですか。";
-  ALL_Q[0].options[3].rationale = "正しい。全文が収まり、離れた箇所の横断参照と検索漏れ回避がコストや速度より優先されます。識別子付き全文コンテキストが最も単純で監査可能です。";
-  ALL_Q[0].correct = ["D"];
-
-  ALL_Q[1].question.ja = "出版社は原稿を、権利状態の分類、制限対象引用の墨消し、墨消しがある場合の法務承認、配布ファイル作成という必須順序で処理します。順序と承認条件は固定されていますが、Claudeは分類と墨消し候補の提示に有用です。最も適したアーキテクチャはどれですか。";
-  ALL_Q[1].options[1].rationale = "正しい。固定サブタスクにはワークフローが適し、アプリケーション側のゲートと状態遷移で順序と承認を監査可能に強制しつつ、限定工程だけClaudeへ任せられます。";
-  ALL_Q[1].correct = ["B"];
-
-  // バッジ更新
-  const badge = document.getElementById("totalBadge");
-  if (badge) badge.textContent = `全${ALL_Q.length}問`;
-}
-
-// 起動処理
-initAllQuestions();
+// 起動
 loadProgress();
 renderHome();
 </script>
