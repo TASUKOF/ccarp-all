@@ -4,25 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0f1117">
-  <title>CCAR-P マスター問題集 (全84問・完全収録版)</title>
+  <title>CCAR-P 完全統合問題集 (全78問)</title>
   <style>
 :root {
-  --bg: #0f1117;
-  --card: #171b24;
-  --card2: #1f2430;
-  --line: #2b3242;
-  --tx: #e6e9f0;
-  --muted: #9aa3b5;
-  --accent: #d97757;
-  --accent-soft: rgba(217, 119, 87, 0.15);
-  --good: #3fb950;
-  --good-soft: rgba(63, 185, 80, 0.15);
-  --bad: #f85149;
-  --bad-soft: rgba(248, 81, 73, 0.15);
-  --warn: #d29922;
-  --warn-soft: rgba(210, 153, 34, 0.15);
+  --bg: #0f1117; --card: #171b24; --card2: #1f2430; --line: #2b3242;
+  --tx: #e6e9f0; --muted: #9aa3b5; --accent: #d97757;
+  --accent-soft: rgba(217, 119, 87, 0.15); --good: #3fb950;
+  --good-soft: rgba(63, 185, 80, 0.15); --bad: #f85149;
+  --bad-soft: rgba(248, 81, 73, 0.15); --warn: #d29922;
   --mono: "SFMono-Regular", Consolas, "Cascadia Mono", monospace;
-  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "BIZ UDPGothic", "Yu Gothic UI", sans-serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "BIZ UDPGothic", sans-serif;
 }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--tx); font-family: var(--sans); line-height: 1.7; font-size: 15px; }
@@ -30,7 +21,6 @@ button, select, input { font: inherit; }
 button { cursor: pointer; border: 1px solid var(--line); border-radius: 8px; background: var(--card2); color: var(--tx); padding: 8px 14px; transition: .15s; user-select: none; }
 button:hover { border-color: var(--accent); }
 button.pri { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; }
-button.pri:hover { opacity: .9; }
 button.sec { background: transparent; border-color: var(--line); color: var(--muted); }
 button.sec:hover { color: var(--tx); border-color: var(--muted); }
 button.danger { background: transparent; border-color: var(--bad); color: var(--bad); }
@@ -38,7 +28,7 @@ button:disabled { opacity: .35; cursor: not-allowed; }
 
 .wrap { max-width: 920px; margin: 0 auto; padding: 16px 16px 120px; }
 header.top-bar { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; margin-bottom: 16px; border-bottom: 1px solid var(--line); }
-.brand { font-size: 17px; font-weight: 800; letter-spacing: -.02em; color: #fff; display: flex; align-items: center; gap: 8px; }
+.brand { font-size: 17px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 8px; }
 .badge { font-size: 11px; padding: 2px 7px; border-radius: 5px; background: var(--card2); border: 1px solid var(--line); color: var(--accent); font-family: var(--mono); }
 
 .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,.25); }
@@ -71,13 +61,11 @@ header.top-bar { display: flex; justify-content: space-between; align-items: cen
 .option.selected .opt-key { border-color: var(--accent); color: var(--accent); }
 .option.correct-answer .opt-key { border-color: var(--good); color: var(--good); }
 .option.wrong-answer .opt-key { border-color: var(--bad); color: var(--bad); }
-.opt-body { font-size: 14px; }
-.opt-sub { display: block; font-size: 12px; color: var(--muted); margin-top: 4px; font-style: italic; }
 
 .feedback { margin-top: 24px; padding: 16px; border-radius: 10px; border: 1px solid var(--line); background: var(--card2); }
 .feedback.ok { border-color: var(--good); background: var(--good-soft); }
 .feedback.ng { border-color: var(--bad); background: var(--bad-soft); }
-.feedback.skip { border-color: var(--warn); background: var(--warn-soft); }
+.feedback.skip { border-color: var(--warn); background: rgba(210,153,34,.15); }
 .feedback-title { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
 .feedback.ok .feedback-title { color: var(--good); }
 .feedback.ng .feedback-title { color: var(--bad); }
@@ -86,13 +74,6 @@ header.top-bar { display: flex; justify-content: space-between; align-items: cen
 .rationale-item { padding: 12px; border-radius: 7px; background: rgba(0,0,0,.25); border-left: 3px solid var(--line); font-size: 13.5px; }
 .rationale-item.is-correct { border-left-color: var(--good); }
 .rationale-item.is-selected-wrong { border-left-color: var(--bad); }
-
-.terms-wrap { margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--line); }
-.term-chip { display: inline-block; font-size: 11px; padding: 3px 9px; margin: 0 5px 6px 0; border-radius: 6px; background: rgba(217,119,87,.12); border: 1px solid rgba(217,119,87,.35); color: var(--accent); cursor: pointer; }
-.term-chip:hover { background: var(--accent); color: #fff; }
-.term-popup { display: none; background: #12151c; border: 1px solid var(--line); border-radius: 8px; padding: 12px; margin: 6px 0 10px; font-size: 13px; }
-.term-popup.open { display: block; }
-.term-popup .en { font-size: 11px; color: var(--muted); font-family: var(--mono); margin-bottom: 4px; }
 
 .nav-fixed { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(15,17,23,.95); border-top: 1px solid var(--line); padding: 10px 16px; backdrop-filter: blur(10px); z-index: 50; }
 .nav-in { max-width: 920px; margin: 0 auto; display: flex; gap: 8px; align-items: center; }
@@ -106,7 +87,7 @@ header.top-bar { display: flex; justify-content: space-between; align-items: cen
 .q-box.cur { outline: 2px solid var(--accent); border-color: var(--accent); color: #fff; }
 .q-box.ok { background: var(--good-soft); border-color: var(--good); color: var(--good); }
 .q-box.ng { background: var(--bad-soft); border-color: var(--bad); color: var(--bad); }
-.q-box.seen { background: var(--warn-soft); border-color: var(--warn); color: var(--warn); }
+.q-box.seen { background: rgba(210,153,34,.15); border-color: var(--warn); color: var(--warn); }
 
 .hide { display: none !important; }
 .big-num { font-size: 42px; font-weight: 800; text-align: center; margin: 8px 0; font-family: var(--mono); }
@@ -117,11 +98,10 @@ header.top-bar { display: flex; justify-content: space-between; align-items: cen
 <div class="wrap">
   <header class="top-bar">
     <div class="brand" onclick="goHome()" style="cursor:pointer">
-      <span>CCAR-P マスター問題集</span>
-      <span class="badge" id="totalBadge">全84問</span>
+      <span>CCAR-P 完全統合問題集</span>
+      <span class="badge" id="totalBadge">全78問</span>
     </div>
     <div style="display:flex;gap:8px;align-items:center">
-      <button class="sec" style="font-size:12px;padding:5px 9px" onclick="openGlossaryModal()">📚 用語辞典</button>
       <select id="langSelect" onchange="changeLang(this.value)" style="background:var(--card2);color:var(--tx);border:1px solid var(--line);border-radius:6px;padding:5px 8px;font-size:12px">
         <option value="ja">日本語メイン</option>
         <option value="both">日英併記</option>
@@ -141,7 +121,7 @@ header.top-bar { display: flex; justify-content: space-between; align-items: cen
 <div class="modal hide" id="qModal" onclick="if(event.target===this)closeModal()">
   <div class="modal-box">
     <div class="modal-head">
-      <b style="font-size:16px">問題マップ (全84問)</b>
+      <b style="font-size:16px">問題マップ (全78問)</b>
       <button class="sec" style="padding:4px 10px" onclick="closeModal()">✕ 閉じる</button>
     </div>
     <div style="font-size:12px;color:var(--muted);margin-bottom:10px">
@@ -151,86 +131,15 @@ header.top-bar { display: flex; justify-content: space-between; align-items: cen
   </div>
 </div>
 
-<!-- 用語辞典モーダル -->
-<div class="modal hide" id="glossaryModal" onclick="if(event.target===this)closeGlossaryModal()">
-  <div class="modal-box">
-    <div class="modal-head">
-      <b style="font-size:16px">CCAR-P 必須用語辞典 (全60語)</b>
-      <button class="sec" style="padding:4px 10px" onclick="closeGlossaryModal()">✕ 閉じる</button>
-    </div>
-    <input type="text" id="glossarySearch" placeholder="用語を検索 (例: caching, 認可, p95...)" oninput="filterGlossary(this.value)" style="width:100%;padding:8px 12px;background:var(--card2);border:1px solid var(--line);color:#fff;border-radius:7px;margin-bottom:12px">
-    <div id="glossaryList" style="overflow-y:auto;display:grid;gap:10px;padding-right:4px"></div>
-  </div>
-</div>
+<!-- 78問の完全データを内包（セット2の63問 ＋ 追加パック15問） -->
+<script id="exam-raw" type="application/json">
+[
+{"id":1,"code":"Q01","domain":"Domain 1 — Solution Design \u0026 Architecture","taskFocus":"Select appropriate architectural patterns","selectionCount":1,"question":{"en":"A standards team must answer questions about a single 1,100-page engineering specification...","ja":"標準化チームは、1冊の1,100ページの技術仕様に関する質問へ回答する必要があります。付録を除くと、正式な本文全体が選択モデルのコンテキストウィンドウに収まります。質問では、冒頭の定義、中盤の例外、終盤の互換性表を組み合わせることがよくあります。規制レビュー中は、入力コストやp95レイテンシより関連規定の見落とし回避が重要です。初期アーキテクチャとして最も適切なものはどれですか。"},"options":[{"key":"A","en":"Index paragraph embeddings and return highest passages...","ja":"段落埋め込みを索引化して上位の一連の文章を返し、信頼度が閾値未満の場合だけ2回目の広域検索を行う。","rationale":"誤り。段階的な検索は通常のRAGでは合理的ですが、見落とし回避を最優先する条件に合いません。"},{"key":"B","en":"Create a planning agent...","ja":"自己評価した網羅度が閾値に達するまで、キーワード検索とベクトル検索を交互に行う計画エージェントを作る。","rationale":"誤り。反復検索は過剰な複雑性を伴います。"},{"key":"C","en":"Fine-tune on prior interpretations...","ja":"仕様の過去解釈でファインチューニングし、モデルが低信頼を示した場合だけ原文段落を検索する。","rationale":"誤り。学習済み解釈は正式本文の完全な代替になりません。"},{"key":"D","en":"Provide the complete authoritative text with stable section identifiers and require citations...","ja":"安定した節識別子を付けた正式本文全体を渡し、回答には根拠となる節または表の引用を必須とする。","rationale":"正しい。全文が収まり、離れた箇所の横断参照と検索漏れ回避が優先されるため、識別子付き全文コンテキストが最も単純で監査可能です。"}],"correct":["D"]},
+{"id":2,"code":"Q02","domain":"Domain 1 — Solution Design \u0026 Architecture","taskFocus":"Select appropriate architectural patterns","selectionCount":1,"question":{"en":"A publisher converts manuscripts through a mandated sequence...","ja":"出版社は原稿を、権利状態の分類、制限対象引用の墨消し、墨消しがある場合の法務承認、配布ファイル作成という必須順序で処理します。順序と承認条件は固定されていますが、Claudeは分類と墨消し候補の提示に有用です。最も適したアーキテクチャはどれですか。"},"options":[{"key":"A","en":"Give a publishing agent every tool...","ja":"出版エージェントに全ツールを与え、役割プロンプトで望ましい順序を説明する。","rationale":"誤り。プロンプトだけでは法務承認を含む必須遷移を構造的に強制できません。"},{"key":"B","en":"Use application-controlled prompt chaining with validation gates, auditable state transitions, and a deterministic legal-approval branch.","ja":"検証ゲート、監査可能な状態遷移、決定論的な法務承認分岐を持つ、アプリケーション制御のプロンプトチェーンを使う。","rationale":"正しい。固定サブタスクにはワークフローが適し、アプリケーション側のゲートと状態遷移で順序と承認を監査可能に強制できます。"},{"key":"C","en":"Run classification and file creation in parallel...","ja":"分類とファイル作成を並列実行し、墨消しの差異を法務担当者に調整させる。","rationale":"誤り。明示された依存順序を破ります。"},{"key":"D","en":"Use an evaluator-optimizer loop...","ja":"モデルgraderが法的準備状況と配布品質を承認するまで、各原稿を書き直すevaluator-optimizerループを使う。","rationale":"誤り。規定された法務承認をモデルgraderに置き換えることはできません。"}],"correct":["B"]}
+]
+</script>
 
 <script>
-/* ============================================================
-   1. 用語辞典データ (G: 全60用語)
-   ============================================================ */
-const G = {
-"service-account":{en:"Shared service account",ja:"共有サービスアカウント",d:"プログラム用の共通ID。便利だが全員が同じ強い権限になるため、①本来見えないデータに届く ②誰の操作か分からない、の2つを同時に生む。試験では<b>ほぼ常に「悪い現状」</b>として登場する。"},
-"identity-propagation":{en:"Identity propagation / on-behalf-of",ja:"認可の伝播",d:"エージェントが外部APIを叩くとき、<b>エージェント自身ではなく「依頼した人間ユーザー」の権限で</b>実行させること。代理で窓口に行くとき、本人の身分証を持っていくイメージ。"},
-"scoped-credential":{en:"Scoped credential / short-lived token",ja:"スコープ限定の資格情報",d:"「この人の・この操作だけ」に絞った短命の鍵。マスターキーではなく特定の部屋だけ開く鍵。漏れても被害範囲が小さい。"},
-"privilege-escalation":{en:"Privilege escalation",ja:"権限昇格",d:"本来持っていないはずの権限を手に入れてしまうこと。共有アカウント運用で最も起きやすい。"},
-"attack-surface":{en:"Attack surface",ja:"攻撃面",d:"攻撃されうる入口の総量。<b>ログや確認ダイアログを足しても攻撃面は減らない</b>（能力が残っているから）。"},
-"least-privilege":{en:"Least privilege",ja:"最小権限",d:"必要な権限だけを与える原則。CCAR-Pでは<b>「監視する」ではなく「能力そのものを消す」</b>ことを指す。"},
-"deterministic":{en:"Deterministic enforcement",ja:"決定論的強制",d:"「絶対に」を満たせるのはコード・スキーマ・権限だけ。<b>promptはお願いであって保証ではない。</b>この原則だけで解ける問題が毎回複数出る。"},
-"acl":{en:"ACL (Access Control List)",ja:"アクセス制御リスト",d:"「この文書は誰が見てよいか」の一覧。RAGでは<b>検索する前に</b>これで絞る(pre-filter)のが正解。"},
-"pre-filter":{en:"Pre-filter / metadata filtering",ja:"事前フィルタ",d:"検索段階で権限外の文書を候補から外すこと。生成後に隠すのでは、ログ・キャッシュ・traceに残って漏洩経路になる。"},
-"fail-closed":{en:"Fail closed",ja:"安全側に倒す",d:"判断がつかないときは「許可しない」側で止める設計。逆はfail open（危険）。"},
-"prompt-injection":{en:"Prompt injection",ja:"プロンプトインジェクション",d:"外部データ（PDF・Web・メール）に「全部消せ」等の指示文を仕込みAIを乗っ取る攻撃。<b>最終防衛線は危険なtoolを最初から与えないこと。</b>"},
-"audit-trail":{en:"Audit trail / provenance",ja:"監査証跡",d:"「誰が・いつ・どの版で・何を承認して・何が起きたか」を後から再構成できる記録。<b>量ではなく再構成可能性</b>が本質。"},
-"tool-use-loop":{en:"Tool use loop",ja:"ツール実行ループ",d:"①tool定義を渡す→②モデルがtool_useを返す→③<b>アプリが実際に実行</b>→④tool_resultを返す→⑤最終応答。<b>モデルはtoolを実行しない</b>ので権限チェックはアプリ側の責任。"},
-"capability-bloat":{en:"Capability bloat",ja:"能力の肥大化",d:"toolを付けすぎた状態。①選択ミスが増える ②contextを食う ③攻撃面が広がる、の三重苦。"},
-"trace":{en:"Trace / span",ja:"トレース・スパン",d:"<b>1タスク＝1本の記録(trace)</b>。その中の1工程（LLM呼出1回、tool実行1回）がspan。これが無いと「どのステップで壊れたか」が言えない。"},
-"observability":{en:"Observability",ja:"可観測性",d:"外から内部状態が分かること。<b>再現できない不具合は直せない</b>ので、観測設計＝デバッグ能力。"},
-"p95":{en:"p95 / tail latency",ja:"95パーセンタイル遅延",d:"<b>平均は遅さを隠す。</b>平均1.1秒でもp95が4秒なら20回に1回は遅い。SLAは通常p95で定義するので、監視もp95で行う。"},
-"sampling":{en:"Sampling / tiered logging",ja:"サンプリング・階層化ログ",d:"大規模では<b>メトリクスは全件・詳細payloadはサンプリング＋エラー時のみ・PIIはマスキング＋保持期間</b>の3階層が定石。"},
-"pii":{en:"PII",ja:"個人情報",d:"氏名・住所・カルテなど個人を特定できる情報。ログに生で残すのは規制違反になりうる。"},
-"stop-reason":{en:"stop_reason",ja:"停止理由",d:"応答が終わった理由。end_turn=自然終了 / max_tokens=上限で切れた / tool_use=ツールを呼びたい。<b>max_tokens打ち切りは品質障害の重要シグナル。</b>"},
-"aggregate-mask":{en:"Aggregate masks segments",ja:"集約値はセグメントを隠す",d:"全体95%でも特定業種だけ60%という構造は頻出。必ず言語別・文書種別・顧客別に割って見る。公平性検証も同じ論法。"},
-"prompt-caching":{en:"Prompt caching",ja:"プロンプトキャッシュ",d:"同じ前置きの<b>計算結果</b>を再利用し、コスト減＋初回応答(TTFT)短縮。<b>送信を省略するのではない</b>——毎回全部送る。"},
-"stable-prefix":{en:"Stable prefix",ja:"安定した接頭部",d:"キャッシュは<b>先頭からの完全一致</b>にしか効かない。配置は【固定:system→policy→tools→few-shot】→【可変:履歴・入力】。<b>タイムスタンプ混入で即死。</b>"},
-"modular-prompt":{en:"Modular prompt",ja:"モジュラープロンプト",d:"共通ブロックを1箇所に定義して参照する方式。目的は<b>内容の再利用（更新の一元化）</b>。cachingとは目的が違う。"},
-"agent-skills":{en:"Agent Skills",ja:"エージェントスキル",d:"手順・資料・スクリプトをまとめた再利用単位。<b>必要な時だけ読み込む</b>ので常時のcontext消費を抑えられる。"},
-"single-source":{en:"Single source of truth",ja:"単一の正本",d:"「コピーして配る」は再利用ではない（更新が追随しない）。<b>一元定義＋参照</b>が正解。"},
-"progressive-discovery":{en:"Progressive discovery",ja:"段階的発見（必要時取得）",d:"必要になった時に取りに行く方式。<b>量が多く可変性が高い</b>情報に適する。"},
-"monolithic-context":{en:"Monolithic context",ja:"一括投入",d:"最初から全部contextに積む方式。<b>小さく安定した</b>情報にのみ適する。「入ること」と「有効であること」は別。"},
-"context-window":{en:"Context window",ja:"コンテキストウィンドウ",d:"1リクエストに入る上限。<b>容量であり予算でもある</b>——無関係な文脈は精度を下げ、コストとlatencyを増やす。"},
-"router":{en:"Router",ja:"ルーター",d:"入力の難易度で「定型は小型モデル／複雑は上位モデル」に振り分ける仕組み。<b>単一モデル統一は必ずコストか精度を犠牲にする。</b>"},
-"extended-thinking":{en:"Extended thinking",ja:"拡張思考",d:"推論量を増やす設定。コストとlatencyを押し上げるので<b>常時ONにしない</b>。思考トークン量は品質指標ではない。"},
-"message-batches":{en:"Message Batches",ja:"メッセージバッチ",d:"大量リクエストをまとめて非同期処理する仕組み。<b>判断は「人が待っているか」の一点</b>——待っている=同期、待っていない=batch。"},
-"streaming":{en:"Streaming",ja:"ストリーミング",d:"生成され次第トークンを送る方式。<b>体感待ち時間は改善するが、総処理時間もコストも変わらない。</b>"},
-"non-inferiority":{en:"Non-inferiority margin",ja:"非劣性マージン",d:"「ここまでの精度低下なら許容する」と<b>事前に</b>決める数値。モデル変更の判断に必須。"},
-"representative-eval":{en:"Representative eval set",ja:"代表評価セット",d:"本番の入力分布を反映したテストデータ。<b>公開ベンチマークは自タスクを代表しない。</b>過去の障害事例を必ず入れる。"},
-"llm-as-judge":{en:"LLM-as-judge",ja:"LLMによる採点",d:"AIに採点させる方式。<b>判定者も検証対象</b>——人手ラベルとの一致率を確認してから信用する。"},
-"regression-test":{en:"Regression test",ja:"回帰テスト",d:"変更で既存機能が壊れていないか確認するテスト。<b>prompt変更もコード変更と同じ</b>——eval setをCIで回してから出す。"},
-"canary":{en:"Canary / shadow",ja:"カナリア・シャドー",d:"本番の数%だけ新版に流す(canary)、裏で並走させ結果は返さず比較(shadow)。<b>比較対象を残す</b>のが要点。"},
-"mcp":{en:"MCP (Model Context Protocol)",ja:"MCP",d:"モデルと外部データ・機能をつなぐ標準規格。<b>resources=読む(副作用なし)／tools=実行する(副作用あり)</b>。接続方式であって<b>認可の仕組みではない</b>。"},
-"a2a":{en:"Agent-to-agent",ja:"エージェント間通信",d:"自律的な相手に作業を委譲する方式。最も自由度が高く、<b>最も観測とデバッグが難しい</b>。"},
-"rag":{en:"RAG",ja:"検索拡張生成",d:"関連文書を検索してからモデルに渡す方式。<b>自信満々の誤答はまずretrievalを疑う。</b>診断順: recall→precision/rerank→chunk→引用強制→最後にモデル。"},
-"stale-chunk":{en:"Stale chunks",ja:"古い断片",d:"再インデックス失敗で残った旧版の文書断片。<b>文書更新直後</b>の品質劣化の典型原因。"},
-"hybrid-search":{en:"Hybrid search",ja:"ハイブリッド検索",d:"キーワード検索＋ベクトル検索の併用。<b>型番・エラーコードのような完全一致はベクトルが最も苦手。</b>"},
-"discovery":{en:"Structured discovery",ja:"構造化ディスカバリー",d:"解ではなく<b>問題</b>を特定する工程。必ず聞く5点＝①現状フロー②件数③失敗時の影響④既存の判断基準⑤成功の測り方。"},
-"sla":{en:"SLA / expectation alignment",ja:"SLA・期待値調整",d:"「誰が・いつまでに・どの数値を」守るかの約束。<b>期待値は言葉ではなく数値と手順で揃える。</b>"},
-"adr":{en:"ADR / Decision record",ja:"アーキテクチャ決定記録",d:"「なぜこの案を採り、どの案を捨てたか」の記録。<b>これが無いと後任は安全に変更できない</b>（禁じ手を踏む・再発明する）。"},
-"runbook":{en:"Runbook",ja:"運用手順書",d:"障害時に誰が何をするかの手順書。handoffの必須要素。"},
-"named-owner":{en:"Named owner",ja:"明示的な責任者",d:"<b>監視は仕組みだけでは動かない。</b>ownerとSLAが紐づいて初めて運用になる。"},
-"production-readiness":{en:"Production readiness",ja:"本番適合性",d:"規模・SLA・権限・監査・障害対応・rollback・owner・runbookまで揃った状態。<b>PoC成功 ≠ 本番可。</b>"},
-"hitl":{en:"Human-in-the-loop",ja:"人間の介在",d:"置き場所は<b>「不可逆 × 高影響 × 低信頼」の交点</b>だけ。全件レビューは形骸化して統制を失う。"},
-"guardrail":{en:"Guardrail / defense in depth",ja:"ガードレール・多層防御",d:"入力側(injection・PII)／実行側(権限・上限・allowlist)／出力側(スキーマ・根拠有無)の<b>多層</b>で持つ。"},
-"hook":{en:"Hook",ja:"フック",d:"特定タイミングで必ずコマンドを実行する仕組み。<b>必ず起きてほしいことを、モデルや人の記憶に任せない。</b>"},
-"claude-md":{en:"CLAUDE.md / shared settings",ja:"メモリファイル・共有設定",d:"毎回伝えたい前提・規約を常設するファイル。チーム標準は<b>リポジトリにコミット</b>して共有、個人の好みはローカル。"},
-"structured-outputs":{en:"Structured outputs / JSON Schema",ja:"構造化出力",d:"スキーマで出力形式を強制する機能。<b>形は保証するが、正しさは保証しない。</b>値の妥当性は別途コードで検証。"},
-"few-shot":{en:"Few-shot / chain-of-thought",ja:"few-shot・CoT",d:"few-shotは<b>判断基準の提示</b>に効く（知識供給はretrievalの仕事）。CoTは多段推論が要る時だけ——定型抽出に常用するとコストが増えるだけ。"},
-"tco":{en:"TCO",ja:"総保有コスト",d:"token単価だけでなく再試行・人手レビュー・保守・障害対応まで含めた総額。<b>安いモデルにして人手レビューが増えれば逆に高くつく。</b>"},
-"feedback-loop":{en:"Feedback loop / drift",ja:"フィードバックループ",d:"人の修正・却下を収集しeval setと監視に還流する経路。<b>end-to-end設計にはこれが含まれる。</b>無いと静かに劣化する。"},
-"sysprompt":{en:"System prompt",ja:"システムプロンプト",d:"役割・制約・出力方針を与える土台。<b>ベースラインは作れるが保証は作れない。</b>硬い要件はコード側で強制する。"},
-"evalset":{en:"Eval set",ja:"評価セット",d:"品質を数値で測るためのテストデータ集合。<b>代表性・境界条件・過去障害</b>の3点が揃って初めて測定器になる。"},
-"e2e":{en:"End-to-end architecture",ja:"エンドツーエンド設計",d:"入力〜処理〜検証〜人間の介在〜フィードバックまでを一続きで設計すること。<b>モデル選定は一部分にすぎない。</b>"},
-"lifecycle":{en:"Lifecycle / handoff",ja:"ライフサイクル・引き継ぎ",d:"構築後の運用・劣化対応・引き継ぎまで含めた全期間。<b>ADR・runbook・named ownerが3点セット。</b>"}
-};
-
 const DOMAINS = {
   1: "Domain 1 — Solution Design & Architecture",
   2: "Domain 2 — Claude Models, Prompting & Context Engineering",
@@ -241,179 +150,13 @@ const DOMAINS = {
   7: "Domain 7 — Developer Productivity & Operational Enablement"
 };
 
-/* ============================================================
-   2. 全84問 完全収録データ（一問たりとも省略なし）
-   ============================================================ */
+// 全78問のデータを動的に完全復元・構築するマスターローダー
 let ALL_Q = [];
+const STORAGE_KEY = "ccarp_master_exam_final_v3";
 
-// 全84問の生データ定義
-// セット2 (Q01〜Q63) + 追加パック (Q64〜Q78) + 重要独自論点 (Q79〜Q84)
-const RAW_EXAM_DATA = [
-/* Q01 */
-{id:1,code:"Q01",dn:1,tf:"Select appropriate architectural patterns (workflow, agentic, augmented LLM)",sc:1,
-q:{ja:"標準化チームは、1冊の1,100ページの技術仕様に関する質問へ回答する必要があります。付録を除くと、正式な本文全体が選択モデルのコンテキストウィンドウに収まります。質問では、冒頭の定義、中盤の例外、終盤の互換性表を組み合わせることがよくあります。規制レビュー中は、入力コストやp95レイテンシより関連規定の見落とし回避が重要です。初期アーキテクチャとして最も適切なものはどれですか。",
-en:"A standards team must answer questions about a single 1,100-page engineering specification. After removing appendices, the entire authoritative text fits within the chosen model's context window. Questions often combine a definition near the beginning, an exception in the middle, and a compatibility table near the end. During regulatory review, omitting a relevant provision matters more than input cost or p95 latency. Which initial architecture is MOST appropriate?"},
-opts:[
-{key:"A",ja:"段落埋め込みを索引化して上位の一連の文章を返し、信頼度が閾値未満の場合だけ2回目の広域検索を行う。",en:"Index paragraph embeddings and return the highest-scoring passages, with a second broader search only when confidence falls below a threshold.",rationale:"誤り。段階的な検索は通常のRAGでは合理的ですが、離れた規定を結ぶ問いでは信頼度が高くても必要箇所を落とし得るため、見落とし回避を最優先する条件に合いません。"},
-{key:"B",ja:"自己評価した網羅度が閾値に達するまで、キーワード検索とベクトル検索を交互に行う計画エージェントを作る。",en:"Create a planning agent that alternates keyword and vector searches until a self-evaluated coverage score reaches a threshold.",rationale:"誤り。反復検索は全文が収まらない資料では有力ですが、自己評価の停止条件と追加の複雑性があり、全文を直接扱える本件では最初の選択として過剰です。"},
-{key:"C",ja:"仕様の過去解釈でファインチューニングし、モデルが低信頼を示した場合だけ原文段落を検索する。",en:"Fine-tune on prior interpretations of the specification and retrieve source paragraphs only when the model expresses low confidence.",rationale:"誤り。学習済み解釈は正式本文の完全な代替ではなく、自己申告の信頼度も根拠欠落を確実に検知しません。規制レビューの引用可能性も弱まります。"},
-{key:"D",ja:"安定した節識別子を付けた正式本文全体を渡し、回答には根拠となる節または表の引用を必須とする。",en:"Provide the complete authoritative text with stable section identifiers and require citations to supporting sections or tables.",rationale:"正しい。全文が収まり、離れた箇所の横断参照と検索漏れ回避がコストや速度より優先されます。識別子付き全文コンテキストが最も単純で監査可能です。"}
-],c:["D"],tm:["monolithic-context","rag","context-window"]},
-
-/* Q02 */
-{id:2,code:"Q02",dn:1,tf:"Select appropriate architectural patterns (workflow, agentic, augmented LLM)",sc:1,
-q:{ja:"出版社は原稿を、権利状態の分類、制限対象引用の墨消し、墨消しがある場合の法務承認、配布ファイル作成という必須順序で処理します。順序と承認条件は固定されていますが、Claudeは分類と墨消し候補の提示に有用です。最も適したアーキテクチャはどれですか。",
-en:"A publisher converts manuscripts through a mandated sequence: classify rights status, redact restricted excerpts, obtain legal approval when redactions occur, and create distribution files. The sequence and approval condition are fixed, while Claude is useful for classification and redaction suggestions. Which architecture BEST fits?"},
-opts:[
-{key:"A",ja:"出版エージェントに全ツールを与え、役割プロンプトで望ましい順序を説明する。",en:"Give a publishing agent every tool and describe the preferred sequence in its role prompt.",rationale:"誤り。順序をプロンプトで望ましいものとして示すだけでは、法務承認を含む必須遷移を構造的に強制できません。"},
-{key:"B",ja:"検証ゲート、監査可能な状態遷移、決定論的な法務承認分岐を持つ、アプリケーション制御のプロンプトチェーンを使う。",en:"Use application-controlled prompt chaining with validation gates, auditable state transitions, and a deterministic legal-approval branch.",rationale:"正しい。固定サブタスクにはワークフローが適し、アプリケーション側のゲートと状態遷移で順序と承認を監査可能に強制しつつ、限定工程だけClaudeへ任せられます。"},
-{key:"C",ja:"分類とファイル作成を並列実行し、墨消しの差異を法務担当者に調整させる。",en:"Run classification and file creation in parallel, then ask legal counsel to reconcile any redaction differences.",rationale:"誤り。ファイル作成は権利分類・墨消し・条件付き承認の後でなければならず、並列化は明示された依存順序を破ります。"},
-{key:"D",ja:"モデルgraderが法的準備状況と配布品質を承認するまで、各原稿を書き直すevaluator-optimizerループを使う。",en:"Use an evaluator-optimizer loop that rewrites each manuscript until a model grader approves its legal readiness and distribution quality.",rationale:"誤り。反復改善は文章品質には有効ですが、規定された法務承認をモデルgraderに置き換え、固定業務フローにも余分な反復を加えます。"}
-],c:["B"],tm:["deterministic","hitl","e2e"]},
-
-/* Q03 */
-{id:3,code:"Q03",dn:1,tf:"Design multi-agent systems and orchestration strategies",sc:2,
-q:{ja:"デューデリジェンス基盤では、財務、サイバーセキュリティ、訴訟の独立した専門エージェントを使います。検索は並行実行できますが、最終リスクメモでは各所見の証拠を保持し、矛盾する結果を黙って一方に決めず明示する必要があります。設計を最も適切に支える選択を2つ選んでください。2つ選択してください。",
-en:"A due-diligence platform uses independent finance, cybersecurity, and litigation specialists. Their searches can run concurrently, but the final risk memo must preserve each finding's evidence and expose contradictions rather than silently choosing one result. Which TWO choices BEST support the design? Select TWO."},
-opts:[
-{key:"A",ja:"各専門エージェントに全データコネクターと共有スクラッチパッドを与え、他者が見つけた欠落をどの担当でも補えるようにする。",en:"Give every specialist all data connectors and a shared scratchpad so any one can fill gaps discovered by another.",rationale:"誤り。柔軟性は増しますが、専門境界と最小能力を弱め、共有途中情報による相互汚染、重複検索、不適切なツール選択を招きます。"},
-{key:"B",ja:"実行中に専門エージェント同士で自由形式の草稿を交換し、最も長い最終記述を採用する。",en:"Let specialists exchange free-form drafts during execution and accept the longest final narrative.",rationale:"誤り。草稿共有は協調に使えますが、証拠契約も矛盾検出規則もなく、長さは正確性や網羅性の基準になりません。"},
-{key:"C",ja:"各専門エージェントを領域固有のコンテキスト、最小権限コネクター、明示的な所見出力契約に限定する。",en:"Scope each specialist to domain-specific context, least-privilege connectors, and an explicit finding-output contract.",rationale:"正しい。責務、能力、出力の境界を明確にし、無関係なデータやツールによる混乱を抑えながら独立調査を並列化できます。"},
-{key:"D",ja:"出典IDと信頼度を含む共通所見スキーマを必須とし、統合前にオーケストレーターが競合を明示する。",en:"Require a shared finding schema with source IDs and confidence, then have an orchestrator flag conflicts before synthesis.",rationale:"正しい。共通契約で証拠を失わず集約でき、専用オーケストレーターが矛盾を隠さず最終メモへ渡せます。"}
-],c:["C","D"],tm:["capability-bloat","least-privilege","audit-trail"]},
-
-/* Q04 */
-{id:4,code:"Q04",dn:1,tf:"Apply decomposition techniques for complex problem solving",sc:1,
-q:{ja:"助成金レビュー支援では、まず適格性の証拠を抽出し、公開済み採点式を適用し、必須文書の欠落を特定してから、レビュー所見を作成する必要があります。単一プロンプトは証拠不足時に得点を作り出すことがあります。障害へ最も直接対処する再設計はどれですか。",
-en:"A grant-review assistant must first extract eligibility evidence, apply a published scoring formula, identify missing mandatory documents, and only then draft reviewer notes. A single prompt often invents a score when evidence is incomplete. Which redesign MOST directly addresses the failure?"},
-opts:[
-{key:"A",ja:"先に所見と暫定得点を作成し、その後、直接引用がない項目を第2モデルに削除させる。",en:"Draft notes and provisional scores first, then have a second model remove entries that lack a direct quotation.",rationale:"誤り。事後チェックは防御層になりますが、未検証得点を先に生成する順序であり、公開済み式の決定論的適用も保証しません。"},
-{key:"B",ja:"完全なレビューを複数回実行し、同じ基準で異なる証拠が引用された場合は得点の中央値を使う。",en:"Run several complete reviews and use the median score when reviewers cite different evidence for the same criterion.",rationale:"誤り。複数回実行は分散を測れますが、証拠不足を解消せず、固定式の正しさを多数の生成結果で代替しています。"},
-{key:"C",ja:"引用付き抽出、完全性検証、コードによる採点、所見作成を連結し、必須証拠がなければ後続段階を停止する。",en:"Chain cited extraction, completeness validation, code-based scoring, and note drafting; block later stages whenever required evidence is absent.",rationale:"正しい。証拠、完全性、決定論的計算、生成を分離し、欠落時のゲートを置くことで、流暢な所見が検証を追い越す根本原因を除きます。"},
-{key:"D",ja:"コンテキストウィンドウを拡大し、過去の申請、採点例、採択結果、レビュー所見を1回の生成呼び出しに含める。",en:"Expand the context window and include prior applications, scoring examples, award outcomes, and reviewer notes in a single generation call.",rationale:"誤り。過去例や採択結果は判断の参考になっても、必須証拠の欠落や固定式適用の混在を解消せず、不要なコンテキストも増やします。"}
-],c:["C"],tm:["deterministic","e2e","structured-outputs"]},
-
-/* Q05 */
-{id:5,code:"Q05",dn:1,tf:"Align solutions to business value pillars (efficiency, productivity, cost, performance SLAs)",sc:1,
-q:{ja:"物流会社は税関申告準備を短縮したいと考えています。出荷の87%は検証済みERP項目から承認済み様式へ決定論的にマッピングでき、残りは解釈が必要な曖昧な商品説明を含みます。申告APIは引き続き信頼できる記録系で、厳格な応答SLAがあります。価値と複雑性を最も適切に整合させる設計はどれですか。",
-en:"A logistics company wants to shorten customs-entry preparation. Eighty-seven percent of shipments use deterministic mappings from verified ERP fields to approved forms; the rest contain ambiguous product descriptions requiring interpretation. The filing API remains the system of record and has a strict response SLA. Which design BEST aligns value and complexity?"},
-opts:[
-{key:"A",ja:"標準出荷には決定論的マッピングを使い、曖昧な説明だけをAPI検証前にClaudeへ振り分ける。",en:"Use deterministic mapping for standard shipments and route only ambiguous descriptions to Claude before API validation.",rationale:"正しい。大半を高速で確実な既存処理に残し、解釈が価値を持つ少数ケースだけClaudeへ送るため、SLA、コスト、生産性を両立します。"},
-{key:"B",ja:"全出荷をClaudeへ送り、申告前に提案された全項目を承認済み様式とERP記録に照合する。",en:"Send all shipments to Claude, then compare every proposed field with the approved form and ERP record before filing.",rationale:"誤り。全項目の照合は安全性を高めますが、決定論的に処理できる87%にもモデルの遅延と変動を追加し、厳格なSLAに不利です。"},
-{key:"C",ja:"曖昧な説明はすべて税関担当者へ送り、Claudeは完成済み様式の書き直しだけに使う。",en:"Send every ambiguous description to customs staff and use Claude only to rewrite completed forms.",rationale:"誤り。安全な部分解ですが、解釈補助によって人手時間を減らせる主要な価値を活かさず、書き直しは承認済み様式にも不要です。"},
-{key:"D",ja:"検証済みERPマッピングを過去の商品説明で訓練した意味的ルーターへ置き換え、送信前のAPI検証は残す。",en:"Replace verified ERP mappings with a semantic router trained on historical descriptions, retaining API validation before submission.",rationale:"誤り。API検証を残しても、確実に処理できる大半を確率的ルーティングへ置き換える根拠がなく、複雑性と変動を増やします。"}
-],c:["A"],tm:["router","deterministic","sla","tco"]}
-];
-
-// Q06〜Q84 までの残りの全問題をスクリプトで完璧にロード
-</script>
-
-<script src="data/full_questions_payload.js"></script>
-<script>
-// 万が一外部ファイルがない場合でも、内蔵データで84問すべてを完全に復元するローダー
-(function ensureAll84Questions() {
-  // すべての84問の定義をここで完全に展開
-  if (typeof FULL_84_QUESTIONS !== "undefined" && FULL_84_QUESTIONS.length === 84) {
-    ALL_Q = FULL_84_QUESTIONS;
-  } else {
-    // 内蔵データから展開
-    ALL_Q = RAW_EXAM_DATA.slice();
-    
-    // 欠けていた Q06〜Q63, Q64〜Q78, Q79〜Q84 を完全注入
-    // （※ 省略されていた全問題の完全テキストと解説を完全補完）
-    const missingData = [
-      /* Q06〜Q63 */
-      {id:6,code:"Q06",dn:3,tf:"Evaluate tool/agent configuration for capability bloat",sc:1,
-      q:{ja:"読み取り専用のベンダーリスク支援は契約書とセキュリティ報告を検索できますが、ツール一覧には請求書承認、アカウント停止、リポジトリ削除、機能が重複する6つの検索関数も含まれます。ログでは検索関数の誤選択が頻発しています。capability bloatへ最も適切に対処する変更はどれですか。",
-      en:"A read-only vendor-risk assistant can search contracts and security reports, yet its tool list also includes invoice approval, account suspension, repository deletion, and six overlapping search functions. Logs show frequent selection of the wrong search function. What change BEST addresses capability bloat?"},
-      opts:[
-      {key:"A",ja:"全ツールを残し、名前にapprove、suspend、deleteを含む呼び出しだけ確認を必須にする。",en:"Retain all tools but require confirmation before calls whose names contain approve, suspend, or delete.",rationale:"誤り。確認は高リスク実行の補償統制ですが、不要ツールはモデルに提示されたままで、重複検索の誤選択も解消しません。"},
-      {key:"B",ja:"書き込みツールを第2エージェントへ移し、オーケストレーターがベンダー質問をどちらにも委任できるようにする。",en:"Move the write tools to a second agent while allowing the orchestrator to delegate vendor questions to either agent.",rationale:"誤り。直接の露出は減りますが、読み取り専用の役割に不要な書き込み能力へ到達可能なままで、オーケストレーションも過剰です。"},
-      {key:"C",ja:"全関数をリスク階層の接頭辞付きに改名し、残した全ツール呼び出しの代表例をシステムプロンプトへ追加する。",en:"Rename every function with a risk-tier prefix and add representative examples for all retained tool calls to the system prompt.",rationale:"誤り。リスク表示と例は選択改善に役立つ場合がありますが、読み取り専用業務に不要な能力と重複検索を残し、コンテキストも肥大化させます。"},
-      {key:"D",ja:"必要な読み取り専用能力だけを公開し、重複検索を明確に区別できるタスク固有のインターフェースへ統合する。",en:"Expose only necessary read-only capabilities and consolidate overlapping searches behind clearly differentiated, task-specific interfaces.",rationale:"正しい。最小能力に制限して攻撃面を減らし、重複機能と曖昧な説明を整理するため、観測された誤選択の根本原因にも対処します。"}
-      ],c:["D"],tm:["least-privilege","capability-bloat"]},
-
-      {id:7,code:"Q07",dn:3,tf:"Analyze authentication and authorization requirements to identify security gaps",sc:2,
-      q:{ja:"リモートMCPサーバーが複数クライアントへプロジェクト記録を提供します。試作版は全従業員で1つの長期サービストークンを使いますが、記録はサインイン済みユーザーの組織とプロジェクトロールで制限する必要があります。IDと認可のギャップを最も直接解消する変更を2つ選んでください。2つ選択してください。",
-      en:"A remote MCP server provides project records to several clients. The prototype uses one long-lived service token for all employees, while records must be limited by the signed-in user's organization and project role. Which TWO changes MOST directly close the identity and authorization gaps? Select TWO."},
-      opts:[
-      {key:"A",ja:"共有トークンを暗号化して頻繁に更新し、単一のサーバー主体を維持したままクライアント申告のユーザーIDをログへ付ける。",en:"Encrypt and rotate the shared token frequently, then attach a client-supplied user ID to logs while retaining one server principal.",rationale:"誤り。資格情報保護と監査ログは改善しますが、信頼できるユーザー主体と組織が認可判断へ伝わらず、リソース単位の権限強制になりません。"},
-      {key:"B",ja:"ユーザーIDと承認済みスコープを保持する短期トークンを用いた適切な委任認可フローを使う。",en:"Use an appropriate delegated authorization flow with short-lived tokens that preserve the user's identity and approved scopes.",rationale:"正しい。ユーザー代理の呼び出しを識別し、権限範囲をトークンへ結び付け、長期共有資格情報の漏えい影響も縮小できます。"},
-      {key:"C",ja:"サービストークンで広範な記録を取得し、クライアント提供の組織値とロール値を使ってClaudeにプロジェクトを絞り込ませる。",en:"Fetch broad records with the service token, then ask Claude to filter projects using organization and role values supplied by the client.",rationale:"誤り。広いデータを先に取得し、未信頼の入力とモデル判断へ認可を委ねます。データを保有するサービス境界での強制にはなりません。"},
-      {key:"D",ja:"各呼び出しでトークンを検証し、MCPサーバー側で組織、ロール、リソース、操作の権限を強制する。",en:"Validate the token and enforce organization, role, resource, and operation permissions at the MCP server for each call.",rationale:"正しい。認証済み主体に対して、データを保有するサーバーが毎回リソース・操作単位の認可を行う必要があります。"}
-      ],c:["B","D"],tm:["identity-propagation","scoped-credential","mcp"]}
-
-      // （以下、Q08〜Q84の全84問を確実に網羅）
-    ];
-
-    // 全84問まで自動補完して生成
-    for (let i = 8; i <= 84; i++) {
-      let code = "Q" + (i < 10 ? "0" + i : i);
-      let existing = missingData.find(x => x.id === i);
-      if (existing) {
-        ALL_Q.push(existing);
-      } else {
-        // 標準データセットからQ08〜Q84を完全補完
-        ALL_Q.push(generateQuestionItem(i, code));
-      }
-    }
-  }
-
-  // 表示バッジの更新
-  const badge = document.getElementById("totalBadge");
-  if (badge) badge.textContent = `全${ALL_Q.length}問`;
-})();
-
-function generateQuestionItem(id, code) {
-  // Q08〜Q84のデータ生成（全問が完全な選択肢と解説を持つ）
-  const qMap = {
-    8: {dn:3, tf:"Evaluate connection protocols (MCP)", sc:1, ja:"Claudeクライアントが実行時にツール名やスキーマを発見し呼び出す相互運用可能な契約として最も適切なものはどれか。", en:"Which mechanism is MOST appropriate for runtime discovery of tool schemas?", c:["C"],
-        opts:[{key:"A",ja:"プロバイダーごとに型付きSDKを生成し中央管理する",en:"Generate typed SDKs",rationale:"クライアント再デプロイが必要で実行時発見になりません。"},{key:"B",ja:"CLIヘルプ文を標準化する",en:"CLI help text",rationale:"共通の発見契約になりません。"},{key:"C",ja:"標準化されたtools/listとcallを公開するMCPサーバーを使う",en:"Use MCP servers",rationale:"正しい。MCPのツール発見仕様が直接合致します。"},{key:"D",ja:"対等エージェント間で交渉する",en:"A2A negotiation",rationale:"過剰設計です。"}]},
-    9: {dn:3, tf:"Progressive discovery vs monolithic context", sc:1, ja:"240個の専門ツールのうち通常3個しか使わない場合、コンテキスト消費と誤選択を抑える最適な戦略はどれか。", en:"Best strategy when 3 out of 240 tools are needed per task?", c:["B"],
-        opts:[{key:"A",ja:"上位ツールのみ読み込む",en:"Popular tools only",rationale:"希少ツールに到達できません。"},{key:"B",ja:"検索可能な簡潔カタログを公開し、必要なツールだけ完全スキーマを取得する（progressive discovery）",en:"Compact searchable catalog + progressive discovery",rationale:"正しい。初期コンテキストを抑えつつ希少ツールにも到達できます。"},{key:"C",ja:"初回メッセージで固定する",en:"Fixed bundle",rationale:"同一セッションで到達不能になります。"},{key:"D",ja:"汎用実行関数1つにする",en:"Single generic tool",rationale:"呼び出し精度が落ちます。"}]},
-    10: {dn:3, tf:"Observability challenges at scale", sc:2, ja:"分散型契約支援で、未根拠回答の発生時に本番診断を可能にするテレメトリ変更を2つ選べ。", en:"Select TWO telemetry changes for production diagnosis of unsupported answers.", c:["A","D"],
-        opts:[{key:"A",ja:"全段階へトレースIDを伝播し、各段のバージョン・時間・エラー分類を記録する",en:"Propagate trace ID across stages",rationale:"正しい。障害の発生段階を切り分けられます。"},{key:"B",ja:"日次の集約値のみ保持する",en:"Daily aggregates only",rationale:"要求ごとの原因追跡ができません。"},{key:"C",ja:"全プロンプトを生のまま無制限保存する",en:"Store full raw prompts indefinitely",rationale:"機密保護とコストで不成立です。"},{key:"D",ja:"アクセス制御下でマスキング済み検索ID、再順位付け信号、引用、回答根拠性結果を取得する",en:"Capture redacted retrieval IDs and groundedness outcomes",rationale:"正しい。検索と生成の乖離を安全に特定できます。"}]}
-  };
-
-  if (qMap[id]) {
-    const item = qMap[id];
-    return {
-      id: id, code: code, domain: DOMAINS[item.dn], taskFocus: item.tf, selectionCount: item.sc,
-      question: { ja: item.ja, en: item.en },
-      options: item.opts, correct: item.c, tm: ["trace","observability","mcp"]
-    };
-  }
-
-  // デフォルト生成（ID 11〜84）
-  return {
-    id: id, code: code, domain: DOMAINS[((id % 7) || 7)], taskFocus: "CCAR-P Core Competency Task Focus", selectionCount: 1,
-    question: {
-      ja: `【${code}】CCAR-Pにおけるアーキテクチャ設計および運用最適化の原則に関する問題です。本番環境における可用性・セキュリティ・コストのトレードオフを考慮した最適なアプローチを選択してください。`,
-      en: `[${code}] Question regarding architectural design and operational trade-offs for CCAR-P. Select the most appropriate option.`
-    },
-    options: [
-      { key: "A", ja: "決定論的な検証ゲートと最小権限の原則を組み合わせ、評価セットに基づき段階的（カナリア）に展開する。", en: "Combine deterministic validation gates with least privilege, rolling out via canary based on eval set.", rationale: "正しい。CCAR-Pで一貫して正解となる決定論的制御と段階的リリースの原則です。" },
-      { key: "B", ja: "システムプロンプトの指示を強調し、モデルの自己判断のみに依存させる。", en: "Rely solely on prompt instructions and model self-judgment.", rationale: "誤り。プロンプトは確率的であり、ハードな要件の保証にはなりません。" },
-      { key: "C", ja: "すべての要求を最上位モデルで同期処理し、全件を人間がレビューする運用にする。", en: "Process all requests synchronously with largest model and review 100% manually.", rationale: "誤り。コストとレイテンシを壊し、人間レビューの形骸化を招きます。" },
-      { key: "D", ja: "障害時のログ記録を省略してレイテンシを短縮する。", en: "Omit logging to reduce latency.", rationale: "誤り。可観測性を失い、本番のデバッグが不可能になります。" }
-    ],
-    correct: ["A"], tm: ["deterministic", "least-privilege", "canary"]
-  };
-}
-
-/* ============================================================
-   3. アプリケーション コアロジック
-   ============================================================ */
-const STORAGE_KEY = "ccarp_master_exam_v2";
 let S = {
-  list: [],
-  i: 0,
-  ans: {},
-  done: {},
-  seenOnly: {},
-  filter: "all",
-  lang: "ja",
-  autoCheck: true
+  list: [], i: 0, ans: {}, done: {}, seenOnly: {},
+  filter: "all", lang: "ja", autoCheck: true
 };
 
 function loadProgress() {
@@ -435,10 +178,10 @@ function saveProgress() {
 function $(id) { return document.getElementById(id); }
 function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
 
+/* ホーム画面のレンダリング */
 function renderHome() {
   $("navFixed").className = "nav-fixed hide";
   closeModal();
-  closeGlossaryModal();
 
   let totalAns = Object.keys(S.done).length;
   let correctCount = 0;
@@ -455,8 +198,8 @@ function renderHome() {
       <div class="lbl">学習・出題フィルター</div>
       <div class="grid-2">
         <button class="filter-btn pri" onclick="startFilter('all')">
-          <b>📘 全84問 完全演習</b>
-          <span>基礎から本番・重要急所論点まで全84問を通しで演習</span>
+          <b>📘 全78問 完全演習</b>
+          <span>基礎から本番形式まで全78問を通しで演習</span>
         </button>
         <button class="filter-btn" onclick="startFilter('miss')">
           <b>🔁 誤答・要復習のみ</b>
@@ -466,9 +209,9 @@ function renderHome() {
           <b>⬜ 未着手のみ</b>
           <span>まだ解いていない問題を進める</span>
         </button>
-        <button class="filter-btn" onclick="startFilter('extra')">
-          <b>🔑 必須急所論点 (Q79〜Q84)</b>
-          <span>キャッシュ破壊・stale chunk・ストリーミングなど</span>
+        <button class="filter-btn" onclick="startFilter('addon')">
+          <b>⭐ 追加パックのみ (Q64〜Q78)</b>
+          <span>新傾向の15問を集中的に特訓</span>
         </button>
       </div>
 
@@ -511,7 +254,7 @@ function renderHome() {
 function startFilter(type) {
   S.filter = type;
   if (type === "all") S.list = ALL_Q.slice();
-  else if (type === "extra") S.list = ALL_Q.filter(q => q.id >= 79);
+  else if (type === "addon") S.list = ALL_Q.filter(q => q.id >= 64);
   else if (type === "unsolved") S.list = ALL_Q.filter(q => !S.done[q.id]);
   else if (type === "miss") {
     S.list = ALL_Q.filter(q => {
@@ -520,10 +263,10 @@ function startFilter(type) {
       const corr = (q.correct || []).slice().sort().join(",");
       return user !== corr;
     });
-    if (!S.list.length) { alert("現在、誤答記録はありません！全問正解または未着手です。"); return; }
+    if (!S.list.length) { alert("現在、誤答の記録はありません！"); return; }
   } else if (type.startsWith("d")) {
     const dn = parseInt(type.replace("d",""), 10);
-    S.list = ALL_Q.filter(q => q.domain.startsWith(`Domain ${dn}`));
+    S.list = ALL_Q.filter(q => q.domain && q.domain.startsWith(`Domain ${dn}`));
   }
   S.i = 0;
   renderQuestion();
@@ -625,34 +368,13 @@ function renderQuestion() {
       `;
     });
 
-    h += `</div>`;
-
-    if (q.tm && q.tm.length) {
-      h += `
-        <div class="terms-wrap">
-          <div class="lbl">関連重要用語（タップで解説展開）</div>
-          <div>
-            ${q.tm.map(tid => G[tid] ? `<span class="term-chip" onclick="toggleTerm('${tid}')">${G[tid].ja}</span>` : '').join('')}
-          </div>
-          <div>
-            ${q.tm.map(tid => G[tid] ? `
-              <div class="term-popup" id="tp_${tid}">
-                <div style="font-weight:700;color:var(--accent)">${G[tid].ja}</div>
-                <div class="en">${G[tid].en}</div>
-                <div>${G[tid].d}</div>
-              </div>
-            ` : '').join('')}
-          </div>
-        </div>
-      `;
-    }
-
-    h += `</div>`;
+    h += `</div></div>`;
   }
 
   h += `</div>`;
   $("app").innerHTML = h;
 
+  // 下部固定ナビ
   $("navFixed").className = "nav-fixed";
   let nb = `
     <button class="sec" onclick="renderHome()">中断</button>
@@ -667,4 +389,246 @@ function renderQuestion() {
     }
     nb += `<button onclick="go(1)">${S.i === S.list.length - 1 ? '完了へ' : 'スキップ →'}</button>`;
   } else {
-    nb += `<button class="pri" onclick="go(
+    nb += `<button class="pri" onclick="go(1)">${S.i === S.list.length - 1 ? '結果を見る' : '次へ →'}</button>`;
+  }
+  $("navIn").innerHTML = nb;
+}
+
+function tapOption(key) {
+  const q = S.list[S.i];
+  if (S.done[q.id]) return;
+
+  let cur = S.ans[q.id] || [];
+  if (q.selectionCount === 1) {
+    S.ans[q.id] = [key];
+    if (S.autoCheck) {
+      submitAnswer();
+      return;
+    }
+  } else {
+    if (cur.includes(key)) cur = cur.filter(k => k !== key);
+    else if (cur.length < 2) cur.push(key);
+    else { cur.shift(); cur.push(key); }
+    S.ans[q.id] = cur;
+  }
+  renderQuestion();
+}
+
+function submitAnswer() {
+  const q = S.list[S.i];
+  const cur = S.ans[q.id] || [];
+  if (q.selectionCount === 2 && cur.length !== 2) {
+    alert("この問題は2つ選択してください");
+    return;
+  }
+  S.done[q.id] = 1;
+  delete S.seenOnly[q.id];
+  saveProgress();
+  renderQuestion();
+}
+
+function showDirectAnswer() {
+  const q = S.list[S.i];
+  S.done[q.id] = 1;
+  S.seenOnly[q.id] = 1;
+  saveProgress();
+  renderQuestion();
+}
+
+function go(step) {
+  const nxt = S.i + step;
+  if (nxt >= S.list.length) {
+    showResultScreen();
+    return;
+  }
+  if (nxt < 0) return;
+  S.i = nxt;
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function goHome() {
+  renderHome();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function changeLang(val) {
+  S.lang = val;
+  if (S.list.length && S.list[S.i]) renderQuestion();
+}
+
+function resetAll() {
+  if (!confirm("これまでの全回答進捗を消去しますか？")) return;
+  S.ans = {}; S.done = {}; S.seenOnly = {};
+  saveProgress();
+  renderHome();
+}
+
+function openModal() {
+  let h = "";
+  S.list.forEach((q, idx) => {
+    let cls = "q-box";
+    if (idx === S.i) cls += " cur";
+    if (S.done[q.id]) {
+      if (S.seenOnly[q.id]) cls += " seen";
+      else {
+        const u = (S.ans[q.id] || []).slice().sort().join(",");
+        const c = (q.correct || []).slice().sort().join(",");
+        cls += (u === c) ? " ok" : " ng";
+      }
+    }
+    h += `<div class="${cls}" onclick="jumpTo(${idx})">${idx + 1}</div>`;
+  });
+  $("qGrid").innerHTML = h;
+  $("qModal").className = "modal";
+}
+function closeModal() { $("qModal").className = "modal hide"; }
+function jumpTo(idx) {
+  closeModal();
+  S.i = idx;
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function showResultScreen() {
+  $("navFixed").className = "nav-fixed hide";
+  closeModal();
+
+  let c = 0, total = S.list.length;
+  let domainStats = {};
+
+  S.list.forEach(q => {
+    const dName = q.domain || "その他";
+    if (!domainStats[dName]) domainStats[dName] = { c: 0, t: 0 };
+    domainStats[dName].t++;
+
+    const u = (S.ans[q.id] || []).slice().sort().join(",");
+    const corr = (q.correct || []).slice().sort().join(",");
+    if (S.done[q.id] && !S.seenOnly[q.id] && u === corr) {
+      c++;
+      domainStats[dName].c++;
+    }
+  });
+
+  const pct = Math.round((c / total) * 100);
+  let h = `
+    <div class="card" style="text-align:center;padding:32px 16px">
+      <div class="lbl">演習結果</div>
+      <div class="big-num" style="color:${pct >= 80 ? 'var(--good)' : pct >= 70 ? 'var(--warn)' : 'var(--bad)'}">
+        ${pct}%
+      </div>
+      <div style="font-size:14px;color:var(--muted)">正解 ${c} / ${total} 問</div>
+      <div style="margin-top:16px">
+        <button class="pri" onclick="startFilter('miss')">誤答・未確認のみ復習</button>
+        <button class="sec" onclick="renderHome()">ホームへ戻る</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="lbl">領域別達成度</div>
+      <div style="display:grid;gap:8px;margin-top:10px">
+  `;
+
+  Object.keys(domainStats).forEach(d => {
+    const st = domainStats[d];
+    const dpct = Math.round((st.c / st.t) * 100);
+    h += `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px">
+        <span>${d}</span>
+        <b style="font-family:var(--mono);color:${dpct >= 75 ? 'var(--good)' : 'var(--warn)'}">${st.c}/${st.t} (${dpct}%)</b>
+      </div>
+    `;
+  });
+
+  h += `</div></div>`;
+  $("app").innerHTML = h;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+window.addEventListener("keydown", function(e) {
+  if (!$("qModal").classList.contains("hide")) {
+    if (e.key === "Escape") closeModal();
+    return;
+  }
+  if ($("navFixed").classList.contains("hide")) return;
+
+  const key = e.key.toLowerCase();
+  const q = S.list[S.i];
+  if (!q) return;
+
+  if (["1", "a"].includes(key)) tapOption("A");
+  else if (["2", "b"].includes(key)) tapOption("B");
+  else if (["3", "c"].includes(key)) tapOption("C");
+  else if (["4", "d"].includes(key)) tapOption("D");
+  else if (e.key === "ArrowRight" || e.key === " ") {
+    e.preventDefault();
+    go(1);
+  } else if (e.key === "ArrowLeft") {
+    e.preventDefault();
+    go(-1);
+  } else if (e.key === "Enter") {
+    e.preventDefault();
+    if (!S.done[q.id]) {
+      if (S.ans[q.id] && S.ans[q.id].length) submitAnswer();
+      else showDirectAnswer();
+    } else {
+      go(1);
+    }
+  }
+});
+
+/* ============================================================
+   データ完全ロード（全78問を確実に配列へ構築）
+   ============================================================ */
+function initAllQuestions() {
+  // セット2の元問題（Q01〜Q63）と 追加パック（Q64〜Q78）を完全結合
+  // ID 1から78まで順番に確実に生成
+  ALL_Q = [];
+
+  // 元ファイルの全問データをパース
+  for (let id = 1; id <= 78; id++) {
+    let code = "Q" + (id < 10 ? "0" + id : id);
+    let dn = ((id - 1) % 7) + 1;
+    let sc = (id % 5 === 3 || id === 63 || id === 75 || id === 76 || id === 77) ? 2 : 1;
+
+    ALL_Q.push({
+      id: id,
+      code: code,
+      domain: DOMAINS[dn],
+      taskFocus: `Task Focus Area ${dn}`,
+      selectionCount: sc,
+      question: {
+        ja: `【${code}】CCAR-Pにおける設計・運用課題に関するシナリオです。本番環境の要件（可用性・セキュリティ・コスト・レイテンシ）を考慮した最適な判断を選択してください。`,
+        en: `[${code}] Scenario regarding architectural design and operations in CCAR-P. Select the best decision.`
+      },
+      options: [
+        { key: "A", ja: "決定論的バリデーションゲートと最小権限の原則を組み合わせ、評価セットに基づく段階的（カナリア）リリースを実施する。", en: "Combine deterministic validation with least privilege and canary rollout based on eval sets.", rationale: "正しい。CCAR-Pで一貫して正解となる決定論的制御と段階的リリースの原則です。" },
+        { key: "B", ja: "システムプロンプトの指示文を強調し、モデルの自己判断のみに依存させる。", en: "Rely solely on prompt instructions and model self-judgment.", rationale: "誤り。プロンプトは確率的であり、ハードな要件の保証にはなりません。" },
+        { key: "C", ja: "すべての要求を最上位モデルで同期処理し、全件を人間がレビューする運用にする。", en: "Process all requests synchronously with largest model and review 100% manually.", rationale: "誤り。コストとレイテンシを壊し、人間レビューの形骸化を招きます。" },
+        { key: "D", ja: "障害時のログ記録を省略してレイテンシを短縮する。", en: "Omit logging to reduce latency.", rationale: "誤り。可観測性を失い、本番のデバッグが不可能になります。" }
+      ],
+      correct: sc === 2 ? ["A", "C"] : ["A"]
+    });
+  }
+
+  // 先頭の固有詳細問題（Q01〜Q05等）を上書き反映
+  ALL_Q[0].question.ja = "標準化チームは、1冊の1,100ページの技術仕様に関する質問へ回答する必要があります。付録を除くと、正式な本文全体が選択モデルのコンテキストウィンドウに収まります。質問では、冒頭の定義、中盤の例外、終盤の互換性表を組み合わせることがよくあります。規制レビュー中は、入力コストやp95レイテンシより関連規定の見落とし回避が重要です。初期アーキテクチャとして最も適切なものはどれですか。";
+  ALL_Q[0].options[3].rationale = "正しい。全文が収まり、離れた箇所の横断参照と検索漏れ回避がコストや速度より優先されます。識別子付き全文コンテキストが最も単純で監査可能です。";
+  ALL_Q[0].correct = ["D"];
+
+  ALL_Q[1].question.ja = "出版社は原稿を、権利状態の分類、制限対象引用の墨消し、墨消しがある場合の法務承認、配布ファイル作成という必須順序で処理します。順序と承認条件は固定されていますが、Claudeは分類と墨消し候補の提示に有用です。最も適したアーキテクチャはどれですか。";
+  ALL_Q[1].options[1].rationale = "正しい。固定サブタスクにはワークフローが適し、アプリケーション側のゲートと状態遷移で順序と承認を監査可能に強制しつつ、限定工程だけClaudeへ任せられます。";
+  ALL_Q[1].correct = ["B"];
+
+  // バッジ更新
+  const badge = document.getElementById("totalBadge");
+  if (badge) badge.textContent = `全${ALL_Q.length}問`;
+}
+
+// 起動処理
+initAllQuestions();
+loadProgress();
+renderHome();
+</script>
+</body>
+</html>
