@@ -530,22 +530,19 @@ function renderQuestion() {
 
   const rightBox = element("div", { className: "right" });
   
-  // 未回答時は Submit ボタンを表示
   if (!ans) {
     const sub = element("button", { className: "primary", type: "button", text: "Submit Answer", onClick: () => commitAnswer(q) });
     sub.disabled = sel.length !== q.selectionCount;
     rightBox.append(sub);
   } 
   
-  // 全問回答完了時は Finish ボタンを表示
   if (answeredCount() === dataset.questionCount) {
     rightBox.append(element("button", { className: "primary", type: "button", text: "Finish & View Results", onClick: () => {
       state.phase = "completed"; persistState(); renderResults();
     }}));
   } else if (state.currentIndex < dataset.questions.length - 1) {
-    // 最後の問題以外は常に Next ボタンを表示（未回答のスキップ時は Secondary、回答済みなら Primary）
     const nextBtnClass = ans ? "primary" : "secondary";
-    rightBox.append(element("button", { className: nextBtnClass, type: "button", text: "Next", onClick: () => goTo(state.currentIndex + 1) }));
+    rightBox.append(element("button", { className: nextBtnClass, type: "button", text: "Next Question", onClick: () => goTo(state.currentIndex + 1) }));
   }
   
   actions.append(rightBox);
